@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "description": "Mobile app for ClanTie.",
   "main": "index.ts",
+  "author": "Erik Skare",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",

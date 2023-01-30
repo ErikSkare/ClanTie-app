@@ -3,6 +3,7 @@
   "name": "@clantie/api",
   "version": "1.0.0",
   "description": "Backend app for ClanTie.",
+  "main": "index.ts",
   "author": "Erik Skare",
   "scripts": {
     "dev": "nodemon ./src/expressApp.ts"
