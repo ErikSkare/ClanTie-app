@@ -7,7 +7,7 @@ const PORT = 3000;
 
 const app = express();
 
-app.use("/trpc", trpcExpress.createExpressMiddleware({ router: appRouter }));
+app.use("/trpc", trpcExpress.createExpressMiddleware({router: appRouter}));
 app.use(cors());
 
 app.listen(PORT);

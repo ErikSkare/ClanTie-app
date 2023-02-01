@@ -1,8 +1,8 @@
-import { router } from "@/setup/trpc";
+import {router} from "@/setup/trpc";
 import helloRouter from "@/routers/helloRouter";
 
 const appRouter = router({
-  hello: helloRouter
+  hello: helloRouter,
 });
 
 export default appRouter;
