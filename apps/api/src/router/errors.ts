@@ -1,5 +1,3 @@
-import {ZodError} from "zod";
-
 export type FieldErrors = {
   [x: string]: string[] | undefined;
   [x: number]: string[] | undefined;
@@ -19,10 +17,4 @@ export class ValidationError extends ApplicationError {
     super("Incorrect input!");
     this.fieldErrors = fieldErrors;
   }
-}
-
-export function transformZodError(error: ZodError) {
-  const {fieldErrors} = error.flatten();
-
-  return new ValidationError(fieldErrors);
 }
