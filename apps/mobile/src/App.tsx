@@ -1,5 +1,5 @@
 import {TRPCProvider} from "@/lib/trpc";
-import SplashScreen from "@/components/SplashScreen";
+import {NavigationContainer} from "@react-navigation/native";
 import {
   useFonts,
   Roboto_100Thin,
@@ -15,7 +15,8 @@ import {
   Roboto_900Black,
   Roboto_900Black_Italic,
 } from "@expo-google-fonts/roboto";
-import {LoginScreen} from "./features/auth";
+import AuthStack from "@/navigation/AuthStack";
+import SplashScreen from "@/components/SplashScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,7 +38,9 @@ export default function App() {
 
   return (
     <TRPCProvider>
-      <LoginScreen />
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>
     </TRPCProvider>
   );
 }

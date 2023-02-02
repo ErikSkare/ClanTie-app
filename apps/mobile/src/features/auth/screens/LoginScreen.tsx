@@ -1,7 +1,14 @@
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {AuthStackParamList} from "@/navigation/AuthStack";
 import {ScrollView, View, Text, TouchableOpacity} from "react-native";
 import LoginForm from "../components/LoginForm";
 
-const LoginScreen = () => {
+export type LoginScreenProps = NativeStackScreenProps<
+  AuthStackParamList,
+  "Login"
+>;
+
+const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   return (
     <ScrollView
       className="bg-slate-700"
@@ -15,7 +22,7 @@ const LoginScreen = () => {
           Köszöntünk újra!
         </Text>
         <LoginForm className="w-full px-8 my-8" />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
           <Text
             className="text-blue-400"
             style={{fontFamily: "Roboto_400Regular"}}
