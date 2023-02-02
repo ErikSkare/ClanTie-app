@@ -43,7 +43,7 @@ const authRouter = router({
       try {
         const user = await ctx.prisma.user.create({
           data: {
-            email: input.email,
+            email: input.email.toLowerCase(),
             firstName: input.firstName,
             lastName: input.lastName,
             password: await hashPassword(input.password),
@@ -73,7 +73,7 @@ const authRouter = router({
     )
     .mutation(async ({input, ctx}) => {
       const user = await ctx.prisma.user.findUnique({
-        where: {email: input.email},
+        where: {email: input.email.toLowerCase()},
       });
       if (!user)
         throw new TRPCError({code: "BAD_REQUEST", message: "Hibás adatok!"});
