@@ -1,9 +1,11 @@
 import {View, ViewProps} from "react-native";
-import {Formik} from "formik";
+import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
+import {trpc} from "@/lib/trpc";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
+import setFieldErrors from "@/utils/setFieldErrors";
 
 const RegisterSchema = z.object({
   email: z
@@ -17,69 +19,64 @@ const RegisterSchema = z.object({
 });
 
 const RegisterForm: React.FC<ViewProps> = ({...props}) => {
+  const {mutate, isLoading} = trpc.auth.register.useMutation({
+    onError: (error) => {
+      if (!error.data) return;
+      if (error.data.code == "BAD_REQUEST")
+        setFieldErrors(formik.setFieldError, error.data.fieldErrors);
+    },
+  });
+
+  const formik = useFormik({
+    initialValues: {email: "", firstName: "", lastName: "", password: ""},
+    validationSchema: toFormikValidationSchema(RegisterSchema),
+    validateOnBlur: true,
+    validateOnChange: false,
+    validateOnMount: true,
+    onSubmit: (values) => mutate(values),
+  });
+
   return (
     <View {...props}>
-      <Formik
-        initialValues={{email: "", firstName: "", lastName: "", password: ""}}
-        validationSchema={toFormikValidationSchema(RegisterSchema)}
-        validateOnBlur={true}
-        validateOnChange={false}
-        validateOnMount={true}
-        onSubmit={(values) => {
-          console.log(values);
-        }}
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          touched,
-          errors,
-          isValid,
-        }) => (
-          <>
-            <TextInput
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
-              value={values.email}
-              label="E-mail cím"
-              containerClassName="mb-4"
-              error={touched.email ? errors.email : undefined}
-            />
-            <TextInput
-              onChangeText={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
-              value={values.lastName}
-              label="Vezetéknév"
-              containerClassName="mb-4"
-              error={touched.lastName ? errors.lastName : undefined}
-            />
-            <TextInput
-              onChangeText={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
-              value={values.firstName}
-              label="Keresztnév"
-              containerClassName="mb-4"
-              error={touched.firstName ? errors.firstName : undefined}
-            />
-            <TextInput
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
-              value={values.password}
-              label="Jelszó"
-              secureTextEntry={true}
-              error={touched.password ? errors.password : undefined}
-            />
-            <Button
-              content="Regisztráció"
-              className="mt-8"
-              onPress={() => handleSubmit()}
-              disabled={!isValid}
-            />
-          </>
-        )}
-      </Formik>
+      <TextInput
+        onChangeText={formik.handleChange("email")}
+        onBlur={formik.handleBlur("email")}
+        value={formik.values.email}
+        label="E-mail cím"
+        containerClassName="mb-4"
+        error={formik.touched.email ? formik.errors.email : undefined}
+      />
+      <TextInput
+        onChangeText={formik.handleChange("lastName")}
+        onBlur={formik.handleBlur("lastName")}
+        value={formik.values.lastName}
+        label="Vezetéknév"
+        containerClassName="mb-4"
+        error={formik.touched.lastName ? formik.errors.lastName : undefined}
+      />
+      <TextInput
+        onChangeText={formik.handleChange("firstName")}
+        onBlur={formik.handleBlur("firstName")}
+        value={formik.values.firstName}
+        label="Keresztnév"
+        containerClassName="mb-4"
+        error={formik.touched.firstName ? formik.errors.firstName : undefined}
+      />
+      <TextInput
+        onChangeText={formik.handleChange("password")}
+        onBlur={formik.handleBlur("password")}
+        value={formik.values.password}
+        label="Jelszó"
+        secureTextEntry={true}
+        error={formik.touched.password ? formik.errors.password : undefined}
+      />
+      <Button
+        content="Regisztráció"
+        className="mt-8"
+        onPress={() => formik.handleSubmit()}
+        disabled={!formik.isValid}
+        isLoading={isLoading}
+      />
     </View>
   );
 };
