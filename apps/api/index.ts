@@ -1,3 +1,3 @@
-import appRouter from "./src/routers";
+import appRouter from "./src/trpc/router";
 
 export type AppRouter = typeof appRouter;

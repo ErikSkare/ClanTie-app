@@ -14,16 +14,21 @@
   },
   "dependencies": {
     "@clantie/api": "workspace:^1.0.0",
+    "@expo-google-fonts/roboto": "^0.2.2",
     "@tanstack/react-query": "^4.24.4",
     "@trpc/client": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
     "expo": "~47.0.12",
     "expo-constants": "^14.0.2",
+    "expo-font": "^11.0.1",
     "expo-status-bar": "~1.4.2",
+    "formik": "^2.2.9",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
-    "react-native": "0.70.5"
+    "react-native": "0.70.5",
+    "zod": "^3.20.2",
+    "zod-formik-adapter": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
