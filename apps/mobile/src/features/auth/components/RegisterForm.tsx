@@ -6,6 +6,7 @@ import {trpc} from "@/lib/trpc";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
 import setFieldErrors from "@/utils/setFieldErrors";
+import useTokenStore from "../stores/useTokenStore";
 
 const RegisterSchema = z.object({
   email: z
@@ -19,7 +20,12 @@ const RegisterSchema = z.object({
 });
 
 const RegisterForm: React.FC<ViewProps> = ({...props}) => {
+  const authenticate = useTokenStore((state) => state.authenticate);
+
   const {mutate, isLoading} = trpc.auth.register.useMutation({
+    onSuccess: ({accessToken, refreshToken}) => {
+      authenticate(accessToken, refreshToken);
+    },
     onError: (error) => {
       if (!error.data) return;
       if (error.data.code == "BAD_REQUEST")

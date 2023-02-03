@@ -6,6 +6,7 @@ import {trpc} from "@/lib/trpc";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import TextInput from "@/components/TextInput";
 import Button from "@/components/Button";
+import useTokenStore from "../stores/useTokenStore";
 
 const LoginSchema = z.object({
   email: z
@@ -18,8 +19,12 @@ const LoginSchema = z.object({
 
 const LoginForm: React.FC<ViewProps> = ({...props}) => {
   const [buttonContent, setButtonContent] = useState("Bejelentkezés");
+  const authenticate = useTokenStore((state) => state.authenticate);
 
   const {mutate, isLoading} = trpc.auth.login.useMutation({
+    onSuccess: ({accessToken, refreshToken}) => {
+      authenticate(accessToken, refreshToken);
+    },
     onError: (error) => {
       if (!error.data) return;
       if (error.data.code == "BAD_REQUEST") setButtonContent(error.message);
