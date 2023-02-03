@@ -30,7 +30,7 @@ export default {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "http://192.168.1.71:3000/trpc"
+      "apiUrl": "http://192.168.1.71:3000"
     }
   }
 };

@@ -16,13 +16,17 @@ async function checkPassword(password: string, hash: string) {
   return bcrypt.compare(password, hash);
 }
 
-function genTokens(userId: number) {
-  const accessToken = jwt.sign({userId}, process.env.JWT_SECRET as string, {
-    expiresIn: "10m",
+export function genTokens(userId: number) {
+  const accessToken = jwt.sign({userId}, process.env.ACCESS_SECRET as string, {
+    expiresIn: "30s",
   });
-  const refreshToken = jwt.sign({userId}, process.env.JWT_SECRET as string, {
-    expiresIn: "7d",
-  });
+  const refreshToken = jwt.sign(
+    {userId},
+    process.env.REFRESH_SECRET as string,
+    {
+      expiresIn: "7d",
+    }
+  );
   return {
     accessToken,
     refreshToken,

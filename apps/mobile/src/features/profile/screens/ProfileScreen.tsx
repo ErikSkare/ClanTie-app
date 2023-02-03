@@ -1,0 +1,37 @@
+import SplashScreen from "@/components/SplashScreen";
+import useTokenStore from "@/features/auth/stores/useTokenStore";
+import {trpc} from "@/lib/trpc";
+import {MainStackParamList} from "@/navigation/MainStack";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {ScrollView, View, TouchableOpacity, Text} from "react-native";
+
+export type RegisterScreenProps = NativeStackScreenProps<
+  MainStackParamList,
+  "Profile"
+>;
+
+const ProfileScreen: React.FC<RegisterScreenProps> = () => {
+  const {data, isLoading, isError} = trpc.user.me.useQuery();
+
+  const logout = useTokenStore((state) => state.logout);
+
+  if (isLoading) return <SplashScreen />;
+
+  if (isError) return <Text>Valami hiba történt!</Text>;
+
+  return (
+    <ScrollView
+      className="bg-slate-700"
+      contentContainerStyle={{height: "100%"}}
+    >
+      <Text>{data.lastName + " " + data.firstName}</Text>
+      <View className="flex flex-1 items-center justify-center">
+        <TouchableOpacity onPress={() => logout()}>
+          <Text>Kilépés</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
+  );
+};
+
+export default ProfileScreen;

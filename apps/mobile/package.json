@@ -27,6 +27,7 @@
     "expo-secure-store": "~12.0.0",
     "expo-status-bar": "~1.4.2",
     "formik": "^2.2.9",
+    "jwt-decode": "^3.1.2",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
     "react-native": "0.70.5",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/runtime": "^7.20.13",
+    "@types/jwt-decode": "^3.1.0",
     "@types/react": "^18.0.27",
     "@types/react-native": "^0.71.1",
     "babel-plugin-module-resolver": "^5.0.0",
