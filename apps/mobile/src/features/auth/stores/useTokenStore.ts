@@ -11,18 +11,24 @@ const useTokenStore = create(
     },
     (set) => ({
       load: async () => {
-        const accessToken =
-          (await SecureStore.getItemAsync("accessToken")) ?? "";
-        const refreshToken =
-          (await SecureStore.getItemAsync("refreshToken")) ?? "";
-        set({accessToken, refreshToken, isLoading: false});
+        const accessToken = await SecureStore.getItemAsync("accessToken");
+        const refreshToken = await SecureStore.getItemAsync("refreshToken");
+        set({
+          accessToken: accessToken ?? "",
+          refreshToken: refreshToken ?? "",
+          isLoading: false,
+        });
       },
       authenticate: async (accessToken: string, refreshToken: string) => {
         await SecureStore.setItemAsync("accessToken", accessToken);
         await SecureStore.setItemAsync("refreshToken", refreshToken);
         set({accessToken, refreshToken});
       },
-      logout: () => set({accessToken: "", refreshToken: ""}),
+      logout: async () => {
+        await SecureStore.deleteItemAsync("accessToken");
+        await SecureStore.deleteItemAsync("refreshToken");
+        set({accessToken: "", refreshToken: ""});
+      },
     })
   )
 );
