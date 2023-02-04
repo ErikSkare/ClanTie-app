@@ -23,8 +23,9 @@ const RegisterForm: React.FC<ViewProps> = ({...props}) => {
   const authenticate = useTokenStore((state) => state.authenticate);
 
   const {mutate, isLoading} = trpc.auth.register.useMutation({
-    onSuccess: ({accessToken, refreshToken}) => {
-      authenticate(accessToken, refreshToken);
+    onSuccess: (data) => {
+      if (!data) return;
+      authenticate(data.accessToken, data.refreshToken);
     },
     onError: (error) => {
       if (!error.data) return;

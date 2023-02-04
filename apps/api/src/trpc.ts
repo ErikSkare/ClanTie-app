@@ -2,8 +2,10 @@ import {initTRPC, TRPCError} from "@trpc/server";
 import {createContext} from "@/context";
 import errorFormatter from "@/errorFormatter";
 import {User} from "@prisma/client";
+import superjson from "superjson";
 
 const trpc = initTRPC.context<typeof createContext>().create({
+  transformer: superjson,
   errorFormatter,
 });
 

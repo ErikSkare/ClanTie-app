@@ -7,6 +7,7 @@ import * as SecureStore from "expo-secure-store";
 import type {AppRouter} from "@clantie/api";
 import jwtDecode, {JwtPayload} from "jwt-decode";
 import useTokenStore from "@/features/auth/stores/useTokenStore";
+import superjson from "superjson";
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -42,6 +43,7 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
+      transformer: superjson,
       links: [
         httpLink({
           url: `${Constants.manifest?.extra?.apiUrl}/trpc`,
