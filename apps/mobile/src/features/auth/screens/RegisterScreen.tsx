@@ -1,6 +1,6 @@
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {AuthStackParamList} from "@/navigation/AuthStack";
-import {ScrollView, View, Text, TouchableOpacity} from "react-native";
+import {View, Text, TouchableOpacity} from "react-native";
 import RegisterForm from "../components/RegisterForm";
 
 export type RegisterScreenProps = NativeStackScreenProps<
@@ -10,28 +10,23 @@ export type RegisterScreenProps = NativeStackScreenProps<
 
 const RegisterScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
   return (
-    <ScrollView
-      className="bg-slate-700"
-      contentContainerStyle={{height: "100%"}}
-    >
-      <View className="flex flex-1 items-center justify-center">
+    <View className="bg-slate-700 height-screen flex flex-1 items-center justify-center">
+      <Text
+        className="text-2xl text-white"
+        style={{fontFamily: "Roboto_700Bold"}}
+      >
+        Fiók létrehozása
+      </Text>
+      <RegisterForm className="w-full px-8 my-8" />
+      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
         <Text
-          className="text-2xl text-white"
-          style={{fontFamily: "Roboto_700Bold"}}
+          className="text-blue-400"
+          style={{fontFamily: "Roboto_400Regular"}}
         >
-          Fiók létrehozása
+          Már van fiókod?
         </Text>
-        <RegisterForm className="w-full px-8 my-8" />
-        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-          <Text
-            className="text-blue-400"
-            style={{fontFamily: "Roboto_400Regular"}}
-          >
-            Már van fiókod?
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </TouchableOpacity>
+    </View>
   );
 };
 

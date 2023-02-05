@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import SplashScreen from "@/components/SplashScreen";
 import useTokenStore from "@/features/auth/stores/useTokenStore";
 import {trpc} from "@/lib/trpc";
@@ -10,7 +11,7 @@ export type RegisterScreenProps = NativeStackScreenProps<
   "Profile"
 >;
 
-const ProfileScreen: React.FC<RegisterScreenProps> = () => {
+const ProfileScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
   const {data, isLoading, isError} = trpc.user.me.useQuery();
 
   const logout = useTokenStore((state) => state.logout);
@@ -24,8 +25,12 @@ const ProfileScreen: React.FC<RegisterScreenProps> = () => {
       className="bg-slate-700"
       contentContainerStyle={{height: "100%"}}
     >
-      <Text>{data.lastName + " " + data.firstName}</Text>
       <View className="flex flex-1 items-center justify-center">
+        <Text>{data.lastName + " " + data.firstName}</Text>
+        <Button
+          content="Klán alapítás"
+          onPress={() => navigation.navigate("CreateClan")}
+        />
         <TouchableOpacity onPress={() => logout()}>
           <Text>Kilépés</Text>
         </TouchableOpacity>
