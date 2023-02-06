@@ -62,7 +62,6 @@ const LoginForm: React.FC<ViewProps> = ({...props}) => {
         content={buttonContent}
         className="mt-8"
         onPress={() => formik.handleSubmit()}
-        disabled={!formik.isValid}
         isLoading={isLoading}
       />
     </View>

@@ -81,7 +81,6 @@ const RegisterForm: React.FC<ViewProps> = ({...props}) => {
         content="Regisztráció"
         className="mt-8"
         onPress={() => formik.handleSubmit()}
-        disabled={!formik.isValid}
         isLoading={isLoading}
       />
     </View>

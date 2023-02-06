@@ -4,15 +4,17 @@ import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
+import ImageUploader from "@/components/ImageUploader";
 
 const CreateClanSchema = z.object({
+  avatarUri: z.string(),
   clanName: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
   nickName: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
 });
 
 const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
   const formik = useFormik({
-    initialValues: {clanName: "", nickName: ""},
+    initialValues: {clanName: "", nickName: "", avatarUri: ""},
     validationSchema: toFormikValidationSchema(CreateClanSchema),
     validateOnBlur: true,
     validateOnChange: false,
@@ -22,6 +24,13 @@ const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
 
   return (
     <View {...props}>
+      <ImageUploader
+        label="Avatar feltöltés"
+        className="mb-4"
+        error={
+          formik.touched.avatarUri ? formik.errors.avatarUri !== "" : undefined
+        }
+      />
       <TextInput
         label="Klán neve"
         containerClassName="mb-4"
