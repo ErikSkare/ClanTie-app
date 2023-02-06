@@ -31,6 +31,14 @@ export default {
     },
     "extra": {
       "apiUrl": "http://192.168.1.71:3000"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Az alkalmazás hozzá szeretne férni a képeidhez!"
+        }
+      ]
+    ]
   }
 };
