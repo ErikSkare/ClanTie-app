@@ -1,7 +1,8 @@
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {AuthStackParamList} from "@/navigation/AuthStack";
-import {View, Text, TouchableOpacity} from "react-native";
+import {Text, TouchableOpacity} from "react-native";
 import LoginForm from "../components/LoginForm";
+import EmptyLayout from "@/components/layouts/EmptyLayout";
 
 export type LoginScreenProps = NativeStackScreenProps<
   AuthStackParamList,
@@ -10,7 +11,7 @@ export type LoginScreenProps = NativeStackScreenProps<
 
 const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   return (
-    <View className="bg-slate-700 height-screen flex flex-1 items-center justify-center">
+    <EmptyLayout className="flex justify-center items-center">
       <Text
         className="text-2xl text-white"
         style={{fontFamily: "Roboto_700Bold"}}
@@ -26,7 +27,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
           Még nincs fiókod?
         </Text>
       </TouchableOpacity>
-    </View>
+    </EmptyLayout>
   );
 };
 
