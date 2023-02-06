@@ -123,6 +123,9 @@ const Camera: React.FC<CameraProps> = ({
             content="Elküldöm"
             className="absolute bottom-4"
             onPress={() => onPictureSend(pictureUri)}
+            RightIcon={() => (
+              <AntDesign name="caretright" size={14} color="white" />
+            )}
           ></Button>
         </View>
       ) : (

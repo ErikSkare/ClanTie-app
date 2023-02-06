@@ -76,6 +76,7 @@ importers:
       expo-constants: ^14.0.2
       expo-font: ^11.0.1
       expo-image-manipulator: ~11.0.0
+      expo-image-picker: ~14.0.2
       expo-secure-store: ~12.0.0
       expo-status-bar: ~1.4.2
       formik: ^2.2.9
@@ -104,6 +105,7 @@ importers:
       expo-constants: 14.0.2_expo@47.0.13
       expo-font: 11.0.1_expo@47.0.13
       expo-image-manipulator: 11.0.0_expo@47.0.13
+      expo-image-picker: 14.0.3_expo@47.0.13
       expo-secure-store: 12.0.0_expo@47.0.13
       expo-status-bar: 1.4.2
       formik: 2.2.9_react@18.1.0
@@ -4282,6 +4284,15 @@ packages:
 
   /expo-image-manipulator/11.0.0_expo@47.0.13:
     resolution: {integrity: sha512-CDiqOrhN1TSWw/4t7Xo97U+Xzoc437oCHbZH7+4RhhmPBlu5/2b4UjoEiw/gPWu9DD7OS/TRvO027axod9QNDQ==}
+    peerDependencies:
+      expo: '*'
+    dependencies:
+      expo: 47.0.13_@babel+core@7.20.12
+      expo-image-loader: 4.0.0_expo@47.0.13
+    dev: false
+
+  /expo-image-picker/14.0.3_expo@47.0.13:
+    resolution: {integrity: sha512-VN5wMWzhYhIRhFq8I1pjMbn/ivjlhWfxzJpz5jUOf3mQ8vxrI5GcR8cJO9kyYwuCrI9W3GUzh/aDt7QRSTQDDA==}
     peerDependencies:
       expo: '*'
     dependencies:
