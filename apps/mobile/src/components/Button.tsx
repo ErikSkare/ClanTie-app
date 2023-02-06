@@ -3,6 +3,7 @@ import {Pressable, PressableProps, Text, ActivityIndicator} from "react-native";
 interface ButtonProps extends PressableProps {
   content: string;
   isLoading?: boolean;
+  LeftIcon?: () => JSX.Element;
   RightIcon?: () => JSX.Element;
 }
 
@@ -10,6 +11,7 @@ const Button: React.FC<ButtonProps> = ({
   content,
   isLoading = false,
   disabled,
+  LeftIcon = () => <></>,
   RightIcon = () => <></>,
   ...props
 }) => {
@@ -25,8 +27,9 @@ const Button: React.FC<ButtonProps> = ({
         <ActivityIndicator color="white" />
       ) : (
         <>
+          <LeftIcon />
           <Text
-            className="text-center text-white"
+            className="text-center text-white mx-1"
             style={{fontFamily: "Roboto_700Bold"}}
           >
             {content}

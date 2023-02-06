@@ -7,7 +7,12 @@ import {
   FlashMode as ExpoFlashMode,
 } from "expo-camera";
 import {manipulateAsync, FlipType} from "expo-image-manipulator";
-import {MaterialCommunityIcons, Ionicons, AntDesign} from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  Ionicons,
+  AntDesign,
+  Feather,
+} from "@expo/vector-icons";
 import Button from "./Button";
 
 interface CameraProps extends ExpoCameraProps {
@@ -120,12 +125,10 @@ const Camera: React.FC<CameraProps> = ({
           </TouchableOpacity>
           <Image source={{uri: pictureUri}} className="w-full h-full" />
           <Button
-            content="Elküldöm"
-            className="absolute bottom-4"
+            content="Kézbesítés"
+            className="absolute bottom-4 opacity-80"
             onPress={() => onPictureSend(pictureUri)}
-            RightIcon={() => (
-              <AntDesign name="caretright" size={14} color="white" />
-            )}
+            LeftIcon={() => <Feather name="mail" size={18} color="white" />}
           ></Button>
         </View>
       ) : (
