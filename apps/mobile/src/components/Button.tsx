@@ -15,7 +15,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <Pressable
-      className={`p-4 bg-green-400 active:bg-green-600 rounded flex flex-row items-center ${
+      className={`p-4 bg-green-400 active:bg-green-600 rounded flex flex-row items-center justify-center ${
         (isLoading || disabled) && "opacity-60"
       }`}
       disabled={isLoading || disabled}
