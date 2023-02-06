@@ -47,14 +47,8 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
       links: [
         httpLink({
           url: `${Constants.manifest?.extra?.apiUrl}/trpc`,
-          headers: async () => {
-            const accessToken = await SecureStore.getItemAsync("accessToken");
-            return {
-              authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-            };
-          },
           fetch: async (url, options) => {
-            const accessToken = await SecureStore.getItemAsync("accessToken");
+            let accessToken = await SecureStore.getItemAsync("accessToken");
 
             if (accessToken) {
               const decodedAccess = jwtDecode<JwtPayload>(accessToken);
@@ -66,14 +60,20 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
               if (shouldRefresh) {
                 const result = await useRefreshToken();
                 if (!result) await logout();
-                else
+                else {
+                  accessToken = result.accessToken;
                   await authenticate(result.accessToken, result.refreshToken);
+                }
               }
             }
 
-            const response = await fetch(url, options);
-
-            return response;
+            return fetch(url, {
+              ...options,
+              headers: {
+                ...options?.headers,
+                authorization: `Bearer ${accessToken}`,
+              } as HeadersInit,
+            });
           },
         }),
       ],

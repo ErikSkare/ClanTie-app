@@ -2,24 +2,46 @@ import {View, ViewProps} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
+import {trpc} from "@/lib/trpc";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import AvatarUploader from "@/components/AvatarUploader";
+import toFormData from "@/utils/toFormData";
+import uriToFileMeta from "@/utils/uriToFileMeta";
 
 const CreateClanSchema = z.object({
   avatarUri: z.string(),
   clanName: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
-  nickName: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
+  nickname: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
 });
 
 const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
+  const {mutateAsync, isLoading} = trpc.clan.create.useMutation();
+
   const formik = useFormik({
-    initialValues: {clanName: "", nickName: "", avatarUri: ""},
+    initialValues: {clanName: "", nickname: "", avatarUri: ""},
     validationSchema: toFormikValidationSchema(CreateClanSchema),
     validateOnBlur: true,
     validateOnChange: false,
     validateOnMount: true,
-    onSubmit: (values) => console.log(values),
+    onSubmit: async (values) => {
+      const {url, fields} = await mutateAsync({
+        clanName: values.clanName,
+        nickname: values.nickname,
+      });
+
+      const fileMeta = uriToFileMeta(values.avatarUri);
+      if (!fileMeta) return;
+
+      await fetch(url, {
+        method: "POST",
+        body: toFormData({
+          ...fields,
+          "Content-Type": fileMeta.type,
+          file: fileMeta,
+        }),
+      });
+    },
   });
 
   return (
@@ -47,11 +69,15 @@ const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
       <TextInput
         label="Becenevem"
         containerClassName="mb-8"
-        onChangeText={formik.handleChange("nickName")}
-        onBlur={formik.handleBlur("nickName")}
-        error={formik.touched.nickName ? formik.errors.nickName : undefined}
+        onChangeText={formik.handleChange("nickname")}
+        onBlur={formik.handleBlur("nickname")}
+        error={formik.touched.nickname ? formik.errors.nickname : undefined}
       />
-      <Button content="Mehet" onPress={() => formik.handleSubmit()} />
+      <Button
+        content="Mehet"
+        onPress={() => formik.handleSubmit()}
+        isLoading={isLoading}
+      />
     </View>
   );
 };

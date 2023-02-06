@@ -11,10 +11,30 @@ datasource db {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  email       String      @unique
-  firstName   String
-  lastName    String
-  password    String
-  createdAt   DateTime    @default(now())
+  id            Int             @id @default(autoincrement())
+  email         String          @unique
+  firstName     String
+  lastName      String
+  password      String
+  createdAt     DateTime        @default(now())
+  memberships   ClanMember[]
+}
+
+model ClanMember {
+  user        User      @relation(fields: [userId], references: [id])
+  clan        Clan      @relation(fields: [clanId], references: [id])
+  userId      Int
+  clanId      Int
+  nickname    String
+  avatarKey   String    @default(uuid())
+  createdAt   DateTime  @default(now())
+
+  @@id([userId, clanId])
+}
+
+model Clan {
+  id          Int       @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @default(now())
+  members     ClanMember[]
 }
