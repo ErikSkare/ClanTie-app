@@ -15,6 +15,7 @@ const CreateClanScreen: React.FC<CreateClanScreenProps> = ({navigation}) => {
 
   function onSuccess() {
     utils.clan.getAll.invalidate();
+    utils.user.meWithMemberships.invalidate();
     navigation.goBack();
   }
 
