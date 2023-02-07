@@ -1,9 +1,9 @@
-import EmptyLayout from "@/components/layouts/EmptyLayout";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {TouchableOpacity} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
 import MyClans from "@/features/clan/components/MyClans";
+import MainLayout from "@/components/layouts/MainLayout";
 
 export type FeedScreenProps = NativeStackScreenProps<
   MainStackParamList,
@@ -12,7 +12,7 @@ export type FeedScreenProps = NativeStackScreenProps<
 
 const FeedScreen: React.FC<FeedScreenProps> = ({navigation}) => {
   return (
-    <EmptyLayout className="flex justify-center items-center">
+    <MainLayout className="flex justify-center items-center">
       <MyClans containerClassName="w-full flex-1" />
       <TouchableOpacity
         className="absolute bottom-4 right-4 bg-white rounded-full"
@@ -20,7 +20,7 @@ const FeedScreen: React.FC<FeedScreenProps> = ({navigation}) => {
       >
         <AntDesign name="pluscircle" size={56} color="#4ADE80" />
       </TouchableOpacity>
-    </EmptyLayout>
+    </MainLayout>
   );
 };
 

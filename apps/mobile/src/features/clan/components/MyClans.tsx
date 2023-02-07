@@ -43,14 +43,14 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
       {...props}
     >
       {isRefetching && (
-        <ActivityIndicator color="white" size="large" className="mb-4" />
+        <ActivityIndicator color="white" size="large" className="my-4" />
       )}
       <FlatList
         data={data}
         className="w-full"
         renderItem={(clan) => (
           <ClanCard
-            className="my-2"
+            className="mb-4"
             clanName={clan.item.name}
             members={clan.item.members.map((member) => {
               return {avatarUrl: member.avatarUrl};
