@@ -1,7 +1,7 @@
 import Avatar from "@/components/Avatar";
 import {View, ViewProps, Text, FlatList} from "react-native";
 
-type MemberData = {
+export type MemberData = {
   avatarUrl: string;
 };
 

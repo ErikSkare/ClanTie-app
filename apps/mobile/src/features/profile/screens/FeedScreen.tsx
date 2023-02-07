@@ -1,9 +1,8 @@
-import Button from "@/components/Button";
 import EmptyLayout from "@/components/layouts/EmptyLayout";
-import useTokenStore from "@/features/auth/stores/useTokenStore";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {TouchableOpacity, Text} from "react-native";
+import {TouchableOpacity} from "react-native";
+import {AntDesign} from "@expo/vector-icons";
 import MyClans from "@/features/clan/components/MyClans";
 
 export type FeedScreenProps = NativeStackScreenProps<
@@ -12,17 +11,14 @@ export type FeedScreenProps = NativeStackScreenProps<
 >;
 
 const FeedScreen: React.FC<FeedScreenProps> = ({navigation}) => {
-  const logout = useTokenStore((state) => state.logout);
-
   return (
     <EmptyLayout className="flex justify-center items-center">
       <MyClans containerClassName="w-full flex-1" />
-      <Button
-        content="Klán alapítás"
+      <TouchableOpacity
+        className="absolute bottom-4 right-4 bg-white rounded-full"
         onPress={() => navigation.navigate("CreateClan")}
-      />
-      <TouchableOpacity onPress={() => logout()}>
-        <Text>Kilépés</Text>
+      >
+        <AntDesign name="pluscircle" size={56} color="#4ADE80" />
       </TouchableOpacity>
     </EmptyLayout>
   );
