@@ -7,14 +7,18 @@ type withAvatarUrl<General> = General & {
 
 export default function ClanMembers(prisma: PrismaClient) {
   return Object.assign(prisma.clanMember, {
-    async populateAvatarUrl(
-      data: ClanMember
-    ): Promise<withAvatarUrl<ClanMember>> {
-      const url = await retrieveImage(data.avatarKey);
+    populateAvatarUrl(data: ClanMember): withAvatarUrl<ClanMember> {
+      const url = retrieveImage(data.avatarKey);
       return {
         ...data,
         avatarUrl: url,
       };
+    },
+    populateAvatarUrls(data: ClanMember[]) {
+      const clanMembersService = ClanMembers(prisma);
+      return data.map((current) =>
+        clanMembersService.populateAvatarUrl(current)
+      );
     },
   });
 }

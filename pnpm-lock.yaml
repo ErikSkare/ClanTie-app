@@ -34,6 +34,7 @@ importers:
       jsonwebtoken: ^9.0.0
       nodemon: ^2.0.20
       superjson: ^1.12.2
+      timekeeper: ^2.2.0
       ts-node: ^10.9.1
       tsconfig-paths: ^4.1.2
       zod: ^3.20.2
@@ -47,6 +48,7 @@ importers:
       express: 4.18.2
       jsonwebtoken: 9.0.0
       superjson: 1.12.2
+      timekeeper: 2.2.0
       zod: 3.20.2
     devDependencies:
       '@types/aws-sdk': 2.7.0
@@ -8141,6 +8143,10 @@ packages:
     dependencies:
       readable-stream: 2.3.7
       xtend: 4.0.2
+    dev: false
+
+  /timekeeper/2.2.0:
+    resolution: {integrity: sha512-W3AmPTJWZkRwu+iSNxPIsLZ2ByADsOLbbLxe46UJyWj3mlYLlwucKiq+/dPm0l9wTzqoF3/2PH0AGFCebjq23A==}
     dev: false
 
   /tiny-warning/1.0.3:

@@ -1,7 +1,7 @@
 import {router, protectedProcedure} from "@/trpc";
 import {uploadImage} from "@/s3";
 import {z} from "zod";
-import Clans from "./clans";
+import ClanMembers from "./clanMembers";
 
 const clanRouter = router({
   create: protectedProcedure
@@ -15,7 +15,7 @@ const clanRouter = router({
       const member = await ctx.prisma.clanMember.create({
         data: {
           nickname: input.nickname,
-          user: {connect: {id: ctx.session.id}},
+          user: {connect: {id: ctx.session}},
           clan: {
             create: {
               name: input.clanName,
@@ -26,16 +26,19 @@ const clanRouter = router({
       return uploadImage(member.avatarKey);
     }),
   getAll: protectedProcedure.query(async ({ctx}) => {
-    const clansService = Clans(ctx.prisma);
+    const clanMembersService = ClanMembers(ctx.prisma);
     const clans = await ctx.prisma.clan.findMany({
       where: {
-        members: {some: {userId: ctx.session.id}},
+        members: {some: {userId: ctx.session}},
       },
       include: {members: true},
     });
-    return Promise.all(
-      clans.map((clan) => clansService.populateMemberAvatarUrls(clan))
-    );
+    return clans.map((clan) => {
+      return {
+        ...clan,
+        members: clanMembersService.populateAvatarUrls(clan.members),
+      };
+    });
   }),
 });
 

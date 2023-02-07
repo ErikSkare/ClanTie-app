@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import {PrismaClient} from "@prisma/client";
 
 const ACCESS_TOKEN_EXPIRATION = "30s";
 const REFRESH_TOKEN_EXPIRATION = "7d";
@@ -30,11 +29,11 @@ export default Object.freeze({
     };
   },
 
-  getUser(token: string | undefined, secret: string, prisma: PrismaClient) {
+  getUserId(token: string | undefined, secret: string) {
     if (!token) return null;
     try {
       const {userId} = <UserIdPayload>jwt.verify(token, secret);
-      return prisma.user.findUnique({where: {id: userId}});
+      return userId;
     } catch {
       return null;
     }

@@ -1,7 +1,6 @@
 import {initTRPC, TRPCError} from "@trpc/server";
 import {createContext} from "@/context";
 import errorFormatter from "@/errorFormatter";
-import {User} from "@prisma/client";
 import superjson from "superjson";
 
 const trpc = initTRPC.context<typeof createContext>().create({
@@ -21,7 +20,7 @@ const isAuthed = trpc.middleware(({next, ctx}) => {
       code: "UNAUTHORIZED",
       message: "INVALID_TOKEN",
     });
-  return next({ctx: {...ctx, session: ctx.session as User}});
+  return next({ctx: {...ctx, session: ctx.session as number}});
 });
 
 export const protectedProcedure = trpc.procedure.use(isAuthed);

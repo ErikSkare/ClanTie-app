@@ -2,7 +2,7 @@ import {MainStackParamList} from "@/navigation/MainStack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {TouchableOpacity} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
-import MyClans from "@/features/clan/components/MyClans";
+import {MyClans} from "@/features/clan";
 import MainLayout from "@/components/layouts/MainLayout";
 
 export type FeedScreenProps = NativeStackScreenProps<

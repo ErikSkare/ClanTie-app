@@ -10,10 +10,9 @@ export interface UserIdPayload extends jwt.JwtPayload {
 }
 
 export async function createContext({req}: CreateExpressContextOptions) {
-  const session = await Tokens.getUser(
+  const session = Tokens.getUserId(
     req.headers.authorization?.split(" ")[1],
-    process.env.ACCESS_SECRET as string,
-    prisma
+    process.env.ACCESS_SECRET as string
   );
   return {
     prisma,

@@ -1,9 +1,5 @@
-import Avatar from "@/components/Avatar";
-import {View, ViewProps, Text, FlatList} from "react-native";
-
-export type MemberData = {
-  avatarUrl: string;
-};
+import {View, ViewProps, Text} from "react-native";
+import Members, {MemberData} from "./Members";
 
 interface ClanCardProps extends ViewProps {
   clanName: string;
@@ -25,13 +21,7 @@ const ClanCard: React.FC<ClanCardProps> = ({
       >
         {clanName}
       </Text>
-      <FlatList
-        data={members}
-        horizontal={true}
-        renderItem={(info) => (
-          <Avatar imageUrl={info.item.avatarUrl} className="pr-4" />
-        )}
-      />
+      <Members data={members} />
     </View>
   );
 };
