@@ -1,4 +1,7 @@
+import {ErrorBoundary} from "react-error-boundary";
 import {TRPCProvider} from "@/lib/trpc";
+import {QueryErrorResetBoundary} from "@tanstack/react-query";
+import Toast from "react-native-toast-message";
 import {
   useFonts,
   Roboto_100Thin,
@@ -16,6 +19,7 @@ import {
 } from "@expo-google-fonts/roboto";
 import SplashScreen from "@/components/SplashScreen";
 import Navigator from "@/navigation/Navigator";
+import UnknownErrorScreen from "./components/UnknownErrorScreen";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -37,7 +41,14 @@ export default function App() {
 
   return (
     <TRPCProvider>
-      <Navigator />
+      <QueryErrorResetBoundary>
+        {({reset}) => (
+          <ErrorBoundary onReset={reset} FallbackComponent={UnknownErrorScreen}>
+            <Navigator />
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
+      <Toast />
     </TRPCProvider>
   );
 }

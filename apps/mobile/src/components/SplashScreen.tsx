@@ -1,12 +1,13 @@
 import {StatusBar} from "expo-status-bar";
-import {ActivityIndicator, View} from "react-native";
+import {ActivityIndicator} from "react-native";
+import EmptyLayout from "./layouts/EmptyLayout";
 
 const SplashScreen = () => {
   return (
-    <View className="flex items-center justify-center bg-slate-700 h-screen">
+    <EmptyLayout className="flex justify-center items-center">
       <ActivityIndicator color="white" size="large" />
       <StatusBar backgroundColor="#1E293B" translucent={false} />
-    </View>
+    </EmptyLayout>
   );
 };
 

@@ -87,9 +87,11 @@ importers:
       jwt-decode: ^3.1.2
       nativewind: ^2.0.11
       react: 18.1.0
+      react-error-boundary: ^3.1.4
       react-native: 0.70.5
       react-native-safe-area-context: 4.4.1
       react-native-screens: ~3.18.0
+      react-native-toast-message: ^2.1.5
       superjson: ^1.12.2
       tailwindcss: ^3.2.4
       zod: ^3.20.2
@@ -116,9 +118,11 @@ importers:
       jwt-decode: 3.1.2
       nativewind: 2.0.11_f3xea42f6zrwqyr5c6mbkdauxa
       react: 18.1.0
+      react-error-boundary: 3.1.4_react@18.1.0
       react-native: 0.70.5_lahc5xespok57ijioavxabv3he
       react-native-safe-area-context: 4.4.1_tj3nonr5gneraukzjkxpsiy7yu
       react-native-screens: 3.18.2_tj3nonr5gneraukzjkxpsiy7yu
+      react-native-toast-message: 2.1.5_tj3nonr5gneraukzjkxpsiy7yu
       superjson: 1.12.2
       zod: 3.20.2
       zod-formik-adapter: 1.2.0_formik@2.2.9+zod@3.20.2
@@ -7131,6 +7135,16 @@ packages:
       scheduler: 0.23.0
     dev: false
 
+  /react-error-boundary/3.1.4_react@18.1.0:
+    resolution: {integrity: sha512-uM9uPzZJTF6wRQORmSrvOIgt4lJ9MC1sNgEOj2XGsDTRE4kmpWxg7ENK9EWNKJRMAOY9z0MuF4yIfl6gp4sotA==}
+    engines: {node: '>=10', npm: '>=6'}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.20.13
+      react: 18.1.0
+    dev: false
+
   /react-fast-compare/2.0.4:
     resolution: {integrity: sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==}
     dev: false
@@ -7192,6 +7206,16 @@ packages:
       react-freeze: 1.0.3_react@18.1.0
       react-native: 0.70.5_lahc5xespok57ijioavxabv3he
       warn-once: 0.1.1
+    dev: false
+
+  /react-native-toast-message/2.1.5_tj3nonr5gneraukzjkxpsiy7yu:
+    resolution: {integrity: sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+    dependencies:
+      react: 18.1.0
+      react-native: 0.70.5_lahc5xespok57ijioavxabv3he
     dev: false
 
   /react-native/0.70.5_lahc5xespok57ijioavxabv3he:

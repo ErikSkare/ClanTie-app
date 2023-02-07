@@ -2,12 +2,17 @@ import {useState} from "react";
 import Constants from "expo-constants";
 import {createTRPCReact} from "@trpc/react-query";
 import {httpLink} from "@trpc/client";
-import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import type {AppRouter} from "@clantie/api";
 import jwtDecode, {JwtPayload} from "jwt-decode";
 import useTokenStore from "@/features/auth/stores/useTokenStore";
 import superjson from "superjson";
+import Toast from "react-native-toast-message";
 
 export const trpc = createTRPCReact<AppRouter>();
 
@@ -40,7 +45,29 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
   const logout = useTokenStore((state) => state.logout);
   const authenticate = useTokenStore((state) => state.authenticate);
 
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            useErrorBoundary: (error) =>
+              // eslint-disable-next-line
+              (error as any).data.code == "INTERNAL_SERVER_ERROR",
+          },
+        },
+        mutationCache: new MutationCache({
+          onError: (error) => {
+            // eslint-disable-next-line
+            if ((error as any).data.code == "INTERNAL_SERVER_ERROR")
+              Toast.show({
+                type: "error",
+                text1: "Hiba történt",
+                text2: "Nem sikerült végrehajtani a műveletet!",
+              });
+          },
+        }),
+      })
+  );
   const [trpcClient] = useState(() =>
     trpc.createClient({
       transformer: superjson,

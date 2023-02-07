@@ -20,21 +20,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
       </View>
     );
 
-  // TODO: make this better
-  if (isError)
-    return (
-      <View
-        className={`flex items-center justify-center ${containerClassName}`}
-        {...props}
-      >
-        <Text
-          className="text-lg text-white"
-          style={{fontFamily: "Roboto_500Medium"}}
-        >
-          Hiba történt!
-        </Text>
-      </View>
-    );
+  if (isError) return null;
 
   if (data.length == 0)
     return (
@@ -46,7 +32,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
           className="text-lg text-white"
           style={{fontFamily: "Roboto_500Medium"}}
         >
-          Még nincsenek klánjaid
+          Még nincsenek klánjaid!
         </Text>
       </View>
     );
