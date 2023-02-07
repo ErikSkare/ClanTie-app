@@ -1,37 +1,11 @@
 import {router, publicProcedure} from "@/trpc";
-import {z} from "zod";
-import {Prisma} from "@prisma/client";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import {isUniqueConstraintViolation} from "./utils";
 import {TRPCError} from "@trpc/server";
-import {ValidationError} from "./errors";
-
-async function hashPassword(password: string) {
-  const salt = await bcrypt.genSalt();
-  return bcrypt.hash(password, salt);
-}
-
-async function checkPassword(password: string, hash: string) {
-  return bcrypt.compare(password, hash);
-}
-
-export function genTokens(userId: number) {
-  const accessToken = jwt.sign({userId}, process.env.ACCESS_SECRET as string, {
-    expiresIn: "30s",
-  });
-  const refreshToken = jwt.sign(
-    {userId},
-    process.env.REFRESH_SECRET as string,
-    {
-      expiresIn: "7d",
-    }
-  );
-  return {
-    accessToken,
-    refreshToken,
-  };
-}
+import {Prisma} from "@prisma/client";
+import {z} from "zod";
+import {isUniqueConstraintViolation} from "@/router/utils";
+import {ValidationError} from "@/router/errors";
+import Tokens from "./tokens";
+import Passwords from "./passwords";
 
 const authRouter = router({
   register: publicProcedure
@@ -50,11 +24,11 @@ const authRouter = router({
             email: input.email.toLowerCase(),
             firstName: input.firstName,
             lastName: input.lastName,
-            password: await hashPassword(input.password),
+            password: await Passwords.hash(input.password),
           },
         });
 
-        return genTokens(user.id);
+        return Tokens.generate(user.id);
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (isUniqueConstraintViolation(error, "email")) {
@@ -82,14 +56,14 @@ const authRouter = router({
       if (!user)
         throw new TRPCError({code: "BAD_REQUEST", message: "Hibás adatok!"});
 
-      const isPasswordsMatching = await checkPassword(
+      const isPasswordsMatching = await Passwords.verify(
         input.password,
         user.password
       );
       if (!isPasswordsMatching)
         throw new TRPCError({code: "BAD_REQUEST", message: "Hibás adatok!"});
 
-      return genTokens(user.id);
+      return Tokens.generate(user.id);
     }),
 });
 

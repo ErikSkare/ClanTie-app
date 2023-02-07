@@ -9,13 +9,20 @@ import AvatarUploader from "@/components/AvatarUploader";
 import toFormData from "@/utils/toFormData";
 import uriToFileMeta from "@/utils/uriToFileMeta";
 
+interface CreateClanFormProps extends ViewProps {
+  onSuccess?: () => void;
+}
+
 const CreateClanSchema = z.object({
   avatarUri: z.string(),
   clanName: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
   nickname: z.string({required_error: "Kérjük töltsd ki a mezőt!"}),
 });
 
-const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
+const CreateClanForm: React.FC<CreateClanFormProps> = ({
+  onSuccess = () => undefined,
+  ...props
+}) => {
   const {mutateAsync, isLoading} = trpc.clan.create.useMutation();
 
   const formik = useFormik({
@@ -41,6 +48,8 @@ const CreateClanForm: React.FC<ViewProps> = ({...props}) => {
           file: fileMeta,
         }),
       });
+
+      onSuccess();
     },
   });
 

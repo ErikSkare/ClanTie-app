@@ -3,6 +3,7 @@ import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {Text} from "react-native";
 import CreateClanForm from "../components/CreateClanForm";
 import EmptyLayout from "@/components/layouts/EmptyLayout";
+import {trpc} from "@/lib/trpc";
 
 export type CreateClanScreenProps = NativeStackScreenProps<
   MainStackParamList,
@@ -10,6 +11,13 @@ export type CreateClanScreenProps = NativeStackScreenProps<
 >;
 
 const CreateClanScreen: React.FC<CreateClanScreenProps> = ({navigation}) => {
+  const utils = trpc.useContext();
+
+  function onSuccess() {
+    utils.clan.getAll.invalidate();
+    navigation.goBack();
+  }
+
   return (
     <EmptyLayout
       className="flex justify-center items-center"
@@ -22,7 +30,7 @@ const CreateClanScreen: React.FC<CreateClanScreenProps> = ({navigation}) => {
       >
         Klán alapítás
       </Text>
-      <CreateClanForm className="w-full px-8 mt-8" />
+      <CreateClanForm className="w-full px-8 mt-8" onSuccess={onSuccess} />
     </EmptyLayout>
   );
 };

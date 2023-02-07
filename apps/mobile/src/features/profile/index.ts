@@ -1,3 +1,3 @@
-import ProfileScreen from "./screens/ProfileScreen";
+import FeedScreen from "./screens/FeedScreen";
 
-export default ProfileScreen;
+export {FeedScreen};

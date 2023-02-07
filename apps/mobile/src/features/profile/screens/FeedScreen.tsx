@@ -4,17 +4,19 @@ import useTokenStore from "@/features/auth/stores/useTokenStore";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {TouchableOpacity, Text} from "react-native";
+import MyClans from "@/features/clan/components/MyClans";
 
-export type RegisterScreenProps = NativeStackScreenProps<
+export type FeedScreenProps = NativeStackScreenProps<
   MainStackParamList,
-  "Profile"
+  "Feed"
 >;
 
-const ProfileScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
+const FeedScreen: React.FC<FeedScreenProps> = ({navigation}) => {
   const logout = useTokenStore((state) => state.logout);
 
   return (
     <EmptyLayout className="flex justify-center items-center">
+      <MyClans containerClassName="w-full flex-1" />
       <Button
         content="Klán alapítás"
         onPress={() => navigation.navigate("CreateClan")}
@@ -26,4 +28,4 @@ const ProfileScreen: React.FC<RegisterScreenProps> = ({navigation}) => {
   );
 };
 
-export default ProfileScreen;
+export default FeedScreen;

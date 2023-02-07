@@ -1,5 +1,8 @@
 import S3 from "aws-sdk/clients/s3";
 
+const MAX_IMG_SIZE = 10000000;
+const EXPIRES = 60;
+
 const s3 = new S3({
   region: process.env.AWS_BUCKET_REGION,
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -13,9 +16,9 @@ export async function uploadImage(key: string) {
     },
     Conditions: [
       ["starts-with", "$Content-Type", "image/"],
-      ["content-length-range", 0, 1000000],
+      ["content-length-range", 0, MAX_IMG_SIZE],
     ],
-    Expires: 60,
+    Expires: EXPIRES,
     Bucket: process.env.AWS_BUCKET_NAME,
   });
 }

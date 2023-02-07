@@ -1,9 +1,9 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import ProfileScreen from "@/features/profile";
+import {FeedScreen} from "@/features/profile";
 import {CreateClanScreen} from "@/features/clan/";
 
 export type MainStackParamList = {
-  Profile: undefined;
+  Feed: undefined;
   CreateClan: undefined;
 };
 
@@ -18,7 +18,7 @@ const MainStack = () => {
         statusBarColor: "#1E293B",
       }}
     >
-      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Feed" component={FeedScreen} />
       <Stack.Screen
         name="CreateClan"
         component={CreateClanScreen}
