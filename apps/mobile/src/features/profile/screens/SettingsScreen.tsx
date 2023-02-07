@@ -28,7 +28,7 @@ const SettingsScreen: React.FC<SettingsScreenProps> = () => {
 
   return (
     <MainLayout>
-      <View className="flex-1 items-center p-8">
+      <View className="bg-slate-800 items-center p-4">
         <Text
           className="text-lg text-white"
           style={{fontFamily: "Roboto_500Medium"}}
