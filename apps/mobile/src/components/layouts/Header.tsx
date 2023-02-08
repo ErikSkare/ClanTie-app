@@ -17,13 +17,13 @@ const Header: React.FC<ViewProps> = ({className = "", ...props}) => {
       <TouchableOpacity onPress={() => navigation.navigate("Feed")}>
         <View className="flex flex-row">
           <Text
-            className="text-slate-400 text-lg"
+            className="text-slate-400 text-base"
             style={{fontFamily: "Roboto_400Regular"}}
           >
             Clan
           </Text>
           <Text
-            className="text-slate-400 text-lg"
+            className="text-slate-400 text-base"
             style={{fontFamily: "Roboto_700Bold"}}
           >
             Tie

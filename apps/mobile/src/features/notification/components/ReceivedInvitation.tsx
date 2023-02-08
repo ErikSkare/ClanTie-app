@@ -66,7 +66,10 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
       className={`border-t-2 border-slate-600 py-4 ${containerClassName}`}
       {...props}
     >
-      <Text className="text-slate-200" style={{fontFamily: "Roboto_700Bold"}}>
+      <Text
+        className="text-slate-200 text-base"
+        style={{fontFamily: "Roboto_700Bold"}}
+      >
         {from.lastName + " " + from.firstName + " "}
       </Text>
       <Text className="text-slate-400 mb-2">

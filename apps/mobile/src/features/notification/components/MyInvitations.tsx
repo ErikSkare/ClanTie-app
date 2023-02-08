@@ -11,7 +11,7 @@ const MyInvitations: React.FC<ViewProps> = () => {
   return (
     <View>
       <Text
-        className="text-lg text-white mb-8"
+        className="text-xl text-white mb-8"
         style={{fontFamily: "Roboto_700Bold"}}
       >
         Függő meghívások

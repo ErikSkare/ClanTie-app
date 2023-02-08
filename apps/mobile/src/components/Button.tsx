@@ -38,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   };
 
   const fontClasses = {
-    large: "text-base",
+    large: "text-sm",
     small: "text-xs",
   };
 
