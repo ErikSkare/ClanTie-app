@@ -3,11 +3,13 @@ import {AntDesign} from "@expo/vector-icons";
 
 interface EmptyLayoutProps extends ViewProps {
   withCloseButton?: boolean;
+  withSlideBackButton?: boolean;
   goBack?: () => void;
 }
 
 const EmptyLayout: React.FC<EmptyLayoutProps> = ({
   withCloseButton = false,
+  withSlideBackButton = false,
   goBack = () => undefined,
   children,
   className = "",
@@ -21,6 +23,11 @@ const EmptyLayout: React.FC<EmptyLayoutProps> = ({
       {withCloseButton && (
         <TouchableOpacity className="absolute top-4 left-4" onPress={goBack}>
           <AntDesign name="close" size={24} color="white" />
+        </TouchableOpacity>
+      )}
+      {withSlideBackButton && (
+        <TouchableOpacity className="absolute top-4 left-4" onPress={goBack}>
+          <AntDesign name="arrowleft" size={24} color="white" />
         </TouchableOpacity>
       )}
       {children}

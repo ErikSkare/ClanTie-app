@@ -51,6 +51,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
         renderItem={(clan) => (
           <ClanCard
             className="mb-4"
+            clanId={clan.item.id}
             clanName={clan.item.name}
             members={clan.item.members.map((member) => {
               return {avatarUrl: member.avatarUrl};
