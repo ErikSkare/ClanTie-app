@@ -1,11 +1,7 @@
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {View, Text, ActivityIndicator} from "react-native";
-import {trpc} from "@/lib/trpc";
-import Button from "@/components/Button";
 import MainLayout from "@/components/layouts/MainLayout";
-import useTokenStore from "@/features/auth/stores/useTokenStore";
 import {MainStackParamList} from "@/navigation/MainStack";
-import Members from "@/features/clan/components/Members";
+import Account from "../components/Account";
 
 export type SettingsScreenProps = NativeStackScreenProps<
   MainStackParamList,
@@ -13,42 +9,9 @@ export type SettingsScreenProps = NativeStackScreenProps<
 >;
 
 const SettingsScreen: React.FC<SettingsScreenProps> = () => {
-  const logout = useTokenStore((state) => state.logout);
-
-  const {data, isLoading, isError} = trpc.user.meWithMemberships.useQuery();
-
-  if (isError) return null;
-
-  if (isLoading)
-    return (
-      <MainLayout>
-        <ActivityIndicator size="large" color="white" />
-      </MainLayout>
-    );
-
   return (
     <MainLayout>
-      <View className="bg-slate-800 items-center p-4">
-        <Text
-          className="text-lg text-white"
-          style={{fontFamily: "Roboto_500Medium"}}
-        >
-          {data.lastName + " " + data.firstName}
-        </Text>
-        <Text className="text-slate-400 mb-2">{"(" + data.email + ")"}</Text>
-        <Members
-          containerClassName="grow-0 mb-8"
-          data={data.memberships.map((value) => {
-            return {avatarUrl: value.avatarUrl};
-          })}
-        />
-        <Button
-          content="Kijelentkezés"
-          color="danger"
-          className="w-auto"
-          onPress={logout}
-        />
-      </View>
+      <Account />
     </MainLayout>
   );
 };
