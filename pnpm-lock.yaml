@@ -73,6 +73,7 @@ importers:
       '@trpc/client': ^10.9.0
       '@trpc/react-query': ^10.9.0
       '@trpc/server': ^10.9.0
+      '@types/javascript-time-ago': ^2.0.3
       '@types/jwt-decode': ^3.1.0
       '@types/react': ^18.0.27
       '@types/react-native': ^0.71.1
@@ -86,6 +87,7 @@ importers:
       expo-secure-store: ~12.0.0
       expo-status-bar: ~1.4.2
       formik: ^2.2.9
+      javascript-time-ago: ^2.5.9
       jwt-decode: ^3.1.2
       nativewind: ^2.0.11
       react: 18.1.0
@@ -117,6 +119,7 @@ importers:
       expo-secure-store: 12.0.0_expo@47.0.13
       expo-status-bar: 1.4.2
       formik: 2.2.9_react@18.1.0
+      javascript-time-ago: 2.5.9
       jwt-decode: 3.1.2
       nativewind: 2.0.11_f3xea42f6zrwqyr5c6mbkdauxa
       react: 18.1.0
@@ -132,6 +135,7 @@ importers:
     devDependencies:
       '@babel/core': 7.20.12
       '@babel/runtime': 7.20.13
+      '@types/javascript-time-ago': 2.0.3
       '@types/jwt-decode': 3.1.0
       '@types/react': 18.0.27
       '@types/react-native': 0.71.1
@@ -2485,6 +2489,10 @@ packages:
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
     dev: false
+
+  /@types/javascript-time-ago/2.0.3:
+    resolution: {integrity: sha512-G6SdYh6gHxgCTU0s4cMIRHwRO4p3f7jQSZbDPfUOZpUAG1od3rTjT0e8rxGThUiTTWQHwpBRws8eHO8D2QqfkA==}
+    dev: true
 
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
@@ -5416,6 +5424,12 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
+  /javascript-time-ago/2.5.9:
+    resolution: {integrity: sha512-pQ8mNco/9g9TqWXWWjP0EWl6i/lAQScOyEeXy5AB+f7MfLSdgyV9BJhiOD1zrIac/lrxPYOWNbyl/IW8CW5n0A==}
+    dependencies:
+      relative-time-format: 1.1.6
+    dev: false
+
   /jest-get-type/26.3.0:
     resolution: {integrity: sha512-TpfaviN1R2pQWkIihlfEanwOXK0zcxrKEE4MlU6Tn7keoXdN6/3gK/xl0yEh8DOunn5pOVGKf8hB4R9gVh04ig==}
     engines: {node: '>= 10.14.2'}
@@ -7391,6 +7405,10 @@ packages:
     hasBin: true
     dependencies:
       jsesc: 0.5.0
+    dev: false
+
+  /relative-time-format/1.1.6:
+    resolution: {integrity: sha512-aCv3juQw4hT1/P/OrVltKWLlp15eW1GRcwP1XdxHrPdZE9MtgqFpegjnTjLhi2m2WI9MT/hQQtE+tjEWG1hgkQ==}
     dev: false
 
   /remove-trailing-slash/0.1.1:

@@ -2,6 +2,8 @@ import {ErrorBoundary} from "react-error-boundary";
 import {TRPCProvider} from "@/lib/trpc";
 import {QueryErrorResetBoundary} from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
+import TimeAgo from "javascript-time-ago";
+import hu from "javascript-time-ago/locale/hu";
 import {
   useFonts,
   Roboto_100Thin,
@@ -20,6 +22,8 @@ import {
 import SplashScreen from "@/components/SplashScreen";
 import Navigator from "@/navigation/Navigator";
 import UnknownErrorScreen from "./components/UnknownErrorScreen";
+
+TimeAgo.addDefaultLocale(hu);
 
 export default function App() {
   const [fontsLoaded] = useFonts({

@@ -1,4 +1,5 @@
 import {View, Text, ViewProps} from "react-native";
+import TimeAgo from "javascript-time-ago";
 import {trpc} from "@/lib/trpc";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
@@ -22,10 +23,12 @@ interface ReceivedInvitationProps extends ViewProps {
 const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
   from,
   clan,
+  when,
   containerClassName = "",
   ...props
 }) => {
   const utils = trpc.useContext();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
@@ -56,6 +59,8 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
     },
   });
 
+  const timeAgo = new TimeAgo("hu");
+
   return (
     <View
       className={`border-t-2 border-slate-600 py-4 ${containerClassName}`}
@@ -64,7 +69,7 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
       <Text className="text-slate-200" style={{fontFamily: "Roboto_700Bold"}}>
         {from.lastName + " " + from.firstName + " "}
       </Text>
-      <Text className="text-slate-400 mb-4">
+      <Text className="text-slate-400 mb-2">
         <Text style={{fontFamily: "Roboto_400Regular"}}>meghívott a(z)</Text>
         <Text style={{fontFamily: "Roboto_500Medium"}}>
           {" " + clan.name + " "}
@@ -72,6 +77,12 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
         <Text style={{fontFamily: "Roboto_400Regular"}}>
           elnevezésű klánba!
         </Text>
+      </Text>
+      <Text
+        className="text-slate-200 text-xs mb-6"
+        style={{fontFamily: "Roboto_400Regular"}}
+      >
+        {timeAgo.format(when)}
       </Text>
       <View className="flex flex-row gap-6">
         <Button
