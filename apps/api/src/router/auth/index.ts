@@ -31,7 +31,7 @@ const authRouter = router({
         return Tokens.generate(user.id);
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (isUniqueConstraintViolation(error, "email")) {
+          if (isUniqueConstraintViolation(error, ["email"])) {
             throw new TRPCError({
               code: "BAD_REQUEST",
               cause: new ValidationError({

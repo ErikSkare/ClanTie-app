@@ -9,13 +9,15 @@ export type UniqueConstraintViolationError =
 
 export function isUniqueConstraintViolation(
   error: Prisma.PrismaClientKnownRequestError,
-  key: string
+  key: string[]
 ) {
   const isUniqueConstraintViolation = error.code == "P2002";
   if (!isUniqueConstraintViolation) return false;
 
   const castedError = error as UniqueConstraintViolationError;
-  const isViolationWithKey = castedError.meta.target.includes(key);
+  let isViolationWithKey = true;
+  for (const curr of key)
+    isViolationWithKey &&= castedError.meta.target.includes(curr);
   return isViolationWithKey;
 }
 

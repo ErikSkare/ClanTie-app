@@ -8,10 +8,16 @@ import {Ionicons} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
+import {trpc} from "@/lib/trpc";
 
 const NotificationBell: React.FC<TouchableOpacityProps> = ({...props}) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
+  const {data, isLoading, isError} =
+    trpc.notification.getReceivedInvitations.useQuery();
+
+  if (isError) return null;
 
   return (
     <TouchableOpacity
@@ -24,7 +30,7 @@ const NotificationBell: React.FC<TouchableOpacityProps> = ({...props}) => {
           className="text-white"
           style={{fontSize: 10, fontFamily: "Roboto_700Bold"}}
         >
-          0
+          {isLoading ? "" : data.length}
         </Text>
       </View>
     </TouchableOpacity>

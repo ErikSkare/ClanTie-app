@@ -1,12 +1,17 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {FeedScreen, SettingsScreen} from "@/features/profile";
-import {CreateClanScreen, InviteScreen} from "@/features/clan/";
+import {
+  CreateClanScreen,
+  InviteScreen,
+  AcceptInvitationScreen,
+} from "@/features/clan/";
 import {NotificationsScreen} from "@/features/notification";
 
 export type MainStackParamList = {
   Feed: undefined;
   CreateClan: undefined;
   Invite: {clanId: number};
+  AcceptInvitation: {fromId: number; clanId: number};
   Settings: undefined;
   Notifications: undefined;
 };
@@ -37,6 +42,11 @@ const MainStack = () => {
       <Stack.Screen
         name="Invite"
         component={InviteScreen}
+        options={{animation: "slide_from_bottom"}}
+      />
+      <Stack.Screen
+        name="AcceptInvitation"
+        component={AcceptInvitationScreen}
         options={{animation: "slide_from_bottom"}}
       />
     </Stack.Navigator>

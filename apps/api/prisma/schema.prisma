@@ -11,13 +11,15 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  email         String          @unique
-  firstName     String
-  lastName      String
-  password      String
-  createdAt     DateTime        @default(now())
-  memberships   ClanMember[]
+  id                    Int             @id @default(autoincrement())
+  email                 String          @unique
+  firstName             String
+  lastName              String
+  password              String
+  createdAt             DateTime        @default(now())
+  memberships           ClanMember[]
+  sentInvitations       Invitation[]    @relation(name: "fromUser")
+  receivedInvitations   Invitation[]    @relation(name: "toUser")
 }
 
 model ClanMember {
@@ -33,8 +35,21 @@ model ClanMember {
 }
 
 model Clan {
-  id          Int       @id @default(autoincrement())
-  name        String
+  id            Int           @id @default(autoincrement())
+  name          String
+  createdAt     DateTime      @default(now())
+  members       ClanMember[]
+  invitations   Invitation[]
+}
+
+model Invitation {
+  fromUser    User      @relation(name: "fromUser", fields: [fromUserId], references: [id])
+  toUser      User      @relation(name: "toUser", fields: [toUserId], references: [id])
+  clan        Clan      @relation(fields: [clanId], references: [id])
+  fromUserId  Int
+  toUserId    Int
+  clanId      Int
   createdAt   DateTime  @default(now())
-  members     ClanMember[]
+
+  @@id([fromUserId, toUserId, clanId])
 }
