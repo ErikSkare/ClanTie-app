@@ -21,7 +21,7 @@ async function useRefreshToken() {
   if (!refreshToken) return null;
 
   const refreshResponse = await fetch(
-    `${Constants.manifest?.extra?.apiUrl}/refresh`,
+    `http://${Constants.manifest?.extra?.apiUrl}/refresh`,
     {
       method: "POST",
       headers: {
@@ -73,7 +73,7 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
       transformer: superjson,
       links: [
         httpLink({
-          url: `${Constants.manifest?.extra?.apiUrl}/trpc`,
+          url: `http://${Constants.manifest?.extra?.apiUrl}/trpc`,
           fetch: async (url, options) => {
             let accessToken = await SecureStore.getItemAsync("accessToken");
 
