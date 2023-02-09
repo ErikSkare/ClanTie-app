@@ -1,15 +1,15 @@
 import {trpc} from "@/lib/trpc";
-import {View, Text, ViewProps, ActivityIndicator} from "react-native";
+import {View, Text, ViewProps, ActivityIndicator, FlatList} from "react-native";
 import ReceivedInvitation from "./ReceivedInvitation";
 
-const MyInvitations: React.FC<ViewProps> = () => {
-  const {data, isLoading, isError} =
+const MyInvitations: React.FC<ViewProps> = ({className = "", ...props}) => {
+  const {data, isLoading, isError, isRefetching, refetch} =
     trpc.notification.getReceivedInvitations.useQuery();
 
   if (isError) return null;
 
   return (
-    <View>
+    <View className={`flex-1 ${className}`} {...props}>
       <Text
         className="text-xl text-white mb-8"
         style={{fontFamily: "Roboto_700Bold"}}
@@ -19,24 +19,36 @@ const MyInvitations: React.FC<ViewProps> = () => {
       {isLoading ? (
         <ActivityIndicator color="white" size="large" />
       ) : (
-        <>
-          {data.map((invitation, key) => (
+        <FlatList
+          ListEmptyComponent={() => (
+            <Text
+              className="text-slate-400"
+              style={{fontFamily: "Roboto_400Regular"}}
+            >
+              Sajnos nincsenek meghívásaid!
+            </Text>
+          )}
+          refreshing={isRefetching}
+          onRefresh={() => refetch()}
+          data={data}
+          renderItem={({item}) => (
             <ReceivedInvitation
-              key={key}
               from={{
-                firstName: invitation.fromUser.firstName,
-                lastName: invitation.fromUser.lastName,
-                id: invitation.fromUser.id,
+                firstName: item.fromUser.firstName,
+                lastName: item.fromUser.lastName,
+                id: item.fromUser.id,
               }}
               clan={{
-                name: invitation.clan.name,
-                id: invitation.clan.id,
+                name: item.clan.name,
+                id: item.clan.id,
               }}
-              when={invitation.createdAt}
+              when={item.createdAt}
             />
-          ))}
-          <View className="border-t-2 border-slate-600"></View>
-        </>
+          )}
+          ItemSeparatorComponent={() => (
+            <View className="border-t-2 border-slate-600" />
+          )}
+        />
       )}
     </View>
   );

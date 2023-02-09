@@ -12,7 +12,10 @@ const Account: React.FC<AccountProps> = ({
   containerClassName = "",
   ...props
 }) => {
-  const {data, isLoading, isError} = trpc.user.meWithMemberships.useQuery();
+  const {data, isLoading, isError} = trpc.user.meWithMemberships.useQuery(
+    undefined,
+    {staleTime: Infinity}
+  );
   const logout = useTokenStore((state) => state.logout);
 
   if (isLoading)

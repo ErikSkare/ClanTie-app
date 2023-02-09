@@ -1,4 +1,4 @@
-import {ScrollView} from "react-native";
+import {View} from "react-native";
 import EmptyLayout from "@/components/layouts/EmptyLayout";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
@@ -14,9 +14,9 @@ const NotificationsScreen: React.FC<NotificationsScreenProps> = ({
 }) => {
   return (
     <EmptyLayout withSlideBackButton={true} goBack={() => navigation.goBack()}>
-      <ScrollView className="mt-16 p-4">
+      <View className="flex-1 mt-16 p-4">
         <MyInvitations />
-      </ScrollView>
+      </View>
     </EmptyLayout>
   );
 };

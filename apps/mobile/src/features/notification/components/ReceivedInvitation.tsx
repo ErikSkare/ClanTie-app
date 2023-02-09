@@ -62,10 +62,7 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
   const timeAgo = new TimeAgo("hu");
 
   return (
-    <View
-      className={`border-t-2 border-slate-600 py-4 ${containerClassName}`}
-      {...props}
-    >
+    <View className={`border-slate-600 py-4 ${containerClassName}`} {...props}>
       <Text
         className="text-slate-200 text-base"
         style={{fontFamily: "Roboto_700Bold"}}

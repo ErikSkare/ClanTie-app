@@ -8,7 +8,8 @@ interface MyClansProps extends ViewProps {
 }
 
 const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
-  const {data, isLoading, isError, isRefetching} = trpc.clan.getAll.useQuery();
+  const {data, isLoading, isError, isRefetching, refetch} =
+    trpc.clan.getAll.useQuery();
 
   if (isLoading)
     return (
@@ -29,7 +30,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
         {...props}
       >
         <Text
-          className="text-lg text-white"
+          className="text-base text-white"
           style={{fontFamily: "Roboto_500Medium"}}
         >
           Még nincsenek klánjaid!
@@ -42,10 +43,17 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
       className={`flex items-center justify-center ${containerClassName}`}
       {...props}
     >
-      {isRefetching && (
-        <ActivityIndicator color="white" size="large" className="my-4" />
-      )}
       <FlatList
+        ListEmptyComponent={() => (
+          <Text
+            className="text-base text-white"
+            style={{fontFamily: "Roboto_500Medium"}}
+          >
+            Nem vagy tagja egy klánnak sem!
+          </Text>
+        )}
+        refreshing={isRefetching}
+        onRefresh={() => refetch()}
         data={data}
         className="w-full"
         renderItem={(clan) => (
