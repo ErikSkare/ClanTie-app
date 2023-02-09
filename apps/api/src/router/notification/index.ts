@@ -10,6 +10,9 @@ const notificationRouter = router({
         fromUser: true,
         clan: {select: {name: true, id: true}},
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
   }),
 });
