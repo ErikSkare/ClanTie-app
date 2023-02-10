@@ -9,13 +9,24 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
+import useSubscription from "@/ws/useSubscription";
 
 const NotificationBell: React.FC<TouchableOpacityProps> = ({...props}) => {
+  const utils = trpc.useContext();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<MainStackParamList>>();
 
   const {data, isLoading, isError} =
     trpc.notification.getReceivedInvitations.useQuery();
+
+  useSubscription("newInvitation", (data) => {
+    utils.notification.getReceivedInvitations.setData(undefined, (old) =>
+      old
+        ? [...old, {...data, createdAt: new Date(data.createdAt)}]
+        : [{...data, createdAt: new Date(data.createdAt)}]
+    );
+  });
 
   if (isError) return null;
 

@@ -6,19 +6,20 @@
   "main": "index.ts",
   "author": "Erik Skare",
   "scripts": {
-    "dev": "nodemon ./src/fastifyApp.ts"
+    "dev": "nodemon ./src/expressApp.ts"
   },
   "dependencies": {
-    "@fastify/cors": "^8.2.0",
     "@prisma/client": "^4.9.0",
     "@trpc/server": "^10.9.0",
+    "@types/socket.io": "^3.0.2",
     "aws-sdk": "^2.1309.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
-    "fastify": "^4.13.0",
     "jsonwebtoken": "^9.0.0",
+    "long-timeout": "^0.1.1",
+    "socket.io": "^4.6.0",
     "superjson": "^1.12.2",
     "timekeeper": "^2.2.0",
     "zod": "^3.20.2"
@@ -30,6 +31,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.16",
     "@types/jsonwebtoken": "^9.0.1",
+    "@types/long-timeout": "^0.1.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.1.2"

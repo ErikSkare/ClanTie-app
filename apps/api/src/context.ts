@@ -1,6 +1,5 @@
 import {PrismaClient} from "@prisma/client";
 import {CreateExpressContextOptions} from "@trpc/server/adapters/express";
-import {CreateFastifyContextOptions} from "@trpc/server/adapters/fastify";
 import jwt from "jsonwebtoken";
 import Tokens from "./router/auth/tokens";
 
@@ -10,9 +9,7 @@ export interface UserIdPayload extends jwt.JwtPayload {
   userId: number;
 }
 
-export async function createContext({
-  req,
-}: CreateFastifyContextOptions | CreateExpressContextOptions) {
+export async function createContext({req}: CreateExpressContextOptions) {
   const session = Tokens.getUserId(
     req.headers.authorization?.split(" ")[1],
     process.env.ACCESS_SECRET as string

@@ -6,6 +6,7 @@ import {TRPCError} from "@trpc/server";
 import {ValidationError} from "@/router/errors";
 import ClanMembers from "./clanMembers";
 import {isUniqueConstraintViolation} from "../utils";
+import {io} from "../../expressApp";
 
 const clanRouter = router({
   create: protectedProcedure
@@ -71,13 +72,18 @@ const clanRouter = router({
         });
 
       try {
-        await ctx.prisma.invitation.create({
+        const newInv = await ctx.prisma.invitation.create({
           data: {
             clanId: input.clanId,
             fromUserId: ctx.session,
             toUserId: toUser.id,
           },
+          include: {
+            fromUser: {select: {id: true, firstName: true, lastName: true}},
+            clan: {select: {name: true, id: true}},
+          },
         });
+        io.to(`user-${newInv.toUserId}`).emit("newInvitation", newInv);
       } catch (error) {
         if (error instanceof Prisma.PrismaClientKnownRequestError) {
           if (
