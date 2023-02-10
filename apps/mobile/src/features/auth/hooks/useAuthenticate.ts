@@ -7,9 +7,5 @@ export default function useAuthenticate() {
     (state) => state.accessToken !== "" && state.refreshToken !== ""
   );
 
-  const load = useTokenStore((state) => state.load);
-
-  if (isLoading) load();
-
   return {isAuthed, isLoading};
 }

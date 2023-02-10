@@ -1,5 +1,9 @@
+import type {AppRouter} from "@clantie/api";
 import {useState} from "react";
+import Toast from "react-native-toast-message";
+import superjson from "superjson";
 import Constants from "expo-constants";
+import * as SecureStore from "expo-secure-store";
 import {createTRPCReact} from "@trpc/react-query";
 import {httpLink} from "@trpc/client";
 import {
@@ -7,43 +11,14 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import * as SecureStore from "expo-secure-store";
-import type {AppRouter} from "@clantie/api";
-import jwtDecode, {JwtPayload} from "jwt-decode";
-import useTokenStore from "@/features/auth/stores/useTokenStore";
-import superjson from "superjson";
-import Toast from "react-native-toast-message";
+import useRefreshToken from "@/features/auth/hooks/useRefreshToken";
 
 export const trpc = createTRPCReact<AppRouter>();
-
-async function useRefreshToken() {
-  const refreshToken = await SecureStore.getItemAsync("refreshToken");
-  if (!refreshToken) return null;
-
-  const refreshResponse = await fetch(
-    `http://${Constants.manifest?.extra?.apiUrl}/refresh`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({refreshToken}),
-    }
-  );
-
-  if (!refreshResponse.ok) return null;
-
-  return (await refreshResponse.json()) as {
-    accessToken: string;
-    refreshToken: string;
-  };
-}
 
 export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
   children,
 }) => {
-  const logout = useTokenStore((state) => state.logout);
-  const authenticate = useTokenStore((state) => state.authenticate);
+  const tryRefresh = useRefreshToken();
 
   const [queryClient] = useState(
     () =>
@@ -75,24 +50,9 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
         httpLink({
           url: `http://${Constants.manifest?.extra?.apiUrl}/trpc`,
           fetch: async (url, options) => {
-            let accessToken = await SecureStore.getItemAsync("accessToken");
+            await tryRefresh();
 
-            if (accessToken) {
-              const decodedAccess = jwtDecode<JwtPayload>(accessToken);
-
-              const shouldRefresh =
-                decodedAccess &&
-                (decodedAccess.exp as number) - 10 <= Date.now() / 1000;
-
-              if (shouldRefresh) {
-                const result = await useRefreshToken();
-                if (!result) await logout();
-                else {
-                  accessToken = result.accessToken;
-                  await authenticate(result.accessToken, result.refreshToken);
-                }
-              }
-            }
+            const accessToken = await SecureStore.getItemAsync("accessToken");
 
             return fetch(url, {
               ...options,

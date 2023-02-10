@@ -1,9 +1,10 @@
+import {useEffect} from "react";
 import {ErrorBoundary} from "react-error-boundary";
-import {TRPCProvider} from "@/lib/trpc";
-import {QueryErrorResetBoundary} from "@tanstack/react-query";
 import Toast from "react-native-toast-message";
 import TimeAgo from "javascript-time-ago";
 import hu from "javascript-time-ago/locale/hu";
+import {QueryErrorResetBoundary} from "@tanstack/react-query";
+import {TRPCProvider} from "@/lib/trpc";
 import {
   useFonts,
   Roboto_100Thin,
@@ -21,7 +22,8 @@ import {
 } from "@expo-google-fonts/roboto";
 import SplashScreen from "@/components/SplashScreen";
 import Navigator from "@/navigation/Navigator";
-import UnknownErrorScreen from "./components/UnknownErrorScreen";
+import UnknownErrorScreen from "@/components/UnknownErrorScreen";
+import {useRefreshToken} from "@/features/auth";
 
 TimeAgo.addDefaultLocale(hu);
 
@@ -40,6 +42,12 @@ export default function App() {
     Roboto_900Black,
     Roboto_900Black_Italic,
   });
+
+  const tryRefresh = useRefreshToken();
+
+  useEffect(() => {
+    tryRefresh();
+  }, []);
 
   if (!fontsLoaded) return <SplashScreen />;
 
