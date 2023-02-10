@@ -2,7 +2,6 @@
 require("dotenv").config();
 import fastify from "fastify";
 import cors from "@fastify/cors";
-import ws from "@fastify/websocket";
 import {fastifyTRPCPlugin} from "@trpc/server/adapters/fastify";
 import appRouter from "@/router";
 import {createContext} from "@/context";
@@ -16,11 +15,9 @@ const server = fastify({
 });
 
 server.register(cors);
-server.register(ws);
 
 server.register(fastifyTRPCPlugin, {
   prefix: "/trpc",
-  useWSS: true,
   trpcOptions: {router: appRouter, createContext},
 });
 

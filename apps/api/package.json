@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@fastify/cors": "^8.2.0",
-    "@fastify/websocket": "^7.1.2",
     "@prisma/client": "^4.9.0",
     "@trpc/server": "^10.9.0",
     "aws-sdk": "^2.1309.0",
