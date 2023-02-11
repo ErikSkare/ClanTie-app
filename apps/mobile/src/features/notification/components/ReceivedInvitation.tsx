@@ -1,10 +1,10 @@
 import {View, Text, ViewProps} from "react-native";
-import TimeAgo from "javascript-time-ago";
 import {trpc} from "@/lib/trpc";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
 import Button from "@/components/Button";
+import TimeAgo from "@/components/TimeAgo";
 
 interface ReceivedInvitationProps extends ViewProps {
   from: {
@@ -59,8 +59,6 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
     },
   });
 
-  const timeAgo = new TimeAgo("hu");
-
   return (
     <View className={`border-slate-600 py-4 ${containerClassName}`} {...props}>
       <Text
@@ -78,12 +76,11 @@ const ReceivedInvitation: React.FC<ReceivedInvitationProps> = ({
           elnevezésű klánba!
         </Text>
       </Text>
-      <Text
+      <TimeAgo
+        date={when}
         className="text-slate-200 text-xs mb-6"
         style={{fontFamily: "Roboto_400Regular"}}
-      >
-        {timeAgo.format(when)}
-      </Text>
+      />
       <View className="flex flex-row gap-6">
         <Button
           content="Elfogadás"
