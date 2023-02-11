@@ -7,7 +7,7 @@ const notificationRouter = router({
         toUserId: ctx.session,
       },
       include: {
-        fromUser: true,
+        fromUser: {select: {id: true, firstName: true, lastName: true}},
         clan: {select: {name: true, id: true}},
       },
       orderBy: {

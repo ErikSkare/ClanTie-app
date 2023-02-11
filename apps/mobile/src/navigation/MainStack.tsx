@@ -6,7 +6,7 @@ import {
   AcceptInvitationScreen,
 } from "@/features/clan/";
 import {NotificationsScreen} from "@/features/notification";
-import WebSocketProvider from "@/ws/WebSocketProvider";
+import {WebSocketProvider} from "@/features/ws";
 
 export type MainStackParamList = {
   Feed: undefined;

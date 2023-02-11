@@ -9,7 +9,7 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
-import useSubscription from "@/ws/useSubscription";
+import {useSubscription} from "@/features/ws";
 
 const NotificationBell: React.FC<TouchableOpacityProps> = ({...props}) => {
   const utils = trpc.useContext();
