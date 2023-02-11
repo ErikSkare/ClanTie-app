@@ -1,23 +1,9 @@
 import {router, protectedProcedure} from "@/trpc";
-import ClanMembers from "../clan/clanMembers";
+import MeWithMembershipsUseCase from "./use-cases/meWithMemberships";
 
-const userRouter = router({
-  meWithMemberships: protectedProcedure.query(async ({ctx}) => {
-    const user = await ctx.prisma.user.findUniqueOrThrow({
-      where: {
-        id: ctx.session,
-      },
-      include: {
-        memberships: true,
-      },
-    });
-
-    const clanMembersService = ClanMembers(ctx.prisma);
-    return {
-      ...user,
-      memberships: clanMembersService.populateAvatarUrls(user.memberships),
-    };
-  }),
+// Trpc
+export default router({
+  meWithMemberships: protectedProcedure.query(async ({ctx}) =>
+    MeWithMembershipsUseCase(ctx.prisma, ctx.session)
+  ),
 });
-
-export default userRouter;

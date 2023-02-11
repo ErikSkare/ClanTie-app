@@ -28,7 +28,7 @@ const InviteForm: React.FC<InviteFormProps> = ({clanId, ...props}) => {
         setFieldErrors(formik.setFieldError, error.data.fieldErrors);
       setContent("Mehet");
     },
-    onSuccess: (data) => setContent(data.message),
+    onSuccess: () => setContent("Sikeres meghívás!"),
   });
 
   const formik = useFormik({

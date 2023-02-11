@@ -1,19 +1,11 @@
 import {PrismaClient} from "@prisma/client";
 import {CreateExpressContextOptions} from "@trpc/server/adapters/express";
-import jwt from "jsonwebtoken";
-import Tokens from "./router/auth/tokens";
+import AccessUseCase from "./router/auth/use-cases/access";
 
 export const prisma = new PrismaClient();
 
-export interface UserIdPayload extends jwt.JwtPayload {
-  userId: number;
-}
-
 export async function createContext({req}: CreateExpressContextOptions) {
-  const session = Tokens.getUserId(
-    req.headers.authorization?.split(" ")[1],
-    process.env.ACCESS_SECRET as string
-  );
+  const session = AccessUseCase(req.headers.authorization?.split(" ")[1]);
   return {
     prisma,
     session,

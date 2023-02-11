@@ -1,20 +1,9 @@
 import {router, protectedProcedure} from "@/trpc";
+import getReceivedInvitationsUseCase from "./use-cases/getReceivedInvitations";
 
-const notificationRouter = router({
+// Trpc
+export default router({
   getReceivedInvitations: protectedProcedure.query(async ({ctx}) => {
-    return await ctx.prisma.invitation.findMany({
-      where: {
-        toUserId: ctx.session,
-      },
-      include: {
-        fromUser: {select: {id: true, firstName: true, lastName: true}},
-        clan: {select: {name: true, id: true}},
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+    return await getReceivedInvitationsUseCase(ctx.prisma, ctx.session);
   }),
 });
-
-export default notificationRouter;

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
-const ACCESS_TOKEN_EXPIRATION = "30m";
-const REFRESH_TOKEN_EXPIRATION = "7d";
+const ACCESS_TOKEN_EXPIRATION = "5m";
+const REFRESH_TOKEN_EXPIRATION = "1d";
 
 interface UserIdPayload extends jwt.JwtPayload {
   userId: number;
@@ -30,16 +30,17 @@ export default Object.freeze({
   },
 
   getUserId(token: string | undefined, secret: string) {
-    if (!token) return null;
+    if (!token) return undefined;
     try {
       const {userId} = <UserIdPayload>jwt.verify(token, secret);
       return userId;
     } catch {
-      return null;
+      return undefined;
     }
   },
 
   getAccessExpirationInMs() {
-    return 1000 * 60 * 30;
+    // 1 minute
+    return 1000 * 15;
   },
 });

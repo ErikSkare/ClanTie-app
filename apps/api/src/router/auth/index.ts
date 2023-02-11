@@ -1,70 +1,71 @@
+import {Express} from "express";
+import timer from "long-timeout";
 import {router, publicProcedure} from "@/trpc";
-import {TRPCError} from "@trpc/server";
-import {Prisma} from "@prisma/client";
-import {z} from "zod";
-import {isUniqueConstraintViolation} from "@/router/utils";
-import {ValidationError} from "@/router/errors";
+import {IoType} from "@/io";
 import Tokens from "./tokens";
-import Passwords from "./passwords";
+import RegisterUseCase, {RegisterSchema} from "./use-cases/register";
+import LoginUseCase, {LoginSchema} from "./use-cases/login";
+import AccessUseCase from "./use-cases/access";
+import RefreshUseCase from "./use-cases/refresh";
 
-const authRouter = router({
+// Trpc
+export default router({
   register: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        firstName: z.string(),
-        lastName: z.string(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({input, ctx}) => {
-      try {
-        const user = await ctx.prisma.user.create({
-          data: {
-            email: input.email.toLowerCase(),
-            firstName: input.firstName,
-            lastName: input.lastName,
-            password: await Passwords.hash(input.password),
-          },
-        });
-
-        return Tokens.generate(user.id);
-      } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError) {
-          if (isUniqueConstraintViolation(error, ["email"])) {
-            throw new TRPCError({
-              code: "BAD_REQUEST",
-              cause: new ValidationError({
-                email: ["A cím már regisztrálva van!"],
-              }),
-            });
-          }
-        }
-      }
-    }),
+    .input(RegisterSchema)
+    .mutation(async ({input, ctx}) => RegisterUseCase(ctx.prisma, input)),
   login: publicProcedure
-    .input(
-      z.object({
-        email: z.string().email(),
-        password: z.string(),
-      })
-    )
-    .mutation(async ({input, ctx}) => {
-      const user = await ctx.prisma.user.findUnique({
-        where: {email: input.email.toLowerCase()},
-      });
-      if (!user)
-        throw new TRPCError({code: "BAD_REQUEST", message: "Hibás adatok!"});
-
-      const isPasswordsMatching = await Passwords.verify(
-        input.password,
-        user.password
-      );
-      if (!isPasswordsMatching)
-        throw new TRPCError({code: "BAD_REQUEST", message: "Hibás adatok!"});
-
-      return Tokens.generate(user.id);
-    }),
+    .input(LoginSchema)
+    .mutation(async ({input, ctx}) => LoginUseCase(ctx.prisma, input)),
 });
 
-export default authRouter;
+// Express
+export function setupAuthRoutes(app: Express) {
+  app.post("/refresh", async (req, res) => {
+    const result = RefreshUseCase(req.body.refreshToken);
+    if (!result) return res.sendStatus(400);
+    return res.status(200).json(result);
+  });
+}
+
+// Socket.io
+export function setupAuthIo(io: IoType) {
+  type Tokens = {
+    accessToken: string;
+    refreshToken: string;
+  };
+
+  io.use((socket, next) => {
+    let tokens: Tokens | undefined = {
+      accessToken: socket.handshake.auth.accessToken,
+      refreshToken: socket.handshake.auth.refreshToken,
+    };
+
+    let userId = AccessUseCase(tokens.accessToken);
+    if (!userId) {
+      tokens = RefreshUseCase(tokens.refreshToken);
+      if (!tokens) return next(new Error("Authentication failed!"));
+      socket.emit("newTokens", tokens);
+      userId = AccessUseCase(tokens.accessToken);
+    }
+
+    socket.data.userId = userId;
+    socket.data.refreshToken = tokens.refreshToken;
+
+    return next();
+  });
+  io.on("connection", (socket) => {
+    socket.join(`user-${socket.data.userId}`);
+
+    const interval = timer.setInterval(() => {
+      const result = RefreshUseCase(socket.data.refreshToken);
+      if (!result) {
+        socket.emit("tokensExpired");
+        return socket.disconnect(true);
+      }
+      socket.emit("newTokens", result);
+      socket.data.refreshToken = result.refreshToken;
+    }, Tokens.getAccessExpirationInMs());
+
+    socket.on("disconnect", () => timer.clearInterval(interval));
+  });
+}

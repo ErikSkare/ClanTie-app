@@ -5,7 +5,7 @@ import {io, Socket} from "socket.io-client";
 import {ClientToServerEvents, ServerToClientEvents} from "@clantie/api";
 import {trpc} from "@/lib/trpc";
 import SplashScreen from "@/components/SplashScreen";
-import {useAuthenticate, useRefreshToken, useTokenStore} from "@/features/auth";
+import {useAuthenticate, useTokenStore} from "@/features/auth";
 
 type S = Socket<ServerToClientEvents, ClientToServerEvents> | null;
 
@@ -18,39 +18,41 @@ export const WebSocketContext = createContext<{
 const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
   const utils = trpc.useContext();
 
-  const {isAuthed} = useAuthenticate();
-
   const authenticate = useTokenStore((state) => state.authenticate);
-  const tryRefresh = useRefreshToken();
+  const logout = useTokenStore((state) => state.logout);
 
+  const {isAuthed} = useAuthenticate();
   const [socket, setSocket] = useState<S>(null);
   const [isReconnecting, setIsReconnecting] = useState(false);
 
   useEffect(() => {
     if (!isAuthed) return;
-    tryRefresh();
 
     const {accessToken, refreshToken} = useTokenStore.getState();
 
-    const s: S = io(`ws://${Constants.manifest?.extra?.apiUrl}`, {
+    const newSocket: S = io(`ws://${Constants.manifest?.extra?.apiUrl}`, {
       auth: {accessToken, refreshToken},
     });
 
-    s.on("newTokens", ({accessToken, refreshToken}) => {
+    newSocket.on("newTokens", ({accessToken, refreshToken}) => {
       authenticate(accessToken, refreshToken);
-    })
-      .on("disconnect", () => {
-        setIsReconnecting(true);
-      })
-      .on("connect", () => {
-        utils.invalidate();
-        setIsReconnecting(false);
-      });
+    });
+    newSocket.on("tokensExpired", () => logout());
+    newSocket.on("connect_error", (error) => {
+      if (error.message === "Authentication failed!") logout();
+    });
+    newSocket.on("disconnect", () => {
+      setIsReconnecting(true);
+    });
+    newSocket.on("connect", () => {
+      utils.invalidate();
+      setIsReconnecting(false);
+    });
 
-    setSocket(s);
+    setSocket(newSocket);
 
     return () => {
-      s.disconnect();
+      newSocket.disconnect();
       setSocket(null);
     };
   }, [isAuthed]);
