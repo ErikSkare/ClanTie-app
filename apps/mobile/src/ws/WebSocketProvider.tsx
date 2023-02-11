@@ -2,9 +2,10 @@ import {useEffect, createContext, useState} from "react";
 import {Text, View, ViewProps} from "react-native";
 import Constants from "expo-constants";
 import {io, Socket} from "socket.io-client";
+import {ClientToServerEvents, ServerToClientEvents} from "@clantie/api";
+import {trpc} from "@/lib/trpc";
 import SplashScreen from "@/components/SplashScreen";
 import {useAuthenticate, useRefreshToken, useTokenStore} from "@/features/auth";
-import {ClientToServerEvents, ServerToClientEvents} from "@clantie/api";
 
 type S = Socket<ServerToClientEvents, ClientToServerEvents> | null;
 
@@ -15,6 +16,8 @@ export const WebSocketContext = createContext<{
 });
 
 const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
+  const utils = trpc.useContext();
+
   const {isAuthed} = useAuthenticate();
 
   const authenticate = useTokenStore((state) => state.authenticate);
@@ -36,7 +39,10 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
     s.on("newTokens", ({accessToken, refreshToken}) => {
       authenticate(accessToken, refreshToken);
     })
-      .on("disconnect", () => setIsReconnecting(true))
+      .on("disconnect", () => {
+        utils.invalidate();
+        setIsReconnecting(true);
+      })
       .on("connect", () => setIsReconnecting(false));
 
     setSocket(s);
