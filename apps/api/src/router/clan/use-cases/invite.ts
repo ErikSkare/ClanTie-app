@@ -58,7 +58,4 @@ export default async function InviteUseCase(
         });
     }
   }
-  return {
-    message: "Meghívás elküldve",
-  };
 }

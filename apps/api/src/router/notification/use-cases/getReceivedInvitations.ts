@@ -1,6 +1,6 @@
 import {PrismaClient} from "@prisma/client";
 
-export default async function getReceivedInvitations(
+export default async function getReceivedInvitationsUseCase(
   prisma: PrismaClient,
   session: number
 ) {

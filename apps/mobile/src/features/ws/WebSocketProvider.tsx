@@ -34,13 +34,18 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
       auth: {accessToken, refreshToken},
     });
 
+    // New tokens
     newSocket.on("newTokens", ({accessToken, refreshToken}) => {
       authenticate(accessToken, refreshToken);
     });
+
+    // Invalid tokens
     newSocket.on("tokensExpired", () => logout());
     newSocket.on("connect_error", (error) => {
       if (error.message === "Authentication failed!") logout();
     });
+
+    // Reconnecting
     newSocket.on("disconnect", () => {
       setIsReconnecting(true);
     });
