@@ -70,7 +70,7 @@ io.use((socket, next) => {
   // eslint-disable-next-line
   socket.join(`user-${socket.data.userId}`);
 
-  timer.setInterval(() => {
+  const interval = timer.setInterval(() => {
     const refreshToken = socket.data.refreshToken;
     const userId = Tokens.getUserId(
       refreshToken,
@@ -82,6 +82,8 @@ io.use((socket, next) => {
     socket.emit("newTokens", newTokens);
     socket.data.refreshToken = newTokens.refreshToken;
   }, Tokens.getAccessExpirationInMs());
+
+  socket.on("disconnect", () => timer.clearInterval(interval));
 });
 
 // -----

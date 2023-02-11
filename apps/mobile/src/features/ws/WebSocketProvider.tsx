@@ -40,10 +40,12 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
       authenticate(accessToken, refreshToken);
     })
       .on("disconnect", () => {
-        utils.invalidate();
         setIsReconnecting(true);
       })
-      .on("connect", () => setIsReconnecting(false));
+      .on("connect", () => {
+        utils.invalidate();
+        setIsReconnecting(false);
+      });
 
     setSocket(s);
 
