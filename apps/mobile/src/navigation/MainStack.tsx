@@ -7,6 +7,7 @@ import {
 } from "@/features/clan/";
 import {NotificationsScreen} from "@/features/notification";
 import {WebSocketProvider} from "@/features/ws";
+import ClanTab from "./ClanTab";
 
 export type MainStackParamList = {
   Feed: undefined;
@@ -15,6 +16,7 @@ export type MainStackParamList = {
   AcceptInvitation: {fromId: number; clanId: number};
   Settings: undefined;
   Notifications: undefined;
+  Clan: {clanId: number};
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -50,6 +52,11 @@ const MainStack = () => {
           name="AcceptInvitation"
           component={AcceptInvitationScreen}
           options={{animation: "slide_from_bottom"}}
+        />
+        <Stack.Screen
+          name="Clan"
+          component={ClanTab}
+          options={{animation: "fade_from_bottom"}}
         />
       </Stack.Navigator>
     </WebSocketProvider>

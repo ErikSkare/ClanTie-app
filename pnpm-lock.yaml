@@ -75,6 +75,7 @@ importers:
       '@babel/runtime': ^7.20.13
       '@clantie/api': workspace:^1.0.0
       '@expo-google-fonts/roboto': ^0.2.2
+      '@react-navigation/bottom-tabs': ^6.5.4
       '@react-navigation/native': ^6.1.3
       '@react-navigation/native-stack': ^6.9.9
       '@tanstack/react-query': ^4.24.4
@@ -104,6 +105,7 @@ importers:
       react-native: 0.70.5
       react-native-safe-area-context: 4.4.1
       react-native-screens: ~3.18.0
+      react-native-shared-element: 0.8.4
       react-native-toast-message: ^2.1.5
       socket.io-client: ^4.6.0
       superjson: ^1.12.2
@@ -114,6 +116,7 @@ importers:
     dependencies:
       '@clantie/api': link:../api
       '@expo-google-fonts/roboto': 0.2.2
+      '@react-navigation/bottom-tabs': 6.5.4_n7nfmwp46ciroegwuwzxnskohy
       '@react-navigation/native': 6.1.3_tj3nonr5gneraukzjkxpsiy7yu
       '@react-navigation/native-stack': 6.9.9_n7nfmwp46ciroegwuwzxnskohy
       '@tanstack/react-query': 4.24.4_suzz47k3i7iqicv5jfa27th22e
@@ -138,6 +141,7 @@ importers:
       react-native: 0.70.5_lahc5xespok57ijioavxabv3he
       react-native-safe-area-context: 4.4.1_tj3nonr5gneraukzjkxpsiy7yu
       react-native-screens: 3.18.2_tj3nonr5gneraukzjkxpsiy7yu
+      react-native-shared-element: 0.8.4
       react-native-toast-message: 2.1.5_tj3nonr5gneraukzjkxpsiy7yu
       socket.io-client: 4.6.0
       superjson: 1.12.2
@@ -2272,6 +2276,25 @@ packages:
     resolution: {integrity: sha512-K0aGNn1TjalKj+65D7ycc1//H9roAQ51GJVk5ZJQFb2teECGmzd86bYDC0aYdbRf7gtovescq4Zt6FR0tgXiHQ==}
     dev: false
 
+  /@react-navigation/bottom-tabs/6.5.4_n7nfmwp46ciroegwuwzxnskohy:
+    resolution: {integrity: sha512-C2Tf+SsO9zc+p/MKUkILso8Dw4KTIscXPi7YhdepyZbM8ZYMGfnZKzffGjLFlLhQXtsFQQuHMelD8sIStTkgyQ==}
+    peerDependencies:
+      '@react-navigation/native': ^6.0.0
+      react: '*'
+      react-native: '*'
+      react-native-safe-area-context: '>= 3.0.0'
+      react-native-screens: '>= 3.0.0'
+    dependencies:
+      '@react-navigation/elements': 1.3.14_w2cizg437d66bc7wzdfp5thmbu
+      '@react-navigation/native': 6.1.3_tj3nonr5gneraukzjkxpsiy7yu
+      color: 4.2.3
+      react: 18.1.0
+      react-native: 0.70.5_lahc5xespok57ijioavxabv3he
+      react-native-safe-area-context: 4.4.1_tj3nonr5gneraukzjkxpsiy7yu
+      react-native-screens: 3.18.2_tj3nonr5gneraukzjkxpsiy7yu
+      warn-once: 0.1.1
+    dev: false
+
   /@react-navigation/core/6.4.6_react@18.1.0:
     resolution: {integrity: sha512-6zaAgUT5k4vhJlddUk2l52RZyMkMelHdrRv1cL57ALi2RZzERdgmbiMKhJerxFLn9S8E3PUe8vwxHzjHOZKG4w==}
     peerDependencies:
@@ -3608,9 +3631,24 @@ packages:
   /color-name/1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
 
+  /color-string/1.9.1:
+    resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
+    dependencies:
+      color-name: 1.1.4
+      simple-swizzle: 0.2.2
+    dev: false
+
   /color-support/1.1.3:
     resolution: {integrity: sha512-qiBjkpbMLO/HL68y+lh4q0/O1MZFj2RX6X/KmMa3+gJD3z+WwI1ZzDHysvqHGS3mP6mznPckpXmw1nI9cJjyRg==}
     hasBin: true
+    dev: false
+
+  /color/4.2.3:
+    resolution: {integrity: sha512-1rXeuUUiGGrykh+CeBdu5Ie7OJwinCgQY0bc7GCRxy5xVHy+moaqkpL/jqQq0MtQOeYcrqEz4abc5f0KtU7W4A==}
+    engines: {node: '>=12.5.0'}
+    dependencies:
+      color-convert: 2.0.1
+      color-string: 1.9.1
     dev: false
 
   /colorette/1.4.0:
@@ -5288,6 +5326,10 @@ packages:
 
   /is-arrayish/0.2.1:
     resolution: {integrity: sha512-zz06S8t0ozoDXMG+ube26zeCTNXcKIPJZJi8hBrF4idCLms4CG9QtK7qBl1boi5ODzFpjswb5JPmHCbMpjaYzg==}
+    dev: false
+
+  /is-arrayish/0.3.2:
+    resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
     dev: false
 
   /is-binary-path/2.1.0:
@@ -7322,6 +7364,10 @@ packages:
       warn-once: 0.1.1
     dev: false
 
+  /react-native-shared-element/0.8.4:
+    resolution: {integrity: sha512-agRuD5AB4daw4QLo7KCTBqCtmIjbQkqpwsT/aYrxDu/McvTCdDuXVttaVMrqeyAgdDkU1egp41FdiExS1L/hJw==}
+    dev: false
+
   /react-native-toast-message/2.1.5_tj3nonr5gneraukzjkxpsiy7yu:
     resolution: {integrity: sha512-mk3rELtBEhrhWBCN6CTaw0gypgL9ZNauX3xx1LUs4uee9vc0pVsghrKxO57vroUCcNL2hDeZSLJWdQNMCkGeaQ==}
     peerDependencies:
@@ -7838,6 +7884,12 @@ packages:
       bplist-creator: 0.1.0
       bplist-parser: 0.3.1
       plist: 3.0.6
+    dev: false
+
+  /simple-swizzle/0.2.2:
+    resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
+    dependencies:
+      is-arrayish: 0.3.2
     dev: false
 
   /simple-update-notifier/1.1.0:

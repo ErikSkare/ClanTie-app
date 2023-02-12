@@ -13,7 +13,7 @@ import {
   AntDesign,
   Feather,
 } from "@expo/vector-icons";
-import Button from "./Button";
+import Button from "../../../components/Button";
 
 interface CameraProps extends ExpoCameraProps {
   onPermissionDenied?: () => Promise<void>;

@@ -5,19 +5,21 @@ interface EmptyLayoutProps extends ViewProps {
   withCloseButton?: boolean;
   withSlideBackButton?: boolean;
   goBack?: () => void;
+  backgroundClassName?: string;
 }
 
 const EmptyLayout: React.FC<EmptyLayoutProps> = ({
   withCloseButton = false,
   withSlideBackButton = false,
   goBack = () => undefined,
+  backgroundClassName = "bg-slate-700",
   children,
   className = "",
   ...props
 }) => {
   return (
     <View
-      className={`flex-1 bg-slate-700 height-screen ${className}`}
+      className={`flex-1 height-screen ${backgroundClassName} ${className}`}
       {...props}
     >
       {withCloseButton && (

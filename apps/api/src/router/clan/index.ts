@@ -9,6 +9,7 @@ import DeclineInvitationUseCase, {
 import AcceptInvitationUseCase, {
   AcceptInvitationSchema,
 } from "./use-cases/acceptInvitation";
+import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
 
 // Trpc
 export default router({
@@ -20,6 +21,11 @@ export default router({
   getAll: protectedProcedure.query(async ({ctx}) =>
     GetAllClansUseCase(ctx.prisma, ctx.session)
   ),
+  getById: protectedProcedure
+    .input(GetByIdSchema)
+    .query(async ({ctx, input}) =>
+      getByIdUseCase(ctx.prisma, ctx.session, input)
+    ),
   invite: protectedProcedure
     .input(InviteSchema)
     .mutation(async ({input, ctx}) =>

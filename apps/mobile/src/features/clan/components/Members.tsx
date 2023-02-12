@@ -8,16 +8,25 @@ export type MemberData = {
 interface MembersProps {
   data: MemberData[];
   containerClassName?: string;
+  avatarSize?: "big" | "small";
 }
 
-const Members: React.FC<MembersProps> = ({data, containerClassName = ""}) => {
+const Members: React.FC<MembersProps> = ({
+  data,
+  containerClassName = "",
+  avatarSize,
+}) => {
   return (
     <FlatList
       className={containerClassName}
       data={data}
       horizontal={true}
       renderItem={(info) => (
-        <Avatar imageUrl={info.item.avatarUrl} className="px-2" />
+        <Avatar
+          imageUrl={info.item.avatarUrl}
+          className="px-2"
+          size={avatarSize}
+        />
       )}
       showsHorizontalScrollIndicator={false}
     />

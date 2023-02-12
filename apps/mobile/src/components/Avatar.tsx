@@ -16,8 +16,8 @@ const Avatar: React.FC<AvatarProps> = ({
   className = "",
   ...props
 }) => {
-  const sizeClassName = size == "small" ? "w-10" : "w-20";
-  const activeSizeClassName = size == "small" ? "w-[14px]" : "w-[20px]";
+  const sizeClassName = size == "small" ? "w-10" : "w-14";
+  const activeSizeClassName = size == "small" ? "w-[12px]" : "w-[14px]";
 
   return (
     <View {...props}>
