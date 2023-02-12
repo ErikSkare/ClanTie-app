@@ -40,7 +40,6 @@
     "react-native": "0.70.5",
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
-    "react-native-shared-element": "0.8.4",
     "react-native-toast-message": "^2.1.5",
     "socket.io-client": "^4.6.0",
     "superjson": "^1.12.2",
