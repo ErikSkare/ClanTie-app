@@ -20,11 +20,9 @@ const NotificationBell: React.FC<TouchableOpacityProps> = ({...props}) => {
   const {data, isLoading, isError} =
     trpc.notification.getReceivedInvitations.useQuery();
 
-  useSubscription("newInvitation", (data) => {
+  useSubscription("notification:new", (data) => {
     utils.notification.getReceivedInvitations.setData(undefined, (old) =>
-      old
-        ? [...old, {...data, createdAt: new Date(data.createdAt)}]
-        : [{...data, createdAt: new Date(data.createdAt)}]
+      old ? [...old, data] : [data]
     );
   });
 

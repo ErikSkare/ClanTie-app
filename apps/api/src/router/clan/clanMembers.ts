@@ -7,14 +7,14 @@ type withAvatarUrl<General> = General & {
 
 export default function ClanMembers(prisma: PrismaClient) {
   return Object.assign(prisma.clanMember, {
-    populateAvatarUrl(data: ClanMember): withAvatarUrl<ClanMember> {
+    populateAvatarUrl<T extends ClanMember>(data: T): withAvatarUrl<T> {
       const url = retrieveImage(data.avatarKey);
       return {
         ...data,
         avatarUrl: url,
       };
     },
-    populateAvatarUrls(data: ClanMember[]) {
+    populateAvatarUrls<T extends ClanMember>(data: T[]) {
       const clanMembersService = ClanMembers(prisma);
       return data.map((current) =>
         clanMembersService.populateAvatarUrl(current)

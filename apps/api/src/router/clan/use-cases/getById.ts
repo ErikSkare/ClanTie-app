@@ -14,7 +14,7 @@ export default async function getByIdUseCase(
 ) {
   const clan = await prisma.clan.findUnique({
     where: {id: input.clanId},
-    include: {members: true},
+    include: {members: {include: {user: true}}},
   });
 
   // Cannot find

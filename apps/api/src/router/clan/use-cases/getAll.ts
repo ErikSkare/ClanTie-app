@@ -10,7 +10,7 @@ export default async function GetAllClansUseCase(
     where: {
       members: {some: {userId: session}},
     },
-    include: {members: true},
+    include: {members: {include: {user: true}}},
   });
   return clans.map((clan) => {
     return {

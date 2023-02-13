@@ -44,7 +44,7 @@ export function setupAuthIo(io: IoType) {
     if (!userId) {
       tokens = RefreshUseCase(tokens.refreshToken);
       if (!tokens) return next(new Error("Authentication failed!"));
-      socket.emit("newTokens", tokens);
+      socket.emit("me:tokens", tokens);
       userId = AccessUseCase(tokens.accessToken);
     }
 
@@ -59,10 +59,10 @@ export function setupAuthIo(io: IoType) {
     const interval = timer.setInterval(() => {
       const result = RefreshUseCase(socket.data.refreshToken);
       if (!result) {
-        socket.emit("tokensExpired");
+        socket.emit("me:expired");
         return socket.disconnect(true);
       }
-      socket.emit("newTokens", result);
+      socket.emit("me:tokens", result);
       socket.data.refreshToken = result.refreshToken;
     }, Tokens.getAccessExpirationInMs());
 

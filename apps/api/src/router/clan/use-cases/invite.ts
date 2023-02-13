@@ -1,6 +1,6 @@
 import {z} from "zod";
 import {PrismaClient, Prisma} from "@prisma/client";
-import SocketIo from "socket.io";
+import {IoType} from "@/io";
 import {TRPCError} from "@trpc/server";
 import {ValidationError} from "@/router/errors";
 import {isUniqueConstraintViolation} from "@/router/utils";
@@ -12,7 +12,7 @@ export const InviteSchema = z.object({
 
 export default async function InviteUseCase(
   prisma: PrismaClient,
-  io: SocketIo.Server,
+  io: IoType,
   session: number,
   input: z.infer<typeof InviteSchema>
 ) {
@@ -46,7 +46,7 @@ export default async function InviteUseCase(
         clan: {select: {name: true, id: true}},
       },
     });
-    io.to(`user-${newInv.toUserId}`).emit("newInvitation", newInv);
+    io.to(`user-${newInv.toUserId}`).emit("notification:new", newInv);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (

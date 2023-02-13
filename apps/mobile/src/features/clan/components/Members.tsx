@@ -3,6 +3,9 @@ import Avatar from "@/components/Avatar";
 
 export type MemberData = {
   avatarUrl: string;
+  user?: {
+    isActive: boolean;
+  };
 };
 
 interface MembersProps {
@@ -19,13 +22,16 @@ const Members: React.FC<MembersProps> = ({
   return (
     <FlatList
       className={containerClassName}
-      data={data}
+      data={data.sort(
+        (x, y) => Number(y.user?.isActive ?? 0) - Number(x.user?.isActive ?? 0)
+      )}
       horizontal={true}
       renderItem={(info) => (
         <Avatar
           imageUrl={info.item.avatarUrl}
           className="px-2"
           size={avatarSize}
+          isActive={info.item.user?.isActive ?? false}
         />
       )}
       showsHorizontalScrollIndicator={false}

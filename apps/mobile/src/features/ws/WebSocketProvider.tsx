@@ -35,12 +35,12 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
     });
 
     // New tokens
-    newSocket.on("newTokens", ({accessToken, refreshToken}) => {
+    newSocket.on("me:tokens", ({accessToken, refreshToken}) => {
       authenticate(accessToken, refreshToken);
     });
 
     // Invalid tokens
-    newSocket.on("tokensExpired", () => logout());
+    newSocket.on("me:expired", () => logout());
     newSocket.on("connect_error", (error) => {
       if (error.message === "Authentication failed!") logout();
     });

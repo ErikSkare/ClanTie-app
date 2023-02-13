@@ -1,5 +1,6 @@
 import {router, protectedProcedure} from "@/trpc";
 import {io} from "../../expressApp";
+import {IoType} from "@/io";
 import CreateClanUseCase, {CreateClanSchema} from "./use-cases/create";
 import GetAllClansUseCase from "./use-cases/getAll";
 import InviteUseCase, {InviteSchema} from "./use-cases/invite";
@@ -42,3 +43,15 @@ export default router({
       AcceptInvitationUseCase(ctx.prisma, ctx.session, input)
     ),
 });
+
+// Socket.io
+export function setupClanIo(io: IoType) {
+  io.on("connection", (socket) => {
+    socket.on("clan:start", (clanId) => {
+      socket.join(`clan-${clanId}`);
+    });
+    socket.on("clan:stop", (clanId) => {
+      socket.leave(`clan-${clanId}`);
+    });
+  });
+}

@@ -8,6 +8,8 @@ import appRouter from "@/router";
 import {createContext} from "@/context";
 import createIo from "@/io";
 import {setupAuthIo, setupAuthRoutes} from "./router/auth";
+import {setupClanIo} from "./router/clan";
+import {setupUserIo} from "./router/user";
 
 const PORT = 3000;
 const app = express();
@@ -23,6 +25,8 @@ app.use(cors());
 
 setupAuthRoutes(app);
 setupAuthIo(io);
+setupClanIo(io);
+setupUserIo(io);
 
 httpServer.listen(PORT);
 

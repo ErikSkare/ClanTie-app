@@ -4,6 +4,8 @@ import {ClanTabParamList} from "@/navigation/ClanTab";
 import {trpc} from "@/lib/trpc";
 import EmptyLayout from "@/components/layouts/EmptyLayout";
 import {Members} from "@/features/clan";
+import useListenClan from "@/features/ws/useListenClan";
+import {useSubscription} from "@/features/ws";
 
 export type LocationScreenProps = BottomTabScreenProps<
   ClanTabParamList,
@@ -13,7 +15,38 @@ export type LocationScreenProps = BottomTabScreenProps<
 const LocationScreen: React.FC<LocationScreenProps> = ({navigation, route}) => {
   const clanId = route.params.clanId;
 
+  const utils = trpc.useContext();
   const {data, isLoading, isError} = trpc.clan.getById.useQuery({clanId});
+
+  useListenClan(clanId);
+
+  useSubscription("user:online", (userId) => {
+    utils.clan.getById.setData({clanId}, (old) => {
+      if (!old) return old;
+      return {
+        ...old,
+        members: old.members.map((member) => {
+          return member.userId === userId
+            ? {...member, user: {...member.user, isActive: true}}
+            : member;
+        }),
+      };
+    });
+  });
+
+  useSubscription("user:offline", (userId) => {
+    utils.clan.getById.setData({clanId}, (old) => {
+      if (!old) return old;
+      return {
+        ...old,
+        members: old.members.map((member) => {
+          return member.userId === userId
+            ? {...member, user: {...member.user, isActive: false}}
+            : member;
+        }),
+      };
+    });
+  });
 
   if (isError) {
     navigation.goBack();

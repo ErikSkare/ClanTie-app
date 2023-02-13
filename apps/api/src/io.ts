@@ -13,19 +13,30 @@ export type ReceivedInvitation = Invitation & {
 };
 
 export type ServerToClientEvents = {
-  newInvitation: (payload: ReceivedInvitation) => void;
-  newTokens: ({
+  // Notifications
+  "notification:new": (payload: ReceivedInvitation) => void;
+
+  // Me
+  "me:tokens": ({
     accessToken,
     refreshToken,
   }: {
     accessToken: string;
     refreshToken: string;
   }) => void;
-  tokensExpired: () => void;
+  "me:expired": () => void;
+
+  // User
+  "user:online": (userId: number) => void;
+  "user:offline": (userId: number) => void;
 };
 
 // eslint-disable-next-line
-export type ClientToServerEvents = {};
+export type ClientToServerEvents = {
+  // Clan
+  "clan:start": (clanId: number) => void;
+  "clan:stop": (clanId: number) => void;
+};
 
 // eslint-disable-next-line
 export type InterServerEvents = {};

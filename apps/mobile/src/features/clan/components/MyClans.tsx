@@ -61,9 +61,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
             className="mb-4"
             clanId={clan.item.id}
             clanName={clan.item.name}
-            members={clan.item.members.map((member) => {
-              return {avatarUrl: member.avatarUrl};
-            })}
+            members={clan.item.members}
           />
         )}
       />
