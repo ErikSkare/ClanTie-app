@@ -8,6 +8,7 @@ import {MainStackParamList} from "./MainStack";
 export type ClanTabParamList = {
   Photo: {clanId: number};
   Location: {clanId: number};
+  Picture: {pictureId: number};
 };
 
 const Tab = createBottomTabNavigator<ClanTabParamList>();

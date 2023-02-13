@@ -6,6 +6,7 @@ interface AvatarProps extends ViewProps {
   imageUrl: string;
   size?: "small" | "big";
   isActive?: boolean;
+  outlined?: boolean;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -13,6 +14,7 @@ const Avatar: React.FC<AvatarProps> = ({
   imageUrl,
   size = "small",
   isActive = false,
+  outlined = false,
   className = "",
   ...props
 }) => {
@@ -22,7 +24,9 @@ const Avatar: React.FC<AvatarProps> = ({
   return (
     <View {...props}>
       <View
-        className={`bg-slate-600 relative rounded-full aspect-square border-2 border-slate-500 ${sizeClassName} ${className}`}
+        className={`bg-slate-600 relative rounded-full aspect-square ${
+          outlined && "border-[3px] border-yellow-400"
+        } ${sizeClassName} ${className}`}
       >
         <Image
           source={{uri: imageUrl}}

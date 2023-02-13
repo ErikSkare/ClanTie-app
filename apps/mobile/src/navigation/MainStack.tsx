@@ -8,6 +8,7 @@ import {
 import {NotificationsScreen} from "@/features/notification";
 import {WebSocketProvider} from "@/features/ws";
 import ClanTab from "./ClanTab";
+import PictureScreen from "@/features/photo/screens/PictureScreen";
 
 export type MainStackParamList = {
   Feed: undefined;
@@ -17,6 +18,7 @@ export type MainStackParamList = {
   Settings: undefined;
   Notifications: undefined;
   Clan: {clanId: number};
+  Picture: {pictureId: number};
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -58,6 +60,7 @@ const MainStack = () => {
           component={ClanTab}
           options={{animation: "fade_from_bottom"}}
         />
+        <Stack.Screen name="Picture" component={PictureScreen} />
       </Stack.Navigator>
     </WebSocketProvider>
   );

@@ -24,13 +24,14 @@ model User {
 }
 
 model ClanMember {
-  user        User      @relation(fields: [userId], references: [id])
-  clan        Clan      @relation(fields: [clanId], references: [id])
-  userId      Int
-  clanId      Int
-  nickname    String
-  avatarKey   String    @default(uuid())
-  createdAt   DateTime  @default(now())
+  user          User      @relation(fields: [userId], references: [id])
+  clan          Clan      @relation(fields: [clanId], references: [id])
+  userId        Int
+  clanId        Int
+  nickname      String
+  avatarKey     String    @default(uuid())
+  createdAt     DateTime  @default(now())
+  sentPictures  Picture[]
 
   @@id([userId, clanId])
 }
@@ -53,4 +54,13 @@ model Invitation {
   createdAt   DateTime  @default(now())
 
   @@id([fromUserId, toUserId, clanId])
+}
+
+model Picture {
+  sender          ClanMember    @relation(fields: [senderUserId, senderClanId], references: [userId, clanId])
+  id              Int           @id @default(autoincrement())
+  key             String        @default(uuid())
+  senderUserId    Int
+  senderClanId    Int
+  createdAt       DateTime      @default(now())
 }

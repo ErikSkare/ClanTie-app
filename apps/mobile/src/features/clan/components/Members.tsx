@@ -1,4 +1,4 @@
-import {FlatList} from "react-native";
+import {FlatList, TouchableOpacity} from "react-native";
 import Avatar from "@/components/Avatar";
 
 export type MemberData = {
@@ -6,6 +6,8 @@ export type MemberData = {
   user?: {
     isActive: boolean;
   };
+  lastPictureId?: number;
+  onPress?: () => void;
 };
 
 interface MembersProps {
@@ -27,12 +29,18 @@ const Members: React.FC<MembersProps> = ({
       )}
       horizontal={true}
       renderItem={(info) => (
-        <Avatar
-          imageUrl={info.item.avatarUrl}
-          className="px-2"
-          size={avatarSize}
-          isActive={info.item.user?.isActive ?? false}
-        />
+        <TouchableOpacity
+          disabled={info.item.lastPictureId === undefined}
+          onPress={info.item.onPress}
+        >
+          <Avatar
+            imageUrl={info.item.avatarUrl}
+            className="px-2"
+            size={avatarSize}
+            isActive={info.item.user?.isActive ?? false}
+            outlined={info.item.lastPictureId !== undefined}
+          />
+        </TouchableOpacity>
       )}
       showsHorizontalScrollIndicator={false}
     />

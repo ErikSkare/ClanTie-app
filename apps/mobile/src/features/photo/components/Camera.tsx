@@ -95,6 +95,7 @@ const Camera: React.FC<CameraProps> = ({
             {rotate: 180},
             {flip: FlipType.Vertical},
           ]);
+        res = await manipulateAsync(res.uri, [], {compress: 0.2});
         setPictureUri(res.uri);
       },
       skipProcessing: true,

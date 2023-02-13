@@ -14,7 +14,14 @@ export default async function getByIdUseCase(
 ) {
   const clan = await prisma.clan.findUnique({
     where: {id: input.clanId},
-    include: {members: {include: {user: true}}},
+    include: {
+      members: {
+        include: {
+          user: true,
+          sentPictures: {orderBy: {createdAt: "desc"}, take: 1},
+        },
+      },
+    },
   });
 
   // Cannot find
@@ -26,7 +33,11 @@ export default async function getByIdUseCase(
 
   const clanMembersService = ClanMembers(prisma);
   return {
-    ...clan,
-    members: clanMembersService.populateAvatarUrls(clan.members),
+    ...(clan as Omit<typeof clan, "sentPictures">),
+    members: clanMembersService
+      .populateAvatarUrls(clan.members)
+      .map((member) => {
+        return {...member, lastPictureId: member.sentPictures[0]?.id};
+      }),
   };
 }

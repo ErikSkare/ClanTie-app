@@ -23,7 +23,10 @@ const EmptyLayout: React.FC<EmptyLayoutProps> = ({
       {...props}
     >
       {withCloseButton && (
-        <TouchableOpacity className="absolute top-4 left-4" onPress={goBack}>
+        <TouchableOpacity
+          className="absolute top-4 left-4 z-10"
+          onPress={goBack}
+        >
           <AntDesign name="close" size={24} color="white" />
         </TouchableOpacity>
       )}
