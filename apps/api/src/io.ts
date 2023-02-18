@@ -30,6 +30,9 @@ export type ServerToClientEvents = {
   "user:online": (userId: number) => void;
   "user:offline": (userId: number) => void;
   "user:new-picture": (userId: number, pictureId: number) => void;
+
+  // Clan
+  "clan:new-member": () => void;
 };
 
 // eslint-disable-next-line
@@ -37,6 +40,7 @@ export type ClientToServerEvents = {
   // Clan
   "clan:start": (clanId: number) => void;
   "clan:stop": (clanId: number) => void;
+  "clan:joined": (clanId: number) => void;
 };
 
 // eslint-disable-next-line

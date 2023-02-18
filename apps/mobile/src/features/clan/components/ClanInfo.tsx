@@ -62,6 +62,10 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
     });
   });
 
+  useSubscription("clan:new-member", () => {
+    utils.clan.getById.invalidate();
+  });
+
   if (isError) return null;
 
   return (

@@ -1,8 +1,10 @@
+import {useContext} from "react";
 import {View, ViewProps} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import {trpc} from "@/lib/trpc";
+import {WebSocketContext} from "@/features/ws";
 import AvatarUploader from "@/components/AvatarUploader";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
@@ -28,6 +30,8 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
 }) => {
   const {mutateAsync, isLoading} = trpc.clan.acceptInvitation.useMutation();
 
+  const {socket} = useContext(WebSocketContext);
+
   const formik = useFormik({
     initialValues: {nickname: "", avatarUri: ""},
     validationSchema: toFormikValidationSchema(AcceptInvitationSchema),
@@ -52,6 +56,8 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
           file: fileMeta,
         }),
       });
+
+      socket?.emit("clan:joined", clanId);
 
       onSuccess();
     },

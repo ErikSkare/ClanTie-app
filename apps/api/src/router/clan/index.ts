@@ -53,5 +53,8 @@ export function setupClanIo(io: IoType) {
     socket.on("clan:stop", (clanId) => {
       socket.leave(`clan-${clanId}`);
     });
+    socket.on("clan:joined", (clanId) => {
+      io.to(`clan-${clanId}`).emit("clan:new-member");
+    });
   });
 }
