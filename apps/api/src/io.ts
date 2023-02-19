@@ -29,7 +29,7 @@ export type ServerToClientEvents = {
   // User
   "user:online": (userId: number) => void;
   "user:offline": (userId: number) => void;
-  "user:new-picture": (userId: number, pictureId: number) => void;
+  "user:new-picture": (userId: number) => void;
 
   // Clan
   "clan:new-member": () => void;

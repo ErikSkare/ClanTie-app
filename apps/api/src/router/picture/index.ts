@@ -1,7 +1,7 @@
 import {io} from "@/expressApp";
 import {router, protectedProcedure} from "@/trpc";
 import sendUseCase, {SendSchema} from "./use-cases/send";
-import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
+import getByMemberUseCase, {GetByMemberSchema} from "./use-cases/getByMember";
 
 // Trpc
 export default router({
@@ -11,10 +11,10 @@ export default router({
       async ({ctx, input}) =>
         await sendUseCase(ctx.prisma, io, ctx.session, input)
     ),
-  getById: protectedProcedure
-    .input(GetByIdSchema)
+  getByMember: protectedProcedure
+    .input(GetByMemberSchema)
     .query(
       async ({ctx, input}) =>
-        await getByIdUseCase(ctx.prisma, ctx.session, input)
+        await getByMemberUseCase(ctx.prisma, ctx.session, input)
     ),
 });

@@ -48,14 +48,14 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
     });
   });
 
-  useSubscription("user:new-picture", (userId, pictureId) => {
+  useSubscription("user:new-picture", (userId) => {
     utils.clan.getById.setData({clanId}, (old) => {
       if (!old) return;
       return {
         ...old,
         members: old.members.map((member) => {
           return member.userId === userId
-            ? {...member, lastPictureId: pictureId}
+            ? {...member, hasContent: true}
             : member;
         }),
       };
@@ -84,9 +84,11 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
             data={data.members.map((member) => {
               return {
                 ...member,
+                hasContent: member.hasContent,
                 onPress: () =>
                   navigation.navigate("Picture", {
-                    pictureId: member.lastPictureId as number,
+                    clanId: member.clanId,
+                    userId: member.userId,
                   }),
               };
             })}

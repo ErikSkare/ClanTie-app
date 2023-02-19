@@ -15,6 +15,8 @@ const TimeAgo: React.FC<TimeAgoProps> = ({date, ...props}) => {
   const [content, setContent] = useState(timeAgo.format(new Date(date)));
 
   useEffect(() => {
+    setContent(timeAgo.format(new Date(date)));
+
     const interval = setInterval(() => {
       setContent(() => timeAgo.format(new Date(date)));
     }, 60000);
@@ -22,7 +24,7 @@ const TimeAgo: React.FC<TimeAgoProps> = ({date, ...props}) => {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [date]);
 
   return <Text {...props}>{content}</Text>;
 };

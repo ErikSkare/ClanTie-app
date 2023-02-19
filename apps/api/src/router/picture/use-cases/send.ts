@@ -17,7 +17,7 @@ export default async function sendUseCase(
     data: {senderUserId: session, senderClanId: input.clanId},
   });
 
-  io.to(`clan-${input.clanId}`).emit("user:new-picture", session, candidate.id);
+  io.to(`clan-${input.clanId}`).emit("user:new-picture", session);
 
   return uploadImage(candidate.key);
 }

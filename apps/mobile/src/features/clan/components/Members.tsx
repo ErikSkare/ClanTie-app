@@ -6,7 +6,7 @@ export type MemberData = {
   user?: {
     isActive: boolean;
   };
-  lastPictureId?: number;
+  hasContent?: boolean;
   onPress?: () => void;
 };
 
@@ -30,7 +30,7 @@ const Members: React.FC<MembersProps> = ({
       horizontal={true}
       renderItem={(info) => (
         <TouchableOpacity
-          disabled={info.item.lastPictureId === undefined}
+          disabled={!info.item.hasContent}
           onPress={info.item.onPress}
         >
           <Avatar
@@ -38,7 +38,7 @@ const Members: React.FC<MembersProps> = ({
             className="px-2"
             size={avatarSize}
             isActive={info.item.user?.isActive ?? false}
-            outlined={info.item.lastPictureId !== undefined}
+            outlined={info.item.hasContent}
           />
         </TouchableOpacity>
       )}

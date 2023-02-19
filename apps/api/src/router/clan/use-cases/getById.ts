@@ -18,7 +18,12 @@ export default async function getByIdUseCase(
       members: {
         include: {
           user: true,
-          sentPictures: {orderBy: {createdAt: "desc"}, take: 1},
+          sentPictures: {
+            where: {
+              createdAt: {gte: new Date(Date.now() - 24 * 60 * 60 * 1000)},
+            },
+            orderBy: {createdAt: "asc"},
+          },
         },
       },
     },
@@ -33,11 +38,14 @@ export default async function getByIdUseCase(
 
   const clanMembersService = ClanMembers(prisma);
   return {
-    ...(clan as Omit<typeof clan, "sentPictures">),
+    ...clan,
     members: clanMembersService
       .populateAvatarUrls(clan.members)
       .map((member) => {
-        return {...member, lastPictureId: member.sentPictures[0]?.id};
+        return {
+          ...(member as Omit<typeof member, "sentPictures">),
+          hasContent: member.sentPictures.length > 0,
+        };
       }),
   };
 }

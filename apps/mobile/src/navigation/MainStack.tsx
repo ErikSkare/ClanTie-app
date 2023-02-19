@@ -18,7 +18,7 @@ export type MainStackParamList = {
   Settings: undefined;
   Notifications: undefined;
   Clan: {clanId: number};
-  Picture: {pictureId: number};
+  Picture: {clanId: number; userId: number};
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
