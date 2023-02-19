@@ -4,11 +4,11 @@ import {
   CreateClanScreen,
   InviteScreen,
   AcceptInvitationScreen,
-} from "@/features/clan/";
+} from "@/features/clan";
 import {NotificationsScreen} from "@/features/notification";
 import {WebSocketProvider} from "@/features/ws";
+import {PictureScreen} from "@/features/photo";
 import ClanTab from "./ClanTab";
-import PictureScreen from "@/features/photo/screens/PictureScreen";
 
 export type MainStackParamList = {
   Feed: undefined;
