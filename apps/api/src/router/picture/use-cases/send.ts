@@ -5,6 +5,8 @@ import {uploadImage} from "@/s3";
 
 export const SendSchema = z.object({
   clanId: z.number(),
+  longitude: z.number(),
+  latitude: z.number(),
 });
 
 export default async function sendUseCase(
@@ -14,7 +16,12 @@ export default async function sendUseCase(
   input: z.infer<typeof SendSchema>
 ) {
   const candidate = await prisma.picture.create({
-    data: {senderUserId: session, senderClanId: input.clanId},
+    data: {
+      senderUserId: session,
+      senderClanId: input.clanId,
+      latitude: input.latitude,
+      longitude: input.longitude,
+    },
   });
 
   io.to(`clan-${input.clanId}`).emit("user:new-picture", session);

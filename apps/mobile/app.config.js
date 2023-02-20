@@ -62,6 +62,9 @@ export default {
           // eslint-disable-next-line
           "RNMapboxMapsDownloadToken": process.env.DOWNLOAD_TOKEN
         }
+      ],
+      [
+        "expo-location"
       ]
     ]
   }

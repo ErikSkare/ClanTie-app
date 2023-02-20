@@ -62,5 +62,7 @@ model Picture {
   key             String        @default(uuid())
   senderUserId    Int
   senderClanId    Int
+  longitude       Decimal
+  latitude        Decimal
   createdAt       DateTime      @default(now())
 }

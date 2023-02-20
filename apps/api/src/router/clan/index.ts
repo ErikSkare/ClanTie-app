@@ -11,6 +11,9 @@ import AcceptInvitationUseCase, {
   AcceptInvitationSchema,
 } from "./use-cases/acceptInvitation";
 import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
+import GetLastLocationsUseCase, {
+  GetLastLocationsSchema,
+} from "./use-cases/getLastLocations";
 
 // Trpc
 export default router({
@@ -41,6 +44,12 @@ export default router({
     .input(AcceptInvitationSchema)
     .mutation(async ({input, ctx}) =>
       AcceptInvitationUseCase(ctx.prisma, ctx.session, input)
+    ),
+  getLastLocations: protectedProcedure
+    .input(GetLastLocationsSchema)
+    .query(
+      async ({input, ctx}) =>
+        await GetLastLocationsUseCase(ctx.prisma, ctx.session, input)
     ),
 });
 
