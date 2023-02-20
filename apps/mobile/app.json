@@ -1,4 +1,4 @@
-export default {
+{
   "expo": {
     "name": "mobile",
     "slug": "mobile",
@@ -14,9 +14,7 @@ export default {
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -41,4 +39,4 @@ export default {
       ]
     ]
   }
-};
+}

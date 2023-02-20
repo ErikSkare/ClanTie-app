@@ -1,10 +1,15 @@
 {
+  "private": true,
   "name": "@clantie/main",
   "version": "1.0.0",
   "description": "Monorepo for ClanTie app.",
   "author": "Erik Skare",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "pnpm -parallel --filter \"./apps/**\" dev"
+    "dev": "yarn workspaces foreach --parallel --interlaced run dev"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",
