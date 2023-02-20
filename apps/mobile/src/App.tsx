@@ -1,6 +1,9 @@
+import "expo-dev-client";
 import {useEffect} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import Toast from "react-native-toast-message";
+import Constants from "expo-constants";
+import MapboxGL from "@rnmapbox/maps";
 import {QueryErrorResetBoundary} from "@tanstack/react-query";
 import {TRPCProvider} from "@/lib/trpc";
 import {
@@ -22,6 +25,8 @@ import SplashScreen from "@/components/SplashScreen";
 import Navigator from "@/navigation/Navigator";
 import UnknownErrorScreen from "@/components/UnknownErrorScreen";
 import {useRefreshToken} from "@/features/auth";
+
+MapboxGL.setAccessToken(Constants.manifest?.extra?.mapboxAccess);
 
 export default function App() {
   const [fontsLoaded] = useFonts({
