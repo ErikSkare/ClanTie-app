@@ -37,6 +37,11 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
 
   if (isError) return null;
 
+  if (!data) {
+    navigation.goBack();
+    return null;
+  }
+
   function step() {
     if (current == (data?.length as number) - 1) navigation.goBack();
     else setCurrent((val) => val + 1);

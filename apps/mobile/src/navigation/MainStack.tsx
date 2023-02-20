@@ -55,11 +55,7 @@ const MainStack = () => {
           component={AcceptInvitationScreen}
           options={{animation: "slide_from_bottom"}}
         />
-        <Stack.Screen
-          name="Clan"
-          component={ClanTab}
-          options={{animation: "fade_from_bottom"}}
-        />
+        <Stack.Screen name="Clan" component={ClanTab} />
         <Stack.Screen name="Picture" component={PictureScreen} />
       </Stack.Navigator>
     </WebSocketProvider>

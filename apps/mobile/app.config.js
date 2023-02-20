@@ -1,4 +1,4 @@
-{
+export default {
   "expo": {
     "name": "Clantie-mobile",
     "slug": "clantie-mobile",
@@ -58,9 +58,11 @@
       [
         "@rnmapbox/maps",
         {
-          "RNMapboxMapsImpl": "maplibre"
+          "RNMapboxMapsImpl": "mapbox",
+          // eslint-disable-next-line
+          "RNMapboxMapsDownloadToken": process.env.DOWNLOAD_TOKEN
         }
       ]
     ]
   }
-}
+};
