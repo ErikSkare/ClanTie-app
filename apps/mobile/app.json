@@ -36,6 +36,18 @@
         {
           "photosPermission": "Az alkalmazás hozzá szeretne férni a képeidhez!"
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Az alkalmazás hozzá szeretne férni a kamerádhoz!"
+        }
+      ],
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsImpl": "maplibre"
+        }
       ]
     ]
   }
