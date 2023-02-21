@@ -8,6 +8,7 @@ import MapboxGL from "@rnmapbox/maps";
 import {trpc} from "@/lib/trpc";
 import ClusterMarker from "./ClusterMarker";
 import IndividualMarker from "./IndividualMarker";
+import {useListenClan, useSubscription} from "@/features/ws";
 
 interface MapProps extends ViewProps {
   clanId: number;
@@ -18,6 +19,7 @@ interface MapProps extends ViewProps {
 const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
   const MAX_ZOOM = 18;
 
+  const utils = trpc.useContext();
   const map = useRef<MapboxGL.MapView>(null);
 
   const {data, isLoading, isError} = trpc.clan.getLastLocations.useQuery({
@@ -65,6 +67,12 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
     bounds: [bounds[0] - 1, bounds[1] - 1, bounds[2] + 1, bounds[3] + 1],
     options: {radius: 80, maxZoom: MAX_ZOOM},
   });
+
+  useListenClan(clanId);
+
+  useSubscription("user:new-picture", () =>
+    utils.clan.getLastLocations.invalidate()
+  );
 
   // Helper methods
   function getAvatarUrlsForCluster(clusterId: number) {
