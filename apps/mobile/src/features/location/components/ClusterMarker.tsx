@@ -13,9 +13,9 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
 }) => {
   return (
     <MapboxGL.MarkerView coordinate={coordinates}>
-      <View className="flex-row mx-[12px]">
+      <View className="flex-row m-[10px] max-w-[80] flex-wrap">
         {avatarUrls.map((url, key) => (
-          <Avatar key={key} imageUrl={url} className="mx-[-12px]" />
+          <Avatar key={key} imageUrl={url} className="m-[-10px]" />
         ))}
       </View>
     </MapboxGL.MarkerView>
