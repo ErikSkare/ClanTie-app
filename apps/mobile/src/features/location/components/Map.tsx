@@ -60,8 +60,8 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
   const {clusters, supercluster} = useSupercluster({
     points,
     zoom,
-    bounds,
-    options: {radius: 100},
+    bounds: [bounds[0] - 1, bounds[1] - 1, bounds[2] + 1, bounds[3] + 1],
+    options: {radius: 80},
   });
 
   // Helper methods
