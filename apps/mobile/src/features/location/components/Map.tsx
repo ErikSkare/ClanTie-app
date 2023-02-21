@@ -16,6 +16,8 @@ interface MapProps extends ViewProps {
 }
 
 const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
+  const MAX_ZOOM = 18;
+
   const map = useRef<MapboxGL.MapView>(null);
 
   const {data, isLoading, isError} = trpc.clan.getLastLocations.useQuery({
@@ -61,7 +63,7 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
     points,
     zoom,
     bounds: [bounds[0] - 1, bounds[1] - 1, bounds[2] + 1, bounds[3] + 1],
-    options: {radius: 80},
+    options: {radius: 80, maxZoom: MAX_ZOOM},
   });
 
   // Helper methods
@@ -100,6 +102,7 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
             sw: swBound,
           }}
           animationMode="none"
+          maxZoomLevel={MAX_ZOOM}
         />
         {clusters.map((point, key) => (
           <View key={key}>

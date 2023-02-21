@@ -20,7 +20,9 @@ const PhotoScreen: React.FC<PhotoScreenProps> = ({navigation, route}) => {
 
   async function sendPicture(pictureUri: string) {
     try {
-      const location = await Location.getCurrentPositionAsync();
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.BestForNavigation,
+      });
 
       const {url, fields} = await mutateAsync({
         clanId,
