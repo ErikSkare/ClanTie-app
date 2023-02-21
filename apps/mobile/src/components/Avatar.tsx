@@ -2,7 +2,6 @@ import React from "react";
 import {Image, ViewProps, View} from "react-native";
 
 interface AvatarProps extends ViewProps {
-  key?: number;
   imageUrl: string;
   size?: "small" | "big";
   isActive?: boolean;
@@ -10,7 +9,6 @@ interface AvatarProps extends ViewProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({
-  key,
   imageUrl,
   size = "small",
   isActive = false,
@@ -30,7 +28,6 @@ const Avatar: React.FC<AvatarProps> = ({
       >
         <Image
           source={{uri: imageUrl}}
-          key={key}
           className="w-full h-full rounded-full"
         />
         {isActive && (

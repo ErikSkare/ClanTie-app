@@ -38,6 +38,7 @@ export default {
     "extra": {
       "apiUrl": "192.168.1.71:3000",
       "mapboxAccess": "pk.eyJ1Ijoic2thcmVlcmlrMDExIiwiYSI6ImNsZWJuN3hxZTFhd2Uzd21lMjhtdzl6eXYifQ.okCYlAQWtThdFjpA8k-amw",
+      "styleUrl": "mapbox://styles/skareerik011/cled1mnss003e01pc07h42m8k",
       "eas": {
         "projectId": "9b3362ac-5574-4faa-9915-6556bb4f1e44"
       }

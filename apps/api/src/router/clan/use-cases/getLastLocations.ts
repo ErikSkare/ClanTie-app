@@ -46,8 +46,8 @@ export default async function GetLastLocationsUseCase(
       return {
         ...(member as Omit<typeof member, "sentPictures">),
         lastPosition: {
-          longitude: member.sentPictures[0]?.longitude,
-          latitude: member.sentPictures[0]?.latitude,
+          longitude: member.sentPictures[0]?.longitude as number | undefined,
+          latitude: member.sentPictures[0]?.latitude as number | undefined,
           when: member.sentPictures[0]?.createdAt,
         },
       };
