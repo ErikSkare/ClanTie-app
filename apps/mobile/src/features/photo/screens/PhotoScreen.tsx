@@ -7,6 +7,7 @@ import EmptyLayout from "@/components/layouts/EmptyLayout";
 import {trpc} from "@/lib/trpc";
 import uriToFileMeta from "@/utils/uriToFileMeta";
 import toFormData from "@/utils/toFormData";
+import {useState} from "react";
 
 export type PhotoScreenProps = BottomTabScreenProps<ClanTabParamList, "Photo">;
 
@@ -16,10 +17,13 @@ const PhotoScreen: React.FC<PhotoScreenProps> = ({navigation, route}) => {
   const utils = trpc.useContext();
   const {mutateAsync} = trpc.picture.send.useMutation();
 
+  const [isSending, setIsSending] = useState(false);
+
   const hasLocationPermission = useLocation(() => navigation.goBack());
 
   async function sendPicture(pictureUri: string) {
     try {
+      setIsSending(true);
       const location = await Location.getCurrentPositionAsync({
         accuracy: Location.Accuracy.Highest,
       });
@@ -42,6 +46,7 @@ const PhotoScreen: React.FC<PhotoScreenProps> = ({navigation, route}) => {
         }),
       });
 
+      setIsSending(false);
       utils.clan.getById.invalidate({clanId});
       navigation.navigate("Location", {clanId});
     } catch (err) {
@@ -57,6 +62,7 @@ const PhotoScreen: React.FC<PhotoScreenProps> = ({navigation, route}) => {
         containerClassName="w-full h-full"
         onPictureSend={sendPicture}
         onPermissionDenied={async () => navigation.goBack()}
+        isLoading={isSending}
       />
     </EmptyLayout>
   );

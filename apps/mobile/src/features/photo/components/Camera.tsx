@@ -18,6 +18,7 @@ import Button from "../../../components/Button";
 interface CameraProps extends ExpoCameraProps {
   onPermissionDenied?: () => Promise<void>;
   onPictureSend?: (pictureUri: string) => Promise<void>;
+  isLoading?: boolean;
   containerClassName?: string;
 }
 
@@ -33,6 +34,7 @@ function transformRatio(ratio: string | undefined) {
 const Camera: React.FC<CameraProps> = ({
   onPermissionDenied = () => undefined,
   onPictureSend = () => undefined,
+  isLoading = false,
   containerClassName = "",
   ...props
 }) => {
@@ -126,11 +128,12 @@ const Camera: React.FC<CameraProps> = ({
           </TouchableOpacity>
           <Image source={{uri: pictureUri}} className="w-full h-full" />
           <Button
-            content="Kézbesítés"
-            className="absolute bottom-4 opacity-80"
+            content="Elküldés"
+            className="absolute bottom-4"
             onPress={() => onPictureSend(pictureUri)}
             LeftIcon={() => <Feather name="mail" size={18} color="white" />}
-          ></Button>
+            isLoading={isLoading}
+          />
         </View>
       ) : (
         <ExpoCamera
