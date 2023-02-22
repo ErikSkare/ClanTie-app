@@ -45,6 +45,9 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
     onError: (error, data, ctx) => {
       utils.picture.getByMember.setData(route.params, ctx?.previous);
     },
+    onSuccess: () => {
+      utils.picture.getAlbumPictures.invalidate();
+    },
     onSettled: () => {
       utils.picture.getByMember.invalidate();
     },
