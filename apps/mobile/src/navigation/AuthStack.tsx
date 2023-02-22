@@ -1,7 +1,7 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {LoginScreen, RegisterScreen} from "@/features/auth";
 import {useEffect} from "react";
-import {trpc} from "@/lib/trpc";
+import {useQueryClient} from "@tanstack/react-query";
 
 export type AuthStackParamList = {
   Login: undefined;
@@ -11,10 +11,10 @@ export type AuthStackParamList = {
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthStack = () => {
-  const utils = trpc.useContext();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
-    utils.invalidate();
+    queryClient.clear();
   }, []);
 
   return (
