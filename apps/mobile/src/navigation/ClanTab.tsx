@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
-import {Feather, Octicons} from "@expo/vector-icons";
-import {PhotoScreen} from "@/features/photo";
+import {Feather, Octicons, Ionicons} from "@expo/vector-icons";
+import {AlbumScreen, PhotoScreen} from "@/features/photo";
 import {LocationScreen} from "@/features/location";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {MainStackParamList} from "./MainStack";
@@ -8,7 +8,7 @@ import {MainStackParamList} from "./MainStack";
 export type ClanTabParamList = {
   Photo: {clanId: number};
   Location: {clanId: number};
-  Picture: {pictureId: number};
+  Album: {clanId: number};
 };
 
 const Tab = createBottomTabNavigator<ClanTabParamList>();
@@ -46,6 +46,16 @@ const ClanTab: React.FC<ClanTabProps> = ({route}) => {
             <Feather name="camera" size={28} color={color} />
           ),
           unmountOnBlur: true,
+        }}
+        initialParams={{clanId: route.params.clanId}}
+      />
+      <Tab.Screen
+        name="Album"
+        component={AlbumScreen}
+        options={{
+          tabBarIcon: ({color}) => (
+            <Ionicons name="albums-outline" size={28} color={color} />
+          ),
         }}
         initialParams={{clanId: route.params.clanId}}
       />
