@@ -1,4 +1,4 @@
-import {ActivityIndicator} from "react-native";
+import {ActivityIndicator, Pressable} from "react-native";
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
@@ -38,13 +38,15 @@ const MemoryScreen: React.FC<MemoryScreenProps> = ({navigation, route}) => {
       goBack={() => navigation.goBack()}
       backgroundClassName="bg-slate-900"
     >
-      <Picture
-        className="flex-1"
-        imageUrl={data.imageUrl}
-        avatarUrl={data.sender.avatarUrl}
-        nickname={data.sender.nickname}
-        createdAt={data.createdAt}
-      />
+      <Pressable className="flex-1" onPress={() => navigation.goBack()}>
+        <Picture
+          className="flex-1"
+          imageUrl={data.imageUrl}
+          avatarUrl={data.sender.avatarUrl}
+          nickname={data.sender.nickname}
+          createdAt={data.createdAt}
+        />
+      </Pressable>
     </EmptyLayout>
   );
 };
