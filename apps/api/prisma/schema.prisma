@@ -64,5 +64,6 @@ model Picture {
   senderClanId    Int
   longitude       Decimal
   latitude        Decimal
+  saved           Boolean       @default(false)
   createdAt       DateTime      @default(now())
 }
