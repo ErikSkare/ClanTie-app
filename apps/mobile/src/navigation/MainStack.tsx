@@ -7,7 +7,7 @@ import {
 } from "@/features/clan";
 import {NotificationsScreen} from "@/features/notification";
 import {WebSocketProvider} from "@/features/ws";
-import {PictureScreen} from "@/features/photo";
+import {MemoryScreen, PictureScreen} from "@/features/photo";
 import ClanTab from "./ClanTab";
 
 export type MainStackParamList = {
@@ -19,6 +19,7 @@ export type MainStackParamList = {
   Notifications: undefined;
   Clan: {clanId: number};
   Picture: {clanId: number; userId: number};
+  Memory: {pictureId: number};
 };
 
 const Stack = createNativeStackNavigator<MainStackParamList>();
@@ -43,20 +44,25 @@ const MainStack = () => {
         <Stack.Screen
           name="CreateClan"
           component={CreateClanScreen}
-          options={{animation: "slide_from_bottom"}}
+          options={{animation: "fade_from_bottom"}}
         />
         <Stack.Screen
           name="Invite"
           component={InviteScreen}
-          options={{animation: "slide_from_bottom"}}
+          options={{animation: "fade_from_bottom"}}
         />
         <Stack.Screen
           name="AcceptInvitation"
           component={AcceptInvitationScreen}
-          options={{animation: "slide_from_bottom"}}
+          options={{animation: "fade_from_bottom"}}
         />
         <Stack.Screen name="Clan" component={ClanTab} />
         <Stack.Screen name="Picture" component={PictureScreen} />
+        <Stack.Screen
+          name="Memory"
+          component={MemoryScreen}
+          options={{animation: "fade_from_bottom"}}
+        />
       </Stack.Navigator>
     </WebSocketProvider>
   );

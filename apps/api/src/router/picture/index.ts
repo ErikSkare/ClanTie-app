@@ -6,6 +6,7 @@ import saveToAlbumUseCase, {SaveToAlbumSchema} from "./use-cases/saveToAlbum";
 import getAlbumPicturesUseCase, {
   GetAlbumPicturesSchema,
 } from "./use-cases/getAlbumPictures";
+import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
 
 // Trpc
 export default router({
@@ -32,5 +33,11 @@ export default router({
     .query(
       async ({ctx, input}) =>
         await getAlbumPicturesUseCase(ctx.prisma, ctx.session, input)
+    ),
+  getById: protectedProcedure
+    .input(GetByIdSchema)
+    .query(
+      async ({ctx, input}) =>
+        await getByIdUseCase(ctx.prisma, ctx.session, input)
     ),
 });

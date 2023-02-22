@@ -5,7 +5,11 @@ import {
   Image,
   Text,
   ActivityIndicator,
+  Pressable,
 } from "react-native";
+import {useNavigation} from "@react-navigation/native";
+import {NativeStackNavigationProp} from "@react-navigation/native-stack";
+import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
 
 interface MemoriesProps extends ViewProps {
@@ -13,6 +17,9 @@ interface MemoriesProps extends ViewProps {
 }
 
 const Memories: React.FC<MemoriesProps> = ({clanId, ...props}) => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   const {
     data,
     isLoading,
@@ -39,13 +46,16 @@ const Memories: React.FC<MemoriesProps> = ({clanId, ...props}) => {
         onRefresh={() => refetch()}
         onEndReached={() => fetchNextPage()}
         renderItem={({item}) => (
-          <View className="w-1/3 p-1">
+          <Pressable
+            className="w-1/3 p-1"
+            onPress={() => navigation.navigate("Memory", {pictureId: item.id})}
+          >
             <Image
               className="aspect-[9/16] rounded"
               source={{uri: item.imageUrl}}
               resizeMode="contain"
             />
-          </View>
+          </Pressable>
         )}
         ListFooterComponent={
           isFetchingNextPage ? (
