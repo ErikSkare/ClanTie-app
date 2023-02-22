@@ -27,6 +27,7 @@ const ClanTab: React.FC<ClanTabProps> = ({route}) => {
         tabBarShowLabel: false,
         headerShown: false,
       }}
+      sceneContainerStyle={{backgroundColor: "#0f172a"}}
     >
       <Tab.Screen
         name="Location"
