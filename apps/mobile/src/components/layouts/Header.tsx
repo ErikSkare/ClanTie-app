@@ -43,13 +43,13 @@ const Header: React.FC<ViewProps> = ({className = "", ...props}) => {
           onPress={() =>
             Alert.alert(
               "Az applikáció még béta állapotban van!",
-              "Minden jellegű észrevételt/hibabejelentést szívesen várok!",
+              "Minden jellegű észrevételt/ötletet szívesen várok!",
               [
                 {
-                  text: "Hibabejelentés",
+                  text: "Üzenet küldés",
                   onPress: () =>
                     Linking.openURL(
-                      "mailto:skareerik55@gmail.com?subject=ClanTie - Hibabejelentés"
+                      "mailto:skareerik55@gmail.com?subject=ClanTie - Észrevétel/ötlet"
                     ),
                 },
                 {
