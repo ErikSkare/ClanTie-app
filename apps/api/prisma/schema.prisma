@@ -32,6 +32,7 @@ model ClanMember {
   avatarKey     String    @default(uuid())
   createdAt     DateTime  @default(now())
   sentPictures  Picture[]
+  seenPictures  ClanMemberSeenPicture[]
 
   @@id([userId, clanId])
 }
@@ -66,4 +67,15 @@ model Picture {
   latitude        Decimal
   saved           Boolean       @default(false)
   createdAt       DateTime      @default(now())
+  seenBy          ClanMemberSeenPicture[]
+}
+
+model ClanMemberSeenPicture {
+  member        ClanMember     @relation(fields: [memberUserId, memberClanId], references: [userId, clanId])
+  picture       Picture        @relation(fields: [pictureId], references: [id])
+  memberUserId  Int
+  memberClanId  Int
+  pictureId     Int
+
+  @@id([memberUserId, memberClanId, pictureId])
 }

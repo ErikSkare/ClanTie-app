@@ -6,6 +6,7 @@ interface AvatarProps extends ViewProps {
   size?: "small" | "big";
   isActive?: boolean;
   outlined?: boolean;
+  outlineType?: "gold" | "gray";
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -13,6 +14,7 @@ const Avatar: React.FC<AvatarProps> = ({
   size = "small",
   isActive = false,
   outlined = false,
+  outlineType = "gold",
   className = "",
   ...props
 }) => {
@@ -23,7 +25,10 @@ const Avatar: React.FC<AvatarProps> = ({
     <View {...props}>
       <View
         className={`bg-slate-600 relative rounded-full aspect-square ${
-          outlined && "border-[3px] border-yellow-400"
+          outlined &&
+          `border-[3px] ${
+            outlineType === "gold" ? "border-yellow-400" : "border-gray-500"
+          }`
         } ${sizeClassName} ${className}`}
       >
         <Image

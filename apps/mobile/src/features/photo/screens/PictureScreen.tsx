@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {
   ActivityIndicator,
   View,
@@ -32,9 +32,15 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
       const previous = utils.picture.getByMember.getData(route.params);
 
       utils.picture.getByMember.setData(route.params, (old) => {
-        return (old ?? []).map((picture) => {
-          return pictureId !== picture.id ? picture : {...picture, saved: true};
-        });
+        if (!old) return;
+        return {
+          ...old,
+          pictures: old.pictures.map((picture) => {
+            return pictureId !== picture.id
+              ? picture
+              : {...picture, saved: true};
+          }),
+        };
       });
 
       return {previous};
@@ -50,7 +56,37 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
     },
   });
 
+  const {mutate: markSeen} = trpc.picture.markSeen.useMutation();
+
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    return () => {
+      utils.picture.getByMember.reset(route.params);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (data && !data.seenAll) {
+      markSeen({
+        clanId: route.params.clanId,
+        pictureId: data.pictures[current]?.id as number,
+      });
+      if (current == (data?.pictures.length as number) - 1) {
+        utils.clan.getById.setData({clanId: route.params.clanId}, (old) => {
+          if (!old) return;
+          return {
+            ...old,
+            members: old.members.map((member) => {
+              return member.userId === route.params.userId
+                ? {...member, content: {hasNew: false, hasAny: true}}
+                : member;
+            }),
+          };
+        });
+      }
+    }
+  }, [current, data]);
 
   if (isLoading)
     return (
@@ -70,24 +106,32 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
   }
 
   function step() {
-    if (current == (data?.length as number) - 1) navigation.goBack();
-    else setCurrent((val) => val + 1);
+    if (current == (data?.pictures.length as number) - 1) {
+      navigation.goBack();
+    } else {
+      setCurrent((val) => val + 1);
+    }
   }
 
   return (
     <EmptyLayout backgroundClassName="bg-slate-900">
       <Pressable className="h-full" onPress={step}>
-        <ViewedBar length={data.length} viewed={current} />
+        <ViewedBar
+          length={data.pictures.length + data.offset}
+          viewed={current + data.offset}
+        />
         <View className="flex-1">
           <View className="w-full absolute top-4 px-4 flex-row justify-between items-center z-10">
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <AntDesign name="close" size={24} color="white" />
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => mutate({pictureId: data[current]?.id as number})}
-              disabled={data[current]?.saved}
+              onPress={() =>
+                mutate({pictureId: data.pictures[current]?.id as number})
+              }
+              disabled={data.pictures[current]?.saved}
             >
-              {data[current]?.saved ? (
+              {data.pictures[current]?.saved ? (
                 <AntDesign name="heart" size={24} color="red" />
               ) : (
                 <AntDesign name="hearto" size={24} color="white" />
@@ -96,10 +140,10 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
           </View>
           <Picture
             className="flex-1"
-            imageUrl={data[current]?.imageUrl as string}
-            avatarUrl={data[current]?.sender.avatarUrl as string}
-            nickname={data[current]?.sender.nickname as string}
-            createdAt={data[current]?.createdAt as Date}
+            imageUrl={data.pictures[current]?.imageUrl as string}
+            avatarUrl={data.pictures[current]?.sender.avatarUrl as string}
+            nickname={data.pictures[current]?.sender.nickname as string}
+            createdAt={data.pictures[current]?.createdAt as Date}
           />
         </View>
       </Pressable>

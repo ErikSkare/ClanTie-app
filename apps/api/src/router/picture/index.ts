@@ -7,6 +7,7 @@ import getAlbumPicturesUseCase, {
   GetAlbumPicturesSchema,
 } from "./use-cases/getAlbumPictures";
 import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
+import markSeenUseCase, {MarkSeenSchema} from "./use-cases/markSeen";
 
 // Trpc
 export default router({
@@ -39,5 +40,11 @@ export default router({
     .query(
       async ({ctx, input}) =>
         await getByIdUseCase(ctx.prisma, ctx.session, input)
+    ),
+  markSeen: protectedProcedure
+    .input(MarkSeenSchema)
+    .mutation(
+      async ({ctx, input}) =>
+        await markSeenUseCase(ctx.prisma, ctx.session, input)
     ),
 });

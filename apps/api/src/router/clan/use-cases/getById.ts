@@ -12,21 +12,26 @@ export default async function getByIdUseCase(
   session: number,
   input: z.infer<typeof GetByIdSchema>
 ) {
-  const clan = await prisma.clan.findUnique({
-    where: {id: input.clanId},
-    include: {
-      members: {
-        include: {
-          user: true,
-          sentPictures: {
-            where: {
-              createdAt: {gte: new Date(Date.now() - 24 * 60 * 60 * 1000)},
+  const [clan] = await prisma.$transaction(async (tx) => {
+    const clan = await tx.clan.findUnique({
+      where: {id: input.clanId},
+      include: {
+        members: {
+          include: {
+            user: true,
+            sentPictures: {
+              where: {
+                createdAt: {gte: new Date(Date.now() - 24 * 60 * 60 * 1000)},
+              },
+              include: {seenBy: {select: {memberUserId: true}}},
+              orderBy: {createdAt: "asc"},
             },
-            orderBy: {createdAt: "asc"},
           },
         },
       },
-    },
+    });
+
+    return [clan];
   });
 
   // Cannot find
@@ -44,7 +49,12 @@ export default async function getByIdUseCase(
       .map((member) => {
         return {
           ...(member as Omit<typeof member, "sentPictures">),
-          hasContent: member.sentPictures.length > 0,
+          content: {
+            hasNew: member.sentPictures.some((picture) =>
+              picture.seenBy.every((seen) => seen.memberUserId !== session)
+            ),
+            hasAny: member.sentPictures.length > 0,
+          },
         };
       }),
   };

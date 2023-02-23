@@ -7,6 +7,7 @@ export type MemberData = {
     isActive: boolean;
   };
   hasContent?: boolean;
+  hasNew?: boolean;
   onPress?: () => void;
 };
 
@@ -39,6 +40,7 @@ const Members: React.FC<MembersProps> = ({
             size={avatarSize}
             isActive={info.item.user?.isActive ?? false}
             outlined={info.item.hasContent}
+            outlineType={info.item.hasNew ? "gold" : "gray"}
           />
         </TouchableOpacity>
       )}
