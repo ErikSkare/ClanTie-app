@@ -66,11 +66,11 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
     };
   }, []);
 
-  useEffect(() => {
+  function markSeenCurrentIfNeeded() {
     if (data && !data.seenAll) {
       markSeen({
         clanId: route.params.clanId,
-        pictureId: data.pictures[current]?.id as number,
+        pictureId: data?.pictures[current]?.id as number,
       });
       if (current == (data?.pictures.length as number) - 1) {
         utils.clan.getById.setData({clanId: route.params.clanId}, (old) => {
@@ -86,7 +86,16 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
         });
       }
     }
-  }, [current, data]);
+  }
+
+  function step() {
+    markSeenCurrentIfNeeded();
+    if (current == (data?.pictures.length as number) - 1) {
+      navigation.goBack();
+    } else {
+      setCurrent((val) => val + 1);
+    }
+  }
 
   if (isLoading)
     return (
@@ -103,14 +112,6 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
   if (!data) {
     navigation.goBack();
     return null;
-  }
-
-  function step() {
-    if (current == (data?.pictures.length as number) - 1) {
-      navigation.goBack();
-    } else {
-      setCurrent((val) => val + 1);
-    }
   }
 
   return (
