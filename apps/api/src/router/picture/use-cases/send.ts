@@ -24,7 +24,7 @@ export default async function sendUseCase(
     },
   });
 
-  io.to(`clan-${input.clanId}`).emit("user:new-picture", session);
+  io.to(`clan-${input.clanId}`).emit("clan:user-picture", session);
 
   return uploadImage(candidate.key);
 }

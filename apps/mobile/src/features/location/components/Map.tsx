@@ -8,7 +8,7 @@ import MapboxGL from "@rnmapbox/maps";
 import {trpc} from "@/lib/trpc";
 import ClusterMarker from "./ClusterMarker";
 import IndividualMarker from "./IndividualMarker";
-import {useListenClan, useSubscription} from "@/features/ws";
+import {useListen, useSubscription} from "@/features/ws";
 
 interface MapProps extends ViewProps {
   clanId: number;
@@ -68,9 +68,12 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
     options: {radius: 80, maxZoom: MAX_ZOOM},
   });
 
-  useListenClan(clanId);
+  useListen(
+    (s) => s.emit("clan:start", clanId),
+    (s) => s.emit("clan:stop", clanId)
+  );
 
-  useSubscription("user:new-picture", () =>
+  useSubscription("clan:user-picture", () =>
     utils.clan.getLastLocations.invalidate()
   );
 

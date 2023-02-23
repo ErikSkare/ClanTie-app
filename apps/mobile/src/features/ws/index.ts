@@ -1,5 +1,5 @@
 import useSubscription from "./useSubscription";
-import useListenClan from "./useListenClan";
+import useListen from "./useListen";
 import WebSocketProvider, {WebSocketContext} from "./WebSocketProvider";
 
-export {useSubscription, useListenClan, WebSocketProvider, WebSocketContext};
+export {useSubscription, useListen, WebSocketProvider, WebSocketContext};

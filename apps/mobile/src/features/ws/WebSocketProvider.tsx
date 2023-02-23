@@ -7,7 +7,7 @@ import {trpc} from "@/lib/trpc";
 import SplashScreen from "@/components/SplashScreen";
 import {useAuthenticate, useTokenStore} from "@/features/auth";
 
-type S = Socket<ServerToClientEvents, ClientToServerEvents> | null;
+export type S = Socket<ServerToClientEvents, ClientToServerEvents> | null;
 
 export const WebSocketContext = createContext<{
   socket: S;

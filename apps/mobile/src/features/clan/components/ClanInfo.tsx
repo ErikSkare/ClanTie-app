@@ -3,7 +3,7 @@ import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
-import {useSubscription, useListenClan} from "@/features/ws";
+import {useSubscription, useListen} from "@/features/ws";
 import Members from "./Members";
 
 interface ClanInfoProps extends ViewProps {
@@ -18,9 +18,12 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
 
   const {data, isLoading, isError} = trpc.clan.getById.useQuery({clanId});
 
-  useListenClan(clanId);
+  useListen(
+    (s) => s.emit("clan:start", clanId),
+    (s) => s.emit("clan:stop", clanId)
+  );
 
-  useSubscription("user:online", (userId) => {
+  useSubscription("clan:user-online", (userId) => {
     utils.clan.getById.setData({clanId}, (old) => {
       if (!old) return;
       return {
@@ -34,7 +37,7 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
     });
   });
 
-  useSubscription("user:offline", (userId) => {
+  useSubscription("clan:user-offline", (userId) => {
     utils.clan.getById.setData({clanId}, (old) => {
       if (!old) return;
       return {
@@ -48,7 +51,7 @@ const ClanInfo: React.FC<ClanInfoProps> = ({clanId, ...props}) => {
     });
   });
 
-  useSubscription("user:new-picture", (userId) => {
+  useSubscription("clan:user-picture", (userId) => {
     utils.clan.getById.setData({clanId}, (old) => {
       if (!old) return;
       return {

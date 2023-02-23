@@ -26,13 +26,11 @@ export type ServerToClientEvents = {
   }) => void;
   "me:expired": () => void;
 
-  // User
-  "user:online": (userId: number) => void;
-  "user:offline": (userId: number) => void;
-  "user:new-picture": (userId: number) => void;
-
   // Clan
   "clan:new-member": () => void;
+  "clan:user-online": (userId: number) => void;
+  "clan:user-offline": (userId: number) => void;
+  "clan:user-picture": (userId: number) => void;
 };
 
 // eslint-disable-next-line
