@@ -52,7 +52,7 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
       utils.picture.getByMember.setData(route.params, ctx?.previous);
     },
     onSuccess: () => {
-      utils.picture.getAlbumPictures.invalidate();
+      utils.picture.getAlbumPictures.invalidate({clanId: route.params.clanId});
     },
   });
 
