@@ -21,8 +21,11 @@ export type PictureScreenProps = NativeStackScreenProps<
 const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
   const utils = trpc.useContext();
 
+  const [current, setCurrent] = useState(0);
+
   const {data, isLoading, isError} = trpc.picture.getByMember.useQuery(
-    route.params
+    route.params,
+    {onSuccess: () => setCurrent(0)}
   );
 
   const {mutate} = trpc.picture.saveToAlbum.useMutation({
@@ -51,14 +54,9 @@ const PictureScreen: React.FC<PictureScreenProps> = ({navigation, route}) => {
     onSuccess: () => {
       utils.picture.getAlbumPictures.invalidate();
     },
-    onSettled: () => {
-      utils.picture.getByMember.invalidate();
-    },
   });
 
   const {mutate: markSeen} = trpc.picture.markSeen.useMutation();
-
-  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     return () => {
