@@ -9,6 +9,7 @@ import {NotificationsScreen} from "@/features/notification";
 import {WebSocketProvider} from "@/features/ws";
 import {MemoryScreen, PictureScreen} from "@/features/photo";
 import ClanTab from "./ClanTab";
+import {usePushToken} from "@/features/push";
 
 export type MainStackParamList = {
   Feed: undefined;
@@ -25,6 +26,8 @@ export type MainStackParamList = {
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const MainStack = () => {
+  usePushToken();
+
   return (
     <WebSocketProvider>
       <Stack.Navigator

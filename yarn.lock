@@ -1512,6 +1512,7 @@ __metadata:
     bcrypt: ^5.1.0
     cors: ^2.8.5
     dotenv: ^16.0.3
+    expo-server-sdk: ^3.7.0
     express: ^4.18.2
     jsonwebtoken: ^9.0.0
     long-timeout: ^0.1.1
@@ -5961,6 +5962,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-server-sdk@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "expo-server-sdk@npm:3.7.0"
+  dependencies:
+    node-fetch: ^2.6.0
+    promise-limit: ^2.7.0
+    promise-retry: ^2.0.1
+  checksum: 6350edca193b7c64169594a99710deefced854d560d3e810bac3633e443c3e0e923b35842c5445af3d61dc6cd707b3dc8ecbe0fa984cb40a0d4c15c7f36767a4
+  languageName: node
+  linkType: hard
+
 "expo-status-bar@npm:~1.4.2":
   version: 1.4.2
   resolution: "expo-status-bar@npm:1.4.2"
@@ -9785,6 +9797,13 @@ __metadata:
   version: 1.0.1
   resolution: "promise-inflight@npm:1.0.1"
   checksum: 22749483091d2c594261517f4f80e05226d4d5ecc1fc917e1886929da56e22b5718b7f2a75f3807e7a7d471bc3be2907fe92e6e8f373ddf5c64bae35b5af3981
+  languageName: node
+  linkType: hard
+
+"promise-limit@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "promise-limit@npm:2.7.0"
+  checksum: 3e20a46d752ab41c921feceb668b3a6d000438573e71342d42bf63373fdbafbf4b6a3f88ef5ff902a2a37be28152dc74e618e863134fd4c08c196448f4a6d28f
   languageName: node
   linkType: hard
 
