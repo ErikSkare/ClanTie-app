@@ -21,6 +21,7 @@ model User {
   memberships           ClanMember[]
   sentInvitations       Invitation[]    @relation(name: "fromUser")
   receivedInvitations   Invitation[]    @relation(name: "toUser")
+  devices               Device[]
 }
 
 model ClanMember {
@@ -78,4 +79,10 @@ model ClanMemberSeenPicture {
   pictureId     Int
 
   @@id([memberUserId, memberClanId, pictureId])
+}
+
+model Device {
+  user          User        @relation(fields: [userId], references: [id])
+  userId        Int
+  pushToken     String      @id
 }

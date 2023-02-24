@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "712782326913",
+    "project_id": "clantie",
+    "storage_bucket": "clantie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712782326913:android:04cb77aa24406185bd3180",
+        "android_client_info": {
+          "package_name": "com.erikskare.clantiemobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "712782326913-279jh7e15vkoepcrorujjg782qm8rhm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFLI9u6kT7wv-8wPXXelqFBbue0zdEZ50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "712782326913-279jh7e15vkoepcrorujjg782qm8rhm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
