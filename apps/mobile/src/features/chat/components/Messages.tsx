@@ -35,6 +35,11 @@ const Messages: React.FC<MessagesProps> = ({
     (s) => s.emit("chat:stop", clanId)
   );
 
+  useListen(
+    (s) => s.emit("clan:start", clanId),
+    (s) => s.emit("clan:stop", clanId)
+  );
+
   useSubscription("chat:new-message", async (message) => {
     await utils.chat.getMessages.cancel({clanId, limit: 10});
 
@@ -49,6 +54,58 @@ const Messages: React.FC<MessagesProps> = ({
           },
           ...old.pages,
         ],
+      };
+    });
+  });
+
+  useSubscription("clan:user-online", async (userId) => {
+    await utils.chat.getMessages.cancel({clanId, limit: 10});
+
+    utils.chat.getMessages.setInfiniteData({clanId, limit: 10}, (old) => {
+      if (!old) return;
+      return {
+        ...old,
+        pages: old.pages.map((page) => {
+          return {
+            ...page,
+            result: page.result.map((result) => {
+              if (result.sentBy.user.id !== userId) return result;
+              return {
+                ...result,
+                sentBy: {
+                  ...result.sentBy,
+                  user: {...result.sentBy.user, isActive: true},
+                },
+              };
+            }),
+          };
+        }),
+      };
+    });
+  });
+
+  useSubscription("clan:user-offline", async (userId) => {
+    await utils.chat.getMessages.cancel({clanId, limit: 10});
+
+    utils.chat.getMessages.setInfiniteData({clanId, limit: 10}, (old) => {
+      if (!old) return;
+      return {
+        ...old,
+        pages: old.pages.map((page) => {
+          return {
+            ...page,
+            result: page.result.map((result) => {
+              if (result.sentBy.user.id !== userId) return result;
+              return {
+                ...result,
+                sentBy: {
+                  ...result.sentBy,
+                  user: {...result.sentBy.user, isActive: false},
+                },
+              };
+            }),
+          };
+        }),
       };
     });
   });
