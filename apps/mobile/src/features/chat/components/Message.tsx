@@ -1,6 +1,7 @@
 import Avatar from "@/components/Avatar";
+import RefetchImage from "@/components/RefetchImage";
 import TimeAgo from "@/components/TimeAgo";
-import {View, Text, ViewProps, Image} from "react-native";
+import {View, Text, ViewProps} from "react-native";
 
 interface MessageProps extends ViewProps {
   content: string | null;
@@ -42,10 +43,12 @@ const Message: React.FC<MessageProps> = ({
         </View>
         {imageUri && (
           <View className="w-full aspect-square mt-2 bg-slate-900">
-            <Image
+            <RefetchImage
               source={{uri: imageUri}}
               className="w-full h-full"
               resizeMode="contain"
+              refetchCount={4}
+              refetchDelay={400}
             />
           </View>
         )}

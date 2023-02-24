@@ -46,7 +46,7 @@ export default router({
   acceptInvitation: protectedProcedure
     .input(AcceptInvitationSchema)
     .mutation(async ({input, ctx}) =>
-      AcceptInvitationUseCase(ctx.prisma, ctx.session, input)
+      AcceptInvitationUseCase(ctx.prisma, io, ctx.session, input)
     ),
   getLastLocations: protectedProcedure
     .input(GetLastLocationsSchema)
@@ -70,9 +70,6 @@ export function setupClanIo(io: IoType) {
     });
     socket.on("clan:stop", (clanId) => {
       socket.leave(`clan-${clanId}`);
-    });
-    socket.on("clan:joined", (clanId) => {
-      io.to(`clan-${clanId}`).emit("clan:new-member");
     });
   });
 }

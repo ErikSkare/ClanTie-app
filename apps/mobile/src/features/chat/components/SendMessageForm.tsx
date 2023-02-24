@@ -88,7 +88,7 @@ const SendMessageForm: React.FC<SendMessageFormProps> = ({
       if (upload) {
         const fileMeta = uriToFileMeta(values.imageUri);
         if (!fileMeta) return;
-
+        console.log(fileMeta);
         await fetch(upload.url, {
           method: "POST",
           body: toFormData({

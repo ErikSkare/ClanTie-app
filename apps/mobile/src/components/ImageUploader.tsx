@@ -18,7 +18,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   async function open() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
+      quality: 0.5,
       selectionLimit: 1,
     });
     if (!result.canceled && result.assets[0]) {

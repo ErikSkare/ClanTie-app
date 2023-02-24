@@ -1,7 +1,7 @@
 import S3 from "aws-sdk/clients/s3";
 import tk from "timekeeper";
 
-const MAX_IMG_SIZE = 10000000;
+const MAX_IMG_SIZE = 5000000;
 const UPLOAD_EXPIRES = 60; // seconds
 const DOWNLOAD_EXPIRES = 60 * 60; //seconds
 const URL_CACHING_TIME = 45; // minutes;

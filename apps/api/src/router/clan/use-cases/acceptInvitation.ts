@@ -1,6 +1,7 @@
 import {z} from "zod";
 import {PrismaClient} from "@prisma/client";
 import {uploadImage} from "@/s3";
+import {IoType} from "@/io";
 
 export const AcceptInvitationSchema = z.object({
   fromId: z.number(),
@@ -10,6 +11,7 @@ export const AcceptInvitationSchema = z.object({
 
 export default async function AcceptInvitationUseCase(
   prisma: PrismaClient,
+  io: IoType,
   session: number,
   input: z.infer<typeof AcceptInvitationSchema>
 ) {
@@ -32,5 +34,8 @@ export default async function AcceptInvitationUseCase(
       },
     }),
   ]);
+
+  io.to(`clan-${input.clanId}`).emit("clan:new-member");
+
   return uploadImage(member.avatarKey);
 }

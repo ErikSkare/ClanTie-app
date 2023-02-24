@@ -14,6 +14,6 @@ export default async function goOnlineUseCase(
   });
 
   for (const clan of clans) {
-    io.to(`clan-${clan.id}`).emit("clan:user-offline", session);
+    io.to(`clan-${clan.id}`).emit("clan:user-online", session);
   }
 }

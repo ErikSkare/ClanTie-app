@@ -28,7 +28,7 @@ const AvatarUploader: React.FC<ImageUploaderProps> = ({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.5,
       selectionLimit: 1,
     });
     if (!result.canceled && result.assets[0]) {

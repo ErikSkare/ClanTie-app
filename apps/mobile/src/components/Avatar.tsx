@@ -1,5 +1,6 @@
 import React from "react";
-import {Image, ViewProps, View} from "react-native";
+import {ViewProps, View} from "react-native";
+import RefetchImage from "./RefetchImage";
 
 interface AvatarProps extends ViewProps {
   imageUrl: string;
@@ -31,9 +32,11 @@ const Avatar: React.FC<AvatarProps> = ({
           }`
         } ${sizeClassName} ${className}`}
       >
-        <Image
+        <RefetchImage
           source={{uri: imageUrl}}
           className="w-full h-full rounded-full"
+          refetchCount={4}
+          refetchDelay={250}
         />
         {isActive && (
           <View

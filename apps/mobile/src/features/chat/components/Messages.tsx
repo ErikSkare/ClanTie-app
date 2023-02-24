@@ -1,3 +1,4 @@
+import {useListen, useSubscription} from "@/features/ws";
 import {trpc} from "@/lib/trpc";
 import {FlatList, ActivityIndicator, View, ViewProps, Text} from "react-native";
 import Message from "./Message";
@@ -12,6 +13,8 @@ const Messages: React.FC<MessagesProps> = ({
   className = "",
   ...props
 }) => {
+  const utils = trpc.useContext();
+
   const {
     data,
     isLoading,
@@ -27,6 +30,29 @@ const Messages: React.FC<MessagesProps> = ({
     {getNextPageParam: (lastPage) => lastPage.newCursor, cacheTime: 0}
   );
 
+  useListen(
+    (s) => s.emit("chat:start", clanId),
+    (s) => s.emit("chat:stop", clanId)
+  );
+
+  useSubscription("chat:new-message", async (message) => {
+    await utils.chat.getMessages.cancel({clanId, limit: 10});
+
+    utils.chat.getMessages.setInfiniteData({clanId, limit: 10}, (old) => {
+      if (!old) return;
+      return {
+        ...old,
+        pages: [
+          {
+            result: [message],
+            newCursor: undefined,
+          },
+          ...old.pages,
+        ],
+      };
+    });
+  });
+
   if (isLoading)
     return (
       <View className={`justify-center items-center ${className}`} {...props}>
@@ -39,13 +65,14 @@ const Messages: React.FC<MessagesProps> = ({
   return (
     <View className={className} {...props}>
       <FlatList
+        removeClippedSubviews
         data={data.pages.flatMap((page) => page.result)}
         inverted={true}
         onEndReached={() => fetchNextPage()}
         renderItem={({item}) => <Message {...item} wrapperClassName="my-2" />}
         initialNumToRender={10}
         keyExtractor={(data) =>
-          `${data.sentBy.user.id}-${data.createdAt.toISOString()}`
+          `${data.sentBy.user.id}-${new Date(data.createdAt).toISOString()}`
         }
         ListFooterComponent={
           isFetchingNextPage ? (

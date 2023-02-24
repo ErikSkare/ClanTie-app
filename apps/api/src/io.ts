@@ -7,6 +7,20 @@ export interface SocketData {
   refreshToken: string;
 }
 
+type ChatMessage = {
+  content: string | null;
+  images: {url: string}[];
+  sentBy: {
+    user: {
+      id: number;
+      isActive: boolean;
+    };
+    nickname: string;
+    avatarUrl: string;
+  };
+  createdAt: Date;
+};
+
 export type ReceivedInvitation = Invitation & {
   fromUser: {id: number; firstName: string; lastName: string};
   clan: {name: string; id: number};
@@ -31,6 +45,9 @@ export type ServerToClientEvents = {
   "clan:user-online": (userId: number) => void;
   "clan:user-offline": (userId: number) => void;
   "clan:user-picture": (userId: number) => void;
+
+  // Chat
+  "chat:new-message": (message: ChatMessage) => void;
 };
 
 // eslint-disable-next-line
@@ -38,7 +55,10 @@ export type ClientToServerEvents = {
   // Clan
   "clan:start": (clanId: number) => void;
   "clan:stop": (clanId: number) => void;
-  "clan:joined": (clanId: number) => void;
+
+  // Chat
+  "chat:start": (clanId: number) => void;
+  "chat:stop": (clanId: number) => void;
 };
 
 // eslint-disable-next-line

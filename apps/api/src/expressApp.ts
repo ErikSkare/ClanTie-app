@@ -10,6 +10,7 @@ import createIo from "@/io";
 import {setupAuthIo, setupAuthRoutes} from "./router/auth";
 import {setupClanIo} from "./router/clan";
 import {setupUserIo} from "./router/user";
+import {setupChatIo} from "./router/chat";
 
 const PORT = 3000;
 const app = express();
@@ -27,6 +28,7 @@ setupAuthRoutes(app);
 setupAuthIo(io);
 setupClanIo(io);
 setupUserIo(io);
+setupChatIo(io);
 
 httpServer.listen(PORT);
 
