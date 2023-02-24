@@ -29,7 +29,7 @@ const Memories: React.FC<MemoriesProps> = ({clanId, ...props}) => {
     refetch,
     fetchNextPage,
   } = trpc.picture.getAlbumPictures.useInfiniteQuery(
-    {clanId: clanId, limit: 3},
+    {clanId: clanId, limit: 9},
     {getNextPageParam: (lastPage) => lastPage.newCursor}
   );
 

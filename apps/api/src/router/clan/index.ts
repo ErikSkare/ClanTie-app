@@ -14,6 +14,9 @@ import getByIdUseCase, {GetByIdSchema} from "./use-cases/getById";
 import GetLastLocationsUseCase, {
   GetLastLocationsSchema,
 } from "./use-cases/getLastLocations";
+import getCurrentMemberUseCase, {
+  GetCurrentMemberSchema,
+} from "./use-cases/getCurrentMember";
 
 // Trpc
 export default router({
@@ -50,6 +53,12 @@ export default router({
     .query(
       async ({input, ctx}) =>
         await GetLastLocationsUseCase(ctx.prisma, ctx.session, input)
+    ),
+  getCurrentMember: protectedProcedure
+    .input(GetCurrentMemberSchema)
+    .query(
+      async ({input, ctx}) =>
+        await getCurrentMemberUseCase(ctx.prisma, ctx.session, input)
     ),
 });
 

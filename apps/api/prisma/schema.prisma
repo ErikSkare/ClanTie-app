@@ -34,6 +34,7 @@ model ClanMember {
   createdAt     DateTime  @default(now())
   sentPictures  Picture[]
   seenPictures  ClanMemberSeenPicture[]
+  sentMessages  ChatMessage[]
 
   @@id([userId, clanId])
 }
@@ -85,4 +86,21 @@ model Device {
   user          User        @relation(fields: [userId], references: [id])
   userId        Int
   pushToken     String      @id
+}
+
+model ChatMessage {
+  id            Int           @id @default(autoincrement())
+  sentBy        ClanMember    @relation(fields: [senderUserId, senderClanId], references: [userId, clanId])
+  senderUserId  Int
+  senderClanId  Int
+  content       String?
+  images        ChatImage[]
+  createdAt     DateTime      @default(now())
+}
+
+model ChatImage {
+  id          Int         @id @default(autoincrement())
+  message     ChatMessage @relation(fields: [messageId], references: [id])
+  messageId   Int
+  key         String      @default(uuid())
 }

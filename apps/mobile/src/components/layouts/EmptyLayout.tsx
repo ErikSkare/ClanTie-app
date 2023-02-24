@@ -31,7 +31,10 @@ const EmptyLayout: React.FC<EmptyLayoutProps> = ({
         </TouchableOpacity>
       )}
       {withSlideBackButton && (
-        <TouchableOpacity className="absolute top-4 left-4" onPress={goBack}>
+        <TouchableOpacity
+          className="absolute top-4 left-4 z-10"
+          onPress={goBack}
+        >
           <AntDesign name="arrowleft" size={24} color="white" />
         </TouchableOpacity>
       )}

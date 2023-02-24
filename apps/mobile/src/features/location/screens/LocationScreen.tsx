@@ -15,7 +15,7 @@ const LocationScreen: React.FC<LocationScreenProps> = ({route, navigation}) => {
     <EmptyLayout
       backgroundClassName="bg-slate-800"
       withSlideBackButton={true}
-      goBack={() => navigation.goBack()}
+      goBack={() => navigation.getParent()?.goBack()}
     >
       <View className="flex-1 mt-12 p-4">
         <ClanInfo clanId={route.params.clanId} />

@@ -5,6 +5,7 @@ import userRouter from "./user";
 import notificationRouter from "./notification";
 import pictureRouter from "./picture";
 import pushRouter from "./push";
+import chatRouter from "./chat";
 
 const appRouter = router({
   auth: authRouter,
@@ -13,6 +14,7 @@ const appRouter = router({
   notification: notificationRouter,
   picture: pictureRouter,
   push: pushRouter,
+  chat: chatRouter,
 });
 
 export default appRouter;

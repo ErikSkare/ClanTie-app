@@ -5,7 +5,7 @@ import superjson from "superjson";
 import Constants from "expo-constants";
 import * as SecureStore from "expo-secure-store";
 import {createTRPCReact} from "@trpc/react-query";
-import {httpLink} from "@trpc/client";
+import {httpBatchLink} from "@trpc/client";
 import {
   MutationCache,
   QueryClient,
@@ -47,7 +47,7 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
     trpc.createClient({
       transformer: superjson,
       links: [
-        httpLink({
+        httpBatchLink({
           url: `http://${Constants.manifest?.extra?.apiUrl}/trpc`,
           fetch: async (url, options) => {
             await tryRefresh();
