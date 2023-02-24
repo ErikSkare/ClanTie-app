@@ -24,6 +24,7 @@ const LocationScreen: React.FC<LocationScreenProps> = ({route, navigation}) => {
           clanId={route.params.clanId}
           neBound={[16.078679371002213, 48.22330063143086]}
           swBound={[22.907196342292874, 45.900656997899745]}
+          finalPadding={75}
         />
       </View>
     </EmptyLayout>

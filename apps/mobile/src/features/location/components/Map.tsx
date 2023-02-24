@@ -1,4 +1,4 @@
-import {useRef, useMemo, useState} from "react";
+import {useRef, useMemo, useState, useEffect} from "react";
 import {View, ViewProps} from "react-native";
 import Constants from "expo-constants";
 import useSupercluster from "use-supercluster";
@@ -14,9 +14,16 @@ interface MapProps extends ViewProps {
   clanId: number;
   neBound: number[];
   swBound: number[];
+  finalPadding: number;
 }
 
-const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
+const Map: React.FC<MapProps> = ({
+  clanId,
+  neBound,
+  swBound,
+  finalPadding,
+  ...props
+}) => {
   const MAX_ZOOM = 18;
 
   const utils = trpc.useContext();
@@ -25,6 +32,10 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
   const {data, isLoading, isError} = trpc.clan.getLastLocations.useQuery({
     clanId,
   });
+
+  const [ne, setNe] = useState(neBound);
+  const [sw, setSw] = useState(swBound);
+  const [padding, setPadding] = useState(0);
 
   // Current zoom value
   const [zoom, setZoom] = useState(15);
@@ -77,6 +88,31 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
     utils.clan.getLastLocations.invalidate()
   );
 
+  useEffect(() => {
+    if (!data || data.length === 0) return;
+
+    let mxLongitude = -Infinity;
+    let mnLongitude = Infinity;
+    let mxLatitude = -Infinity;
+    let mnLatitude = Infinity;
+    let flag = false;
+
+    for (const curr of data) {
+      if (!curr.lastPosition.longitude || !curr.lastPosition.latitude) continue;
+      flag = true;
+      mxLongitude = Math.max(mxLongitude, curr.lastPosition.longitude);
+      mnLongitude = Math.min(mnLongitude, curr.lastPosition.longitude);
+      mxLatitude = Math.max(mxLatitude, curr.lastPosition.latitude);
+      mnLatitude = Math.min(mnLatitude, curr.lastPosition.latitude);
+    }
+
+    if (flag) {
+      setNe([mxLongitude, mxLatitude]);
+      setSw([mnLongitude, mnLatitude]);
+      setPadding(finalPadding);
+    }
+  }, [data]);
+
   // Helper methods
   function getAvatarUrlsForCluster(clusterId: number) {
     if (!supercluster) return [];
@@ -109,8 +145,12 @@ const Map: React.FC<MapProps> = ({clanId, neBound, swBound, ...props}) => {
       >
         <MapboxGL.Camera
           bounds={{
-            ne: neBound,
-            sw: swBound,
+            ne,
+            sw,
+            paddingTop: padding,
+            paddingBottom: padding,
+            paddingLeft: padding,
+            paddingRight: padding,
           }}
           animationMode="none"
           maxZoomLevel={MAX_ZOOM}
