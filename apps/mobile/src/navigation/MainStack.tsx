@@ -1,4 +1,10 @@
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {useEffect} from "react";
+import {useNavigation} from "@react-navigation/native";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
+import * as Notifications from "expo-notifications";
 import {FeedScreen, SettingsScreen} from "@/features/profile";
 import {
   CreateClanScreen,
@@ -26,7 +32,24 @@ export type MainStackParamList = {
 const Stack = createNativeStackNavigator<MainStackParamList>();
 
 const MainStack = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
+
   usePushToken();
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        navigation.navigate("Picture", {
+          clanId: response.notification.request.content.data.clanId as number,
+          userId: response.notification.request.content.data.userId as number,
+        });
+      }
+    );
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   return (
     <WebSocketProvider>

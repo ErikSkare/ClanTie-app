@@ -2,9 +2,6 @@ import {useEffect, useState} from "react";
 import {Platform} from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import {useNavigation} from "@react-navigation/native";
-import {NativeStackNavigationProp} from "@react-navigation/native-stack";
-import {MainStackParamList} from "@/navigation/MainStack";
 import {trpc} from "@/lib/trpc";
 import {useAuthenticate} from "@/features/auth";
 
@@ -19,9 +16,6 @@ Notifications.setNotificationHandler({
 });
 
 export default function usePushToken() {
-  const navigation =
-    useNavigation<NativeStackNavigationProp<MainStackParamList>>();
-
   const [pushToken, setPushToken] = useState<string>();
 
   const {isAuthed} = useAuthenticate();
@@ -37,18 +31,6 @@ export default function usePushToken() {
           setPushToken(token);
         }
       });
-
-      const responseListener =
-        Notifications.addNotificationResponseReceivedListener((response) => {
-          navigation.navigate("Picture", {
-            clanId: response.notification.request.content.data.clanId as number,
-            userId: response.notification.request.content.data.userId as number,
-          });
-        });
-
-      return () => {
-        Notifications.removeNotificationSubscription(responseListener);
-      };
     } else {
       if (pushToken) {
         removeToken({token: pushToken});
