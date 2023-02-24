@@ -66,6 +66,15 @@ export default {
     ],
     [
       "expo-location"
+    ],
+    [
+      "./plugins/withAndroidSupportsScreens",
+      {
+        "smallScreens": true,
+        "normalScreens": true,
+        "largeScreens": false,
+        "xlargeScreens": false,
+      }
     ]
   ]
 };
