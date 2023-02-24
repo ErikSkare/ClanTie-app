@@ -5,9 +5,8 @@ import {useLocation} from "@/features/location";
 import Camera from "../components/Camera";
 import EmptyLayout from "@/components/layouts/EmptyLayout";
 import {trpc} from "@/lib/trpc";
-import uriToFileMeta from "@/utils/uriToFileMeta";
-import toFormData from "@/utils/toFormData";
 import {useState} from "react";
+import uploadToS3 from "@/utils/uploadToS3";
 
 export type PhotoScreenProps = BottomTabScreenProps<ClanTabParamList, "Photo">;
 
@@ -28,23 +27,13 @@ const PhotoScreen: React.FC<PhotoScreenProps> = ({navigation, route}) => {
         accuracy: Location.Accuracy.Highest,
       });
 
-      const {url, fields} = await mutateAsync({
+      const upload = await mutateAsync({
         clanId,
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
       });
 
-      const fileMeta = uriToFileMeta(pictureUri);
-      if (!fileMeta) return;
-
-      await fetch(url, {
-        method: "POST",
-        body: toFormData({
-          ...fields,
-          "Content-Type": fileMeta.type,
-          file: fileMeta,
-        }),
-      });
+      await uploadToS3(pictureUri, upload);
 
       setIsSending(false);
       utils.clan.getById.invalidate({clanId});

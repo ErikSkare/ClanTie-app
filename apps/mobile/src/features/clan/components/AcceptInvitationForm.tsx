@@ -1,15 +1,12 @@
-import {useContext} from "react";
 import {View, ViewProps} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
 import {trpc} from "@/lib/trpc";
-import {WebSocketContext} from "@/features/ws";
 import AvatarUploader from "@/components/AvatarUploader";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
-import toFormData from "@/utils/toFormData";
-import uriToFileMeta from "@/utils/uriToFileMeta";
+import uploadToS3 from "@/utils/uploadToS3";
 
 interface AcceptInvitationFormProps extends ViewProps {
   onSuccess: () => void;
@@ -30,8 +27,6 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
 }) => {
   const {mutateAsync, isLoading} = trpc.clan.acceptInvitation.useMutation();
 
-  const {socket} = useContext(WebSocketContext);
-
   const formik = useFormik({
     initialValues: {nickname: "", avatarUri: ""},
     validationSchema: toFormikValidationSchema(AcceptInvitationSchema),
@@ -39,25 +34,13 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
     validateOnChange: false,
     validateOnMount: true,
     onSubmit: async (values) => {
-      const {url, fields} = await mutateAsync({
+      const upload = await mutateAsync({
         clanId,
         fromId,
         nickname: values.nickname,
       });
 
-      const fileMeta = uriToFileMeta(values.avatarUri);
-      if (!fileMeta) return;
-
-      await fetch(url, {
-        method: "POST",
-        body: toFormData({
-          ...fields,
-          "Content-Type": fileMeta.type,
-          file: fileMeta,
-        }),
-      });
-
-      socket?.emit("clan:joined", clanId);
+      await uploadToS3(values.avatarUri, upload);
 
       onSuccess();
     },

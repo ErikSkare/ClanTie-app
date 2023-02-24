@@ -2,11 +2,11 @@ import {
   FlatList,
   View,
   ViewProps,
-  Image,
   Text,
   ActivityIndicator,
   Pressable,
 } from "react-native";
+import FastImage from "react-native-fast-image";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {MainStackParamList} from "@/navigation/MainStack";
@@ -50,7 +50,7 @@ const Memories: React.FC<MemoriesProps> = ({clanId, ...props}) => {
             className="w-1/3 p-1"
             onPress={() => navigation.navigate("Memory", {pictureId: item.id})}
           >
-            <Image
+            <FastImage
               className="aspect-[9/16] rounded"
               source={{uri: item.imageUrl}}
               resizeMode="contain"

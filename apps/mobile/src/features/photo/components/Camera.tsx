@@ -1,5 +1,5 @@
 import {useState, useEffect, useRef} from "react";
-import {View, TouchableOpacity, Image, Platform} from "react-native";
+import {View, TouchableOpacity, Platform} from "react-native";
 import {
   Camera as ExpoCamera,
   CameraType as ExpoCameraType,
@@ -7,6 +7,7 @@ import {
   FlashMode as ExpoFlashMode,
 } from "expo-camera";
 import {manipulateAsync, FlipType} from "expo-image-manipulator";
+import FastImage from "react-native-fast-image";
 import {
   MaterialCommunityIcons,
   Ionicons,
@@ -126,7 +127,7 @@ const Camera: React.FC<CameraProps> = ({
           >
             <AntDesign name="close" size={24} color="white" />
           </TouchableOpacity>
-          <Image source={{uri: pictureUri}} className="w-full h-full" />
+          <FastImage source={{uri: pictureUri}} className="w-full h-full" />
           <Button
             content="Elküldés"
             className="absolute bottom-4"

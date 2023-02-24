@@ -1,7 +1,7 @@
 import {useState} from "react";
-import {Image, ImageProps} from "react-native";
+import FastImage, {FastImageProps} from "react-native-fast-image";
 
-interface RefetchImageProps extends ImageProps {
+interface RefetchImageProps extends FastImageProps {
   refetchCount: number;
   refetchDelay: number;
 }
@@ -27,9 +27,7 @@ const RefetchImage: React.FC<RefetchImageProps> = ({
     }, refetchDelay);
   }
 
-  if (uri === "") return null;
-
-  return <Image source={{uri}} {...props} onError={handleError} />;
+  return <FastImage source={{uri}} {...props} onError={handleError} />;
 };
 
 export default RefetchImage;

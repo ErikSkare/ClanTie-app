@@ -6,8 +6,7 @@ import {trpc} from "@/lib/trpc";
 import Button from "@/components/Button";
 import TextInput from "@/components/TextInput";
 import AvatarUploader from "@/components/AvatarUploader";
-import toFormData from "@/utils/toFormData";
-import uriToFileMeta from "@/utils/uriToFileMeta";
+import uploadToS3 from "@/utils/uploadToS3";
 
 interface CreateClanFormProps extends ViewProps {
   onSuccess?: () => void;
@@ -32,22 +31,12 @@ const CreateClanForm: React.FC<CreateClanFormProps> = ({
     validateOnChange: false,
     validateOnMount: true,
     onSubmit: async (values) => {
-      const {url, fields} = await mutateAsync({
+      const upload = await mutateAsync({
         clanName: values.clanName,
         nickname: values.nickname,
       });
 
-      const fileMeta = uriToFileMeta(values.avatarUri);
-      if (!fileMeta) return;
-
-      await fetch(url, {
-        method: "POST",
-        body: toFormData({
-          ...fields,
-          "Content-Type": fileMeta.type,
-          file: fileMeta,
-        }),
-      });
+      await uploadToS3(values.avatarUri, upload);
 
       onSuccess();
     },

@@ -11,8 +11,7 @@ import {useFormik} from "formik";
 import {useEffect, useRef} from "react";
 import ImageUploader from "@/components/ImageUploader";
 import {trpc} from "@/lib/trpc";
-import uriToFileMeta from "@/utils/uriToFileMeta";
-import toFormData from "@/utils/toFormData";
+import uploadToS3 from "@/utils/uploadToS3";
 
 interface SendMessageFormProps extends ViewProps {
   clanId: number;
@@ -86,16 +85,7 @@ const SendMessageForm: React.FC<SendMessageFormProps> = ({
       });
 
       if (upload) {
-        const fileMeta = uriToFileMeta(values.imageUri);
-        if (!fileMeta) return;
-        await fetch(upload.url, {
-          method: "POST",
-          body: toFormData({
-            ...upload.fields,
-            "Content-Type": fileMeta.type,
-            file: fileMeta,
-          }),
-        });
+        await uploadToS3(values.imageUri, upload);
       }
     },
   });

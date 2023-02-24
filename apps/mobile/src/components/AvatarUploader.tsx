@@ -4,9 +4,9 @@ import {
   TouchableOpacityProps,
   View,
   Text,
-  Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import FastImage from "react-native-fast-image";
 
 interface ImageUploaderProps extends TouchableOpacityProps {
   error?: boolean;
@@ -50,7 +50,7 @@ const AvatarUploader: React.FC<ImageUploaderProps> = ({
         } border-2 flex justify-center items-center p-2`}
       >
         {imageUri ? (
-          <Image
+          <FastImage
             source={{uri: imageUri}}
             className="w-full h-full rounded-full"
           />

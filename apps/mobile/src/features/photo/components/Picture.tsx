@@ -1,4 +1,5 @@
-import {View, ViewProps, Image, Text} from "react-native";
+import {View, ViewProps, Text} from "react-native";
+import FastImage from "react-native-fast-image";
 import Avatar from "@/components/Avatar";
 import TimeAgo from "@/components/TimeAgo";
 
@@ -18,7 +19,7 @@ const Picture: React.FC<PictureProps> = ({
 }) => {
   return (
     <View {...props}>
-      <Image
+      <FastImage
         source={{uri: imageUrl}}
         className="w-full h-full"
         resizeMode="contain"
