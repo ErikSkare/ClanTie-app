@@ -1,3 +1,4 @@
+import {memo} from "react";
 import Avatar from "@/components/Avatar";
 import RefetchImage from "@/components/RefetchImage";
 import TimeAgo from "@/components/TimeAgo";
@@ -65,4 +66,4 @@ const Message: React.FC<MessageProps> = ({
   );
 };
 
-export default Message;
+export default memo(Message);
