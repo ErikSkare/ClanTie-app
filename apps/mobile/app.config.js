@@ -4,11 +4,11 @@ export default {
   "version": "1.0.0",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
-  "userInterfaceStyle": "light",
+  "userInterfaceStyle": "dark",
   "splash": {
     "image": "./assets/splash.png",
     "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
+    "backgroundColor": "#334155"
   },
   "updates": {
     "fallbackToCacheTimeout": 0
@@ -25,15 +25,12 @@ export default {
     "googleServicesFile": "./google-services.json",
     "adaptiveIcon": {
       "foregroundImage": "./assets/adaptive-icon.png",
-      "backgroundColor": "#FFFFFF"
+      "backgroundColor": "#0f172a"
     },
     "permissions": [
       "android.permission.RECORD_AUDIO",
       "android.permission.CAMERA"
     ]
-  },
-  "web": {
-    "favicon": "./assets/favicon.png"
   },
   "extra": {
     "apiUrl": "192.168.1.71:3000",
