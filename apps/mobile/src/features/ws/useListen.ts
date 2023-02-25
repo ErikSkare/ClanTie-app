@@ -15,7 +15,7 @@ const useListen = (
     return () => {
       onLeave(socket);
     };
-  }, []);
+  }, [socket]);
 };
 
 export default useListen;
