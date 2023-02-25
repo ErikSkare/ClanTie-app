@@ -1,5 +1,5 @@
 export default {
-  "name": "Clantie-mobile",
+  "name": "ClanTie",
   "slug": "clantie-mobile",
   "version": "1.0.0",
   "orientation": "portrait",
