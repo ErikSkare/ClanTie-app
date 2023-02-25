@@ -11,8 +11,10 @@ export type S = Socket<ServerToClientEvents, ClientToServerEvents> | null;
 
 export const WebSocketContext = createContext<{
   socket: S;
+  isConnected: boolean;
 }>({
   socket: null,
+  isConnected: false,
 });
 
 const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
@@ -23,7 +25,7 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
 
   const {isAuthed} = useAuthenticate();
   const [socket, setSocket] = useState<S>(null);
-  const [isReconnecting, setIsReconnecting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     if (!isAuthed) return;
@@ -47,13 +49,14 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
 
     // Reconnecting
     newSocket.on("disconnect", () => {
-      setIsReconnecting(true);
+      setIsConnected(false);
     });
     newSocket.on("connect", () => {
       utils.invalidate();
-      setIsReconnecting(false);
+      setIsConnected(true);
     });
 
+    setIsConnected(true);
     setSocket(newSocket);
 
     return () => {
@@ -65,8 +68,8 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
   if (!socket) return <SplashScreen />;
 
   return (
-    <WebSocketContext.Provider value={{socket}}>
-      {isReconnecting && (
+    <WebSocketContext.Provider value={{socket, isConnected}}>
+      {!isConnected && (
         <View className="justify-center items-center bg-blue-600 py-2">
           <Text className="text-white" style={{fontFamily: "Roboto_500Medium"}}>
             Újrakapcsolódás...

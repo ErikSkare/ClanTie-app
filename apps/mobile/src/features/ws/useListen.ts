@@ -5,17 +5,17 @@ const useListen = (
   onJoin: (socket: NonNullable<S>) => void,
   onLeave: (socket: NonNullable<S>) => void
 ) => {
-  const {socket} = useContext(WebSocketContext);
+  const {socket, isConnected} = useContext(WebSocketContext);
 
   useEffect(() => {
-    if (socket === null) return;
+    if (socket === null || !isConnected) return;
 
     onJoin(socket);
 
     return () => {
       onLeave(socket);
     };
-  }, [socket]);
+  }, [socket, isConnected]);
 };
 
 export default useListen;
