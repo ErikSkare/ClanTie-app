@@ -44,7 +44,7 @@ const Camera: React.FC<CameraProps> = ({
 
   const [type, setType] = useState<ExpoCameraType>(ExpoCameraType.back);
   const [flash, setFlash] = useState<ExpoFlashMode>(ExpoFlashMode.off);
-  const [ratio, setRatio] = useState<string>();
+  const [ratio, setRatio] = useState<string | undefined>("16:9");
   const [pictureUri, setPictureUri] = useState<string>();
 
   useEffect(() => {

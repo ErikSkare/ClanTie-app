@@ -159,14 +159,20 @@ const Map: React.FC<MapProps> = ({
           <View key={key}>
             {point.properties?.cluster ? (
               <ClusterMarker
-                coordinates={point.geometry.coordinates}
+                coordinates={[
+                  Number(point.geometry.coordinates[0]),
+                  Number(point.geometry.coordinates[1]),
+                ]}
                 avatarUrls={getAvatarUrlsForCluster(
                   point.properties.cluster_id
                 )}
               />
             ) : (
               <IndividualMarker
-                coordinates={point.geometry.coordinates}
+                coordinates={[
+                  Number(point.geometry.coordinates[0]),
+                  Number(point.geometry.coordinates[1]),
+                ]}
                 avatarUrl={point.properties?.avatarUrl as string}
                 nickname={point.properties?.nickname as string}
                 when={point.properties?.when as Date}

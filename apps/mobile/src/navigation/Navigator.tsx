@@ -1,4 +1,5 @@
 import {useEffect} from "react";
+import {SafeAreaProvider} from "react-native-safe-area-context";
 import SplashScreen from "@/components/SplashScreen";
 import {useAuthenticate, useRefreshToken} from "@/features/auth";
 import {NavigationContainer} from "@react-navigation/native";
@@ -17,9 +18,11 @@ const Navigator = () => {
   if (isLoading) return <SplashScreen />;
 
   return (
-    <NavigationContainer>
-      {isAuthed ? <MainStack /> : <AuthStack />}
-    </NavigationContainer>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {isAuthed ? <MainStack /> : <AuthStack />}
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 };
 

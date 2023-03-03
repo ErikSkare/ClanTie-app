@@ -25,7 +25,7 @@ const ClanTab: React.FC<ClanTabProps> = ({route}) => {
         tabBarInactiveBackgroundColor: "black",
         tabBarActiveTintColor: "#4ADE80",
         tabBarInactiveTintColor: "white",
-        tabBarStyle: {borderTopWidth: 0},
+        tabBarStyle: {borderTopWidth: 0, backgroundColor: "black"},
         tabBarShowLabel: false,
         headerShown: false,
       }}

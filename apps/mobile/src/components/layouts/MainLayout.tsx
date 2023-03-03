@@ -1,4 +1,5 @@
-import {View, ViewProps} from "react-native";
+import {View, ViewProps, KeyboardAvoidingView, Platform} from "react-native";
+import {SafeAreaView} from "react-native-safe-area-context";
 import Header from "./Header";
 
 const MainLayout: React.FC<ViewProps> = ({
@@ -7,13 +8,20 @@ const MainLayout: React.FC<ViewProps> = ({
   ...props
 }) => {
   return (
-    <View
-      className={`flex-1 bg-slate-700 height-screen ${className}`}
-      {...props}
+    <KeyboardAvoidingView
+      className="flex-1 bg-slate-700"
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
-      <Header />
-      {children}
-    </View>
+      <SafeAreaView className="flex-1 bg-slate-700">
+        <View
+          className={`flex-1 bg-slate-700 height-screen ${className}`}
+          {...props}
+        >
+          <Header />
+          {children}
+        </View>
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

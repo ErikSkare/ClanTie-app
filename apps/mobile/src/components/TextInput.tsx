@@ -1,3 +1,4 @@
+import {Platform} from "expo-modules-core";
 import {useState} from "react";
 import {
   View,
@@ -43,9 +44,9 @@ const TextInput: React.FC<TextInputProps> = ({
       </Text>
       <View>
         <RNTextInput
-          className={`bg-slate-900 text-white py-2 px-4 rounded ${
-            secureTextEntry && "pr-24"
-          }`}
+          className={`bg-slate-900 text-white ${
+            Platform.OS === "ios" ? "py-[14px]" : "py-2"
+          } px-4 rounded ${secureTextEntry && "pr-24"}`}
           style={{fontFamily: "Roboto_400Regular"}}
           secureTextEntry={hidden}
           {...props}
