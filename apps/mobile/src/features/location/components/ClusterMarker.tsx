@@ -12,7 +12,7 @@ const ClusterMarker: React.FC<ClusterMarkerProps> = ({
   avatarUrls,
 }) => {
   return (
-    <MapboxGL.MarkerView coordinate={coordinates}>
+    <MapboxGL.MarkerView coordinate={coordinates} allowOverlap={true}>
       <View className="flex-row m-[10px] max-w-[80] flex-wrap">
         {avatarUrls.map((url, key) => (
           <Avatar key={key} imageUrl={url} className="m-[-10px]" />

@@ -153,33 +153,32 @@ const Map: React.FC<MapProps> = ({
             paddingRight: padding,
           }}
           animationMode="none"
+          animationDuration={0}
           maxZoomLevel={MAX_ZOOM}
         />
-        {clusters.map((point, key) => (
-          <View key={key}>
-            {point.properties?.cluster ? (
-              <ClusterMarker
-                coordinates={[
-                  Number(point.geometry.coordinates[0]),
-                  Number(point.geometry.coordinates[1]),
-                ]}
-                avatarUrls={getAvatarUrlsForCluster(
-                  point.properties.cluster_id
-                )}
-              />
-            ) : (
-              <IndividualMarker
-                coordinates={[
-                  Number(point.geometry.coordinates[0]),
-                  Number(point.geometry.coordinates[1]),
-                ]}
-                avatarUrl={point.properties?.avatarUrl as string}
-                nickname={point.properties?.nickname as string}
-                when={point.properties?.when as Date}
-              />
-            )}
-          </View>
-        ))}
+        {clusters.map((point, key) =>
+          point.properties?.cluster ? (
+            <ClusterMarker
+              key={key}
+              coordinates={[
+                Number(point.geometry.coordinates[0]),
+                Number(point.geometry.coordinates[1]),
+              ]}
+              avatarUrls={getAvatarUrlsForCluster(point.properties.cluster_id)}
+            />
+          ) : (
+            <IndividualMarker
+              key={key}
+              coordinates={[
+                Number(point.geometry.coordinates[0]),
+                Number(point.geometry.coordinates[1]),
+              ]}
+              avatarUrl={point.properties?.avatarUrl as string}
+              nickname={point.properties?.nickname as string}
+              when={point.properties?.when as Date}
+            />
+          )
+        )}
       </MapboxGL.MapView>
     </View>
   );
