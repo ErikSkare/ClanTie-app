@@ -34,19 +34,19 @@ export default async function broadcastToClanUseCase(
 
   // Messages
   clan.members.map((member) => {
-    //if (member.user.id !== input.byUserId) {
-    member.user.devices.map((device) => {
-      if (Expo.isExpoPushToken(device.pushToken)) {
-        messages.push({
-          to: device.pushToken,
-          sound: "default",
-          title: input.title,
-          body: input.body,
-          data: input.data,
-        });
-      }
-    });
-    //}
+    if (member.user.id !== input.byUserId) {
+      member.user.devices.map((device) => {
+        if (Expo.isExpoPushToken(device.pushToken)) {
+          messages.push({
+            to: device.pushToken,
+            sound: "default",
+            title: input.title,
+            body: input.body,
+            data: input.data,
+          });
+        }
+      });
+    }
   });
 
   // Sending notifications
