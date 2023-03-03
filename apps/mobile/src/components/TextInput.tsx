@@ -45,7 +45,7 @@ const TextInput: React.FC<TextInputProps> = ({
       <View>
         <RNTextInput
           className={`bg-slate-900 text-white ${
-            Platform.OS === "ios" ? "py-[14px]" : "py-2"
+            Platform.OS === "ios" ? "py-[15px]" : "py-2"
           } px-4 rounded ${secureTextEntry && "pr-24"}`}
           style={{fontFamily: "Roboto_400Regular"}}
           secureTextEntry={hidden}

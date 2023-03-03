@@ -1,4 +1,4 @@
-import {View, ViewProps} from "react-native";
+import {KeyboardAvoidingView, Platform, ViewProps} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
@@ -43,7 +43,10 @@ const CreateClanForm: React.FC<CreateClanFormProps> = ({
   });
 
   return (
-    <View {...props}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      {...props}
+    >
       <AvatarUploader
         className="mb-4"
         onChange={formik.handleChange("avatarUri")}
@@ -76,7 +79,7 @@ const CreateClanForm: React.FC<CreateClanFormProps> = ({
         onPress={() => formik.handleSubmit()}
         isLoading={isLoading}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

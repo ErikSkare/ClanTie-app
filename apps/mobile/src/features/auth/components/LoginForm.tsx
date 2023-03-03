@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {View, ViewProps} from "react-native";
+import {KeyboardAvoidingView, ViewProps, Platform} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {trpc} from "@/lib/trpc";
@@ -41,7 +41,10 @@ const LoginForm: React.FC<ViewProps> = ({...props}) => {
   });
 
   return (
-    <View {...props}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      {...props}
+    >
       <TextInput
         onChangeText={formik.handleChange("email")}
         onBlur={formik.handleBlur("email")}
@@ -64,7 +67,7 @@ const LoginForm: React.FC<ViewProps> = ({...props}) => {
         onPress={() => formik.handleSubmit()}
         isLoading={isLoading}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

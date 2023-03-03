@@ -1,4 +1,4 @@
-import {View, ViewProps} from "react-native";
+import {KeyboardAvoidingView, Platform, ViewProps} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
@@ -47,7 +47,10 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
   });
 
   return (
-    <View {...props}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      {...props}
+    >
       <AvatarUploader
         className="mb-4"
         onChange={formik.handleChange("avatarUri")}
@@ -73,7 +76,7 @@ const AcceptInvitationForm: React.FC<AcceptInvitationFormProps> = ({
         onPress={() => formik.handleSubmit()}
         isLoading={isLoading}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

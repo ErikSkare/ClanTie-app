@@ -1,4 +1,4 @@
-import {View, ViewProps} from "react-native";
+import {KeyboardAvoidingView, ViewProps, Platform} from "react-native";
 import {useFormik} from "formik";
 import {z} from "zod";
 import {toFormikValidationSchema} from "zod-formik-adapter";
@@ -44,7 +44,10 @@ const RegisterForm: React.FC<ViewProps> = ({...props}) => {
   });
 
   return (
-    <View {...props}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      {...props}
+    >
       <TextInput
         onChangeText={formik.handleChange("email")}
         onBlur={formik.handleBlur("email")}
@@ -83,7 +86,7 @@ const RegisterForm: React.FC<ViewProps> = ({...props}) => {
         onPress={() => formik.handleSubmit()}
         isLoading={isLoading}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

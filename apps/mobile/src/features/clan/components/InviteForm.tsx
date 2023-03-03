@@ -1,5 +1,5 @@
 import {useFormik} from "formik";
-import {View, ViewProps} from "react-native";
+import {KeyboardAvoidingView, Platform, ViewProps} from "react-native";
 import {z} from "zod";
 import {trpc} from "@/lib/trpc";
 import Button from "@/components/Button";
@@ -41,7 +41,10 @@ const InviteForm: React.FC<InviteFormProps> = ({clanId, ...props}) => {
   });
 
   return (
-    <View {...props}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      {...props}
+    >
       <TextInput
         label="E-mail címe"
         className="mb-8"
@@ -54,7 +57,7 @@ const InviteForm: React.FC<InviteFormProps> = ({clanId, ...props}) => {
         onPress={() => formik.handleSubmit()}
         isLoading={isLoading}
       />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
