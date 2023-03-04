@@ -6,8 +6,11 @@
   "main": "index.ts",
   "author": "Erik Skare",
   "scripts": {
-    "dev": "nodemon ./src/expressApp.ts",
-    "build": "yarn install && npx prisma migrate deploy"
+    "initialize": "yarn && prisma migrate deploy",
+    "clean": "tsc --build --clean",
+    "build": "yarn clean && tsc && tscpaths -p tsconfig.json -s ./ -o ./dist",
+    "start": "node ./dist/src/expressApp.js",
+    "dev": "nodemon ./src/expressApp.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
@@ -36,6 +39,7 @@
     "@types/long-timeout": "^0.1.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.1.2"
+    "tsconfig-paths": "^4.1.2",
+    "tscpaths": "^0.0.9"
   }
 }

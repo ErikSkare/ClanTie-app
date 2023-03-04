@@ -6,10 +6,11 @@
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "outDir": "dist"
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   },
-  "include": ["src", "index.ts"]
+  "include": ["src"]
 }
