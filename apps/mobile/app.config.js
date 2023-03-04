@@ -33,7 +33,7 @@ export default {
     ]
   },
   "extra": {
-    "apiUrl": "orca-app-krfmt.ondigitalocean.app",
+    "apiUrl": "clantie-api-628op.ondigitalocean.app",
     "mapboxAccess": "pk.eyJ1Ijoic2thcmVlcmlrMDExIiwiYSI6ImNsZWJuN3hxZTFhd2Uzd21lMjhtdzl6eXYifQ.okCYlAQWtThdFjpA8k-amw",
     "styleUrl": "mapbox://styles/skareerik011/cled1mnss003e01pc07h42m8k",
     "eas": {
