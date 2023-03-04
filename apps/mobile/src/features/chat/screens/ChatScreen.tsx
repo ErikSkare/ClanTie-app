@@ -13,7 +13,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({navigation, route}) => {
       withSlideBackButton={true}
       goBack={() => navigation.getParent()?.goBack()}
     >
-      <View className="flex-1 p-4 mt-[20px]">
+      <View className="flex-1 p-4 mt-[22px]">
         <KeyboardAvoidingView
           className="flex-1"
           behavior={Platform.OS === "ios" ? "padding" : undefined}
