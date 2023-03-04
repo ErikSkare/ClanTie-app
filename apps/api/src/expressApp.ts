@@ -12,7 +12,7 @@ import {setupClanIo} from "./router/clan";
 import {setupUserIo} from "./router/user";
 import {setupChatIo} from "./router/chat";
 
-const PORT = 3000;
+const PORT = 8080;
 const app = express();
 const httpServer = http.createServer(app);
 const io = createIo(httpServer);
