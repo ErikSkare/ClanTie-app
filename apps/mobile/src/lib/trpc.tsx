@@ -48,7 +48,7 @@ export const TRPCProvider: React.FC<{children: React.ReactNode}> = ({
       transformer: superjson,
       links: [
         httpBatchLink({
-          url: `http://${Constants.manifest?.extra?.apiUrl}/trpc`,
+          url: `https://${Constants.manifest?.extra?.apiUrl}/trpc`,
           fetch: async (url, options) => {
             await tryRefresh();
 

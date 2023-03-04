@@ -32,7 +32,7 @@ const WebSocketProvider: React.FC<ViewProps> = ({children}) => {
 
     const {accessToken, refreshToken} = useTokenStore.getState();
 
-    const newSocket: S = io(`ws://${Constants.manifest?.extra?.apiUrl}`, {
+    const newSocket: S = io(`wss://${Constants.manifest?.extra?.apiUrl}`, {
       auth: {accessToken, refreshToken},
     });
 
