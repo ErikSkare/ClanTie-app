@@ -7,7 +7,7 @@
   "author": "Erik Skare",
   "scripts": {
     "clean": "tsc --build --clean",
-    "build": "yarn clean && tsc && tscpaths -p tsconfig.json -s ./ -o ./dist && prisma migrate deploy",
+    "build": "yarn clean && prisma generate && prisma migrate deploy && tsc && tscpaths -p tsconfig.json -s ./ -o ./dist",
     "start": "node ./dist/src/expressApp.js",
     "dev": "nodemon ./src/expressApp.ts"
   },
