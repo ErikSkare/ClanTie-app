@@ -6,9 +6,8 @@
   "main": "index.ts",
   "author": "Erik Skare",
   "scripts": {
-    "initialize": "yarn && prisma migrate deploy",
     "clean": "tsc --build --clean",
-    "build": "yarn clean && tsc && tscpaths -p tsconfig.json -s ./ -o ./dist",
+    "build": "yarn clean && tsc && tscpaths -p tsconfig.json -s ./ -o ./dist && prisma migrate deploy",
     "start": "node ./dist/src/expressApp.js",
     "dev": "nodemon ./src/expressApp.ts"
   },
