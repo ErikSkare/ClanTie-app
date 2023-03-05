@@ -28,7 +28,7 @@ export default () => {
     if (!refreshToken) return logout();
 
     const refreshResponse = await fetch(
-      `http://${Constants.manifest?.extra?.apiUrl}/refresh`,
+      `https://${Constants.manifest?.extra?.apiUrl}/refresh`,
       {
         method: "POST",
         headers: {
