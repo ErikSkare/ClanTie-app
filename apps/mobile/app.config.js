@@ -2,6 +2,7 @@ export default {
   "name": "ClanTie",
   "slug": "clantie-mobile",
   "version": "1.0.0",
+  "sdkVersion": "47.0.0",
   "orientation": "portrait",
   "icon": "./assets/icon.png",
   "userInterfaceStyle": "dark",
