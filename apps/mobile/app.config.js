@@ -11,9 +11,6 @@ export default {
     "resizeMode": "contain",
     "backgroundColor": "#334155"
   },
-  "updates": {
-    "fallbackToCacheTimeout": 0
-  },
   "assetBundlePatterns": ["**/*"],
   "ios": {
     "bundleIdentifier": "com.erikskare.clantiemobile",
@@ -42,7 +39,8 @@ export default {
     }
   },
   "updates": {
-    "url": "https://u.expo.dev/9b3362ac-5574-4faa-9915-6556bb4f1e44"
+    "url": "https://u.expo.dev/9b3362ac-5574-4faa-9915-6556bb4f1e44",
+    "fallbackToCacheTimeout": 0
   },
   "runtimeVersion": {
     "policy": "sdkVersion"
