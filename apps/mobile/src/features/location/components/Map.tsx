@@ -44,7 +44,18 @@ const Map: React.FC<MapProps> = ({
   const [bounds, setBounds] = useState<BBox>([...swBound, ...neBound] as BBox);
 
   // Points to show
-  const points = useMemo<Array<Supercluster.PointFeature<GeoJsonProperties>>>(
+  const points = useMemo<
+    Array<
+      Supercluster.PointFeature<
+        GeoJsonProperties & {
+          avatarUrl: string;
+          nickname: string;
+          when: Date;
+          userId: number;
+        }
+      >
+    >
+  >(
     () =>
       (data ?? [])
         .filter(
@@ -58,7 +69,8 @@ const Map: React.FC<MapProps> = ({
               cluster: false,
               avatarUrl: member.avatarUrl,
               nickname: member.nickname,
-              when: member.lastPosition.when,
+              when: member.lastPosition.when as Date,
+              userId: member.userId,
             },
             geometry: {
               type: "Point",
@@ -156,10 +168,10 @@ const Map: React.FC<MapProps> = ({
           animationDuration={0}
           maxZoomLevel={MAX_ZOOM}
         />
-        {clusters.map((point, key) =>
-          point.properties?.cluster ? (
+        {clusters.map((point) =>
+          point.properties.cluster ? (
             <ClusterMarker
-              key={key}
+              key={`cluster-${point.properties.cluster_id}`}
               coordinates={[
                 Number(point.geometry.coordinates[0]),
                 Number(point.geometry.coordinates[1]),
@@ -168,14 +180,14 @@ const Map: React.FC<MapProps> = ({
             />
           ) : (
             <IndividualMarker
-              key={key}
+              key={`user-${point.properties.userId}`}
               coordinates={[
                 Number(point.geometry.coordinates[0]),
                 Number(point.geometry.coordinates[1]),
               ]}
-              avatarUrl={point.properties?.avatarUrl as string}
-              nickname={point.properties?.nickname as string}
-              when={point.properties?.when as Date}
+              avatarUrl={point.properties.avatarUrl}
+              nickname={point.properties.nickname}
+              when={point.properties.when}
             />
           )
         )}

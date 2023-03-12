@@ -3,8 +3,9 @@ import Avatar from "@/components/Avatar";
 
 export type MemberData = {
   avatarUrl: string;
-  user?: {
-    isActive: boolean;
+  user: {
+    isActive?: boolean;
+    id: number;
   };
   hasContent?: boolean;
   hasNew?: boolean;
@@ -28,6 +29,7 @@ const Members: React.FC<MembersProps> = ({
       data={data.sort(
         (x, y) => Number(y.user?.isActive ?? 0) - Number(x.user?.isActive ?? 0)
       )}
+      keyExtractor={(item) => `user-${item.user.id}`}
       horizontal={true}
       renderItem={(info) => (
         <TouchableOpacity

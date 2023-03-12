@@ -45,7 +45,7 @@ const Account: React.FC<AccountProps> = ({
       <Members
         containerClassName="grow-0 mb-8"
         data={data.memberships.map((value) => {
-          return {avatarUrl: value.avatarUrl};
+          return {avatarUrl: value.avatarUrl, user: {id: value.userId}};
         })}
       />
       <Button

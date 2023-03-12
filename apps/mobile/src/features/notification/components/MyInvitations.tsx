@@ -29,6 +29,9 @@ const MyInvitations: React.FC<ViewProps> = ({className = "", ...props}) => {
             </Text>
           )}
           refreshing={isRefetching}
+          keyExtractor={(item) =>
+            `invitation-${item.clanId}-${item.fromUserId}-${item.toUserId}`
+          }
           onRefresh={() => refetch()}
           data={data}
           renderItem={({item}) => (

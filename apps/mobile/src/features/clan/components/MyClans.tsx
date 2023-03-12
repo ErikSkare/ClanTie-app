@@ -54,6 +54,7 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
         )}
         refreshing={isRefetching}
         onRefresh={() => refetch()}
+        keyExtractor={(item) => `clan-${item.id}`}
         data={data}
         className="w-full"
         renderItem={(clan) => (
@@ -61,7 +62,9 @@ const MyClans: React.FC<MyClansProps> = ({containerClassName, ...props}) => {
             className="mb-4"
             clanId={clan.item.id}
             clanName={clan.item.name}
-            members={clan.item.members}
+            members={clan.item.members.map((member) => {
+              return {...member, user: {id: member.userId}};
+            })}
           />
         )}
       />

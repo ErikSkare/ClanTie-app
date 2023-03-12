@@ -39,8 +39,7 @@ export default {
     }
   },
   "updates": {
-    "url": "https://u.expo.dev/9b3362ac-5574-4faa-9915-6556bb4f1e44",
-    "fallbackToCacheTimeout": 0
+    "url": "https://u.expo.dev/9b3362ac-5574-4faa-9915-6556bb4f1e44"
   },
   "runtimeVersion": {
     "policy": "sdkVersion"
